@@ -4,7 +4,7 @@ name: Deno
 
 on:
   pull_request:
-    branches: [main]
+    branches: [$default-branch]
 
 jobs:
   test:
