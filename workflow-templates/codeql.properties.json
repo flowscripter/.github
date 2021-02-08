@@ -1,0 +1,8 @@
+{
+    "name": "CodeQL Workflow",
+    "description": "Perform static analysis",
+    "iconName": "example-icon",
+    "categories": [
+        "TypeScript"
+    ]
+}
