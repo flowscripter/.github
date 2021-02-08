@@ -1,0 +1,8 @@
+{
+    "name": "Deno Workflow",
+    "description": "Install Deno (stable and nightly builds), lint and test across Windows, Ubuntu and macOS",
+    "iconName": "example-icon",
+    "categories": [
+        "TypeScript"
+    ]
+}
