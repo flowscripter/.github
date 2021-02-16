@@ -1,8 +1,0 @@
-{
-    "name": "Update Dependencies Workflow",
-    "description": "Use UDD to update dependencies, raise a PR if required",
-    "iconName": "example-icon",
-    "categories": [
-        "TypeScript"
-    ]
-}

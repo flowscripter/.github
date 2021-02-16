@@ -1,0 +1,8 @@
+{
+    "name": "Analyse Javascript Code Workflow",
+    "description": "Perform static analysis",
+    "iconName": "example-icon",
+    "categories": [
+        "TypeScript"
+    ]
+}

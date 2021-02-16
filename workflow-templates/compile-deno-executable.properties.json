@@ -1,0 +1,8 @@
+{
+    "name": "Compile Deno executable Workflow",
+    "description": "Install Deno and compile source to an executable",
+    "iconName": "example-icon",
+    "categories": [
+        "TypeScript"
+    ]
+}

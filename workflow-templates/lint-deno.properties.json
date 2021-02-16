@@ -1,6 +1,6 @@
 {
-    "name": "CodeQL Workflow",
-    "description": "Perform static analysis",
+    "name": "Lint Deno Workflow",
+    "description": "Install Deno and lint",
     "iconName": "example-icon",
     "categories": [
         "TypeScript"

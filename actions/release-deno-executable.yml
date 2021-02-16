@@ -1,0 +1,35 @@
+name: release-deno-executable
+description: 'Release Deno executable to GitHub'
+inputs:
+  name:
+    description: 'Executable name'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    working-directory: ./.github/workflows
+    - run: |
+        cat <<EOT >> .releaserc
+        ---
+        branches:
+          - master
+        plugins:
+          - - "@semantic-release/commit-analyzer"
+            - preset: conventionalcommits
+          - - "@semantic-release/release-notes-generator"
+            - preset: conventionalcommits
+          - - "@semantic-release/github"
+            - assets:
+                - path: bin/x86_64-unknown-linux-gnu/${{ inputs.name }}
+                  label: x86_64-unknown-linux-gnu
+                - path: bin/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
+                  label: x86_64-pc-windows-msvc
+                - path: bin/x86_64-apple-darwin/${{ inputs.name }}
+                  label: x86_64-apple-darwin
+                - path: bin/aarch64-apple-darwin/${{ inputs.name }}
+                  label: aarch64-apple-darwin
+        EOT
+        npm install conventional-changelog-conventionalcommits
+        npx semantic-release
+      shell: bash
+
