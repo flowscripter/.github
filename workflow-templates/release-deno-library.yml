@@ -1,4 +1,4 @@
-name: release-deno-executable
+name: release-deno-library
 on:
   push:
     branches: [main]
@@ -25,21 +25,11 @@ jobs:
     needs:
       - test
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-      - name: Setup Deno
-        uses: denolib/setup-deno@v2
-        with:
-          deno-version: v1.x
-      - name: Compile Deno
-        uses: flowscripter/.github/actions/compile-deno-executable@v1.3
-        with:
-          name: deno-template
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 13
       - name: Release Deno
-        uses: flowscripter/.github/actions/release-deno-executable@v1.3
+        uses: flowscripter/.github/actions/release-deno-library@v1.3
         with:
           name: deno-template

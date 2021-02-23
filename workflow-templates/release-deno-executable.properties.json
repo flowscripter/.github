@@ -1,6 +1,6 @@
 {
     "name": "Release a Deno executable Workflow",
-    "description": "Compile Deno executable and perform a semantic versioned release",
+    "description": "Unittest, compile Deno executable and then perform a semantic versioned release",
     "iconName": "example-icon",
     "categories": [
         "TypeScript"
