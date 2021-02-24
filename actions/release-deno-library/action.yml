@@ -7,7 +7,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    working-directory: ./.github/workflows
     - run: |
         cat <<EOT >> .releaserc
         ---
@@ -23,4 +22,4 @@ runs:
         npm install conventional-changelog-conventionalcommits
         npx semantic-release
       shell: bash
-
+      working-directory: ./.github/workflows
