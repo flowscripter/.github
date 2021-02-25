@@ -1,9 +1,5 @@
 name: release-deno-library
 description: 'Release Deno library to GitHub'
-inputs:
-  name:
-    description: 'Executable name'
-    required: true
 runs:
   using: "composite"
   steps:
@@ -11,7 +7,7 @@ runs:
         cat <<EOT >> .releaserc
         ---
         branches:
-          - master
+          - main
         plugins:
           - - "@semantic-release/commit-analyzer"
             - preset: conventionalcommits
@@ -23,3 +19,5 @@ runs:
         npx semantic-release
       shell: bash
       working-directory: ./.github/workflows
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
