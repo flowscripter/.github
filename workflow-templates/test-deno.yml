@@ -19,4 +19,4 @@ jobs:
       - name: Cache dependencies
         run: deno cache deps.ts
       - name: Run tests
-        run: deno test -A --unstable --coverage
+        run: deno test -A --unstable
