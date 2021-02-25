@@ -4,15 +4,17 @@ inputs:
   name:
     description: 'Executable name'
     required: true
+  token:
+    description: 'Github token'
+    required: true
 runs:
   using: "composite"
   steps:
-    working-directory: ./.github/workflows
     - run: |
         cat <<EOT >> .releaserc
         ---
         branches:
-          - master
+          - main
         plugins:
           - - "@semantic-release/commit-analyzer"
             - preset: conventionalcommits
@@ -32,4 +34,7 @@ runs:
         npm install conventional-changelog-conventionalcommits
         npx semantic-release
       shell: bash
+      working-directory: ./.github/workflows
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
 

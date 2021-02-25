@@ -1,5 +1,9 @@
 name: release-deno-library
 description: 'Release Deno library to GitHub'
+inputs:
+  token:
+    description: 'Github token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -20,4 +24,4 @@ runs:
       shell: bash
       working-directory: ./.github/workflows
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
