@@ -3,6 +3,7 @@
     "description": "Unittest, compile Deno executable and then perform a semantic versioned release",
     "iconName": "example-icon",
     "categories": [
-        "TypeScript"
+        "Deno",
+        "Utility"
     ]
 }

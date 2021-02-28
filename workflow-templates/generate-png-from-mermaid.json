@@ -1,0 +1,8 @@
+{
+  "name": "Generate PNG from Mermaid Workflow",
+  "description": "Generate PNG images for any updated mermaid files, commit and push",
+  "iconName": "example-icon",
+  "categories": [
+    "Utility"
+  ]
+}

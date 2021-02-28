@@ -3,6 +3,6 @@
     "description": "Install Deno and lint",
     "iconName": "example-icon",
     "categories": [
-        "TypeScript"
+        "Deno"
     ]
 }

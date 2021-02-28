@@ -3,6 +3,6 @@
     "description": "Lint the title of a PR",
     "iconName": "example-icon",
     "categories": [
-        "TypeScript"
+        "Utility"
     ]
 }

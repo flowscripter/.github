@@ -3,6 +3,6 @@
     "description": "Check for Deno dependencies updates, raise a PR if required",
     "iconName": "example-icon",
     "categories": [
-        "TypeScript"
+        "Deno"
     ]
 }
