@@ -18,8 +18,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
-          commit-message: Update dependencies
-          title: Update dependencies
+          commit-message: 'chore: update dependencies'
+          title: 'chore: update dependencies'
           body: |
-            chore: dependency updates
+            chore: update dependencies
           branch: update-dependencies

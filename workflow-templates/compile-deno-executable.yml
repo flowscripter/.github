@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  lint:
+  compile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -13,6 +13,6 @@ jobs:
         with:
           deno-version: v1.x
       - name: Compile Deno
-        uses: flowscripter/.github/actions/compile-deno-executable@v1.6
+        uses: flowscripter/.github/actions/compile-deno-executable@v1.7
         with:
-          name: deno-template
+          name: template-deno-executable
