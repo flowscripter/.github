@@ -4,6 +4,9 @@ inputs:
   name:
     description: 'Executable name'
     required: true
+  ouput-path:
+    description: 'Path for binaries output'
+    required: true
   token:
     description: 'Github token'
     required: true
@@ -22,14 +25,14 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/github"
             - assets:
-                - path: bin/x86_64-unknown-linux-gnu/${{ inputs.name }}
-                  label: x86_64-unknown-linux-gnu
-                - path: bin/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
-                  label: x86_64-pc-windows-msvc
-                - path: bin/x86_64-apple-darwin/${{ inputs.name }}
-                  label: x86_64-apple-darwin
-                - path: bin/aarch64-apple-darwin/${{ inputs.name }}
-                  label: aarch64-apple-darwin
+                - path: ${{ inputs.ouput-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
+                  label: Linux
+                - path: ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
+                  label: Windows
+                - path: ${{ inputs.ouput-path }}/x86_64-apple-darwin/${{ inputs.name }}
+                  label: MacOS (Intel)
+                - path: ${{ inputs.ouput-path }}/aarch64-apple-darwin/${{ inputs.name }}
+                  label: MacOS (Arm)
         EOT
         npm install conventional-changelog-conventionalcommits
         npx semantic-release

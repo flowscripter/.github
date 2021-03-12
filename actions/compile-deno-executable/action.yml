@@ -4,16 +4,20 @@ inputs:
   name:
     description: 'Executable name'
     required: true
+  ouput-path:
+    description: 'Path for binaries output'
+    required: true
 runs:
   using: "composite"
   steps:
     - run: |
-        mkdir -p .github/workflows/bin/x86_64-pc-windows-msvc
-        mkdir -p .github/workflows/bin/x86_64-unknown-linux-gnu
-        mkdir -p .github/workflows/bin/x86_64-apple-darwin
-        mkdir -p .github/workflows/bin/aarch64-apple-darwin
-        deno compile --lite --unstable --target x86_64-pc-windows-msvc --output .github/workflows/bin/x86_64-pc-windows-msvc/${{ inputs.name }}.exe mod.ts
-        deno compile --lite --unstable --target x86_64-unknown-linux-gnu --output .github/workflows/bin/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
-        deno compile --lite --unstable --target x86_64-apple-darwin --output .github/workflows/bin/x86_64-apple-darwin/${{ inputs.name }} mod.ts
-        deno compile --lite --unstable --target aarch64-apple-darwin --output .github/workflows/bin/aarch64-apple-darwin/${{ inputs.name }} mod.ts
+        mkdir -p ${{ inputs.ouput-path }}
+        mkdir ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc
+        mkdir ${{ inputs.ouput-path }}/x86_64-unknown-linux-gnu
+        mkdir ${{ inputs.ouput-path }}/x86_64-apple-darwin
+        mkdir ${{ inputs.ouput-path }}/aarch64-apple-darwin
+        deno compile --lite --unstable --target x86_64-pc-windows-msvc --output ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe mod.ts
+        deno compile --lite --unstable --target x86_64-unknown-linux-gnu --output ${{ inputs.ouput-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
+        deno compile --lite --unstable --target x86_64-apple-darwin --output ${{ inputs.ouput-path }}/x86_64-apple-darwin/${{ inputs.name }} mod.ts
+        deno compile --lite --unstable --target aarch64-apple-darwin --output ${{ inputs.ouput-path }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
       shell: bash
