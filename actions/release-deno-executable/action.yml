@@ -26,13 +26,13 @@ runs:
           - - "@semantic-release/github"
             - assets:
                 - path: ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-Linux-${nextRelease.version}.zip'
+                  name: '${{ inputs.name }}-Linux-\${nextRelease.version}.zip'
                 - path: ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-macOS_x86_64-${nextRelease.version}.zip'
+                  name: '${{ inputs.name }}-macOS_x86_64-\${nextRelease.version}.zip'
                 - path: ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-macOS-${nextRelease.version}.zip'
+                  name: '${{ inputs.name }}-macOS-\${nextRelease.version}.zip'
                 - path: ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-Windows-${nextRelease.version}.zip'
+                  name: '${{ inputs.name }}-Windows-\${nextRelease.version}.zip'
         EOT
         npm install conventional-changelog-conventionalcommits
         npx semantic-release
