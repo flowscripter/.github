@@ -30,6 +30,6 @@ jobs:
         with:
           node-version: 13
       - name: Release Deno
-        uses: flowscripter/.github/actions/release-deno-library@v1.10
+        uses: flowscripter/.github/actions/release-deno-library@v1.13
         with:
           name: deno-template
