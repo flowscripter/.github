@@ -25,14 +25,14 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/github"
             - assets:
-                - path: ${{ inputs.ouput-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
-                  label: Linux
-                - path: ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
-                  label: Windows
-                - path: ${{ inputs.ouput-path }}/x86_64-apple-darwin/${{ inputs.name }}
-                  label: MacOS (Intel)
-                - path: ${{ inputs.ouput-path }}/aarch64-apple-darwin/${{ inputs.name }}
-                  label: MacOS (Arm)
+                - path: ${{ inputs.ouput-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
+                  name: ${{ inputs.name }}-Linux-${nextRelease.gitTag}.zip
+                - path: ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
+                  name: ${{ inputs.name }}-Windows-${nextRelease.gitTag}.zip
+                - path: ${{ inputs.ouput-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip
+                  name: ${{ inputs.name }}-macOS_x86_64-${nextRelease.gitTag}.zip
+                - path: ${{ inputs.ouput-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip
+                  name: ${{ inputs.name }}-macOS-${nextRelease.gitTag}.zip
         EOT
         npm install conventional-changelog-conventionalcommits
         npx semantic-release
