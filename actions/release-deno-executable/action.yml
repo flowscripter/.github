@@ -27,12 +27,12 @@ runs:
             - assets:
                 - path: ${{ inputs.ouput-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
                   name: ${{ inputs.name }}-Linux-${nextRelease.gitTag}.zip
-                - path: ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
-                  name: ${{ inputs.name }}-Windows-${nextRelease.gitTag}.zip
                 - path: ${{ inputs.ouput-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip
                   name: ${{ inputs.name }}-macOS_x86_64-${nextRelease.gitTag}.zip
                 - path: ${{ inputs.ouput-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip
                   name: ${{ inputs.name }}-macOS-${nextRelease.gitTag}.zip
+#                - path: ${{ inputs.ouput-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
+#                  name: ${{ inputs.name }}-Windows-${nextRelease.gitTag}.zip
         EOT
         npm install conventional-changelog-conventionalcommits
         npx semantic-release
