@@ -20,9 +20,5 @@ runs:
         deno compile --lite --unstable --target x86_64-unknown-linux-gnu --output ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
         deno compile --lite --unstable --target x86_64-apple-darwin --output ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }} mod.ts
         deno compile --lite --unstable --target aarch64-apple-darwin --output ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
-        zip ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
-        zip ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
-        zip ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}
-        zip ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}
         
       shell: bash

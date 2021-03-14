@@ -14,6 +14,10 @@ runs:
   using: "composite"
   steps:
     - run: |
+        zip -j ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
+        zip -j ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
+        zip -j ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}
+        zip -j ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}
         cat <<EOT >> .releaserc
         ---
         branches:
