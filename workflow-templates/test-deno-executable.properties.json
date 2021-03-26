@@ -1,0 +1,12 @@
+{
+    "name": "Test Deno Executable Workflow",
+    "description": "Test Deno executable",
+    "iconName": "example-icon",
+    "categories": [
+        "Test",
+        "Deno",
+        "CLI",
+        "Behave",
+        "Pexpect"
+    ]
+}
