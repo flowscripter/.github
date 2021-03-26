@@ -1,20 +1,17 @@
 name: test-deno-executable
 description: 'Test Deno executable'
 inputs:
-  name:
-    description: 'Executable name'
-    required: true
-  binaries-base-path:
-    description: 'Path for binaries output'
+  binary-path:
+    description: 'Path for binary output'
     required: true
 runs:
   using: "composite"
   steps:
     - run: |
         mkdir -p ${{ inputs.binaries-base-path }}
-        deno compile --lite --unstable --output ${{ inputs.binaries-base-path }}/${{ inputs.name }} mod.ts
+        deno compile --lite --unstable --output ${{ inputs.binary-path }} mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
-        export EXECUTABLE=${{ inputs.binaries-base-path }}/${{ inputs.name }}
+        export EXECUTABLE=${{ inputs.binary-path }}
         behave
       shell: bash
