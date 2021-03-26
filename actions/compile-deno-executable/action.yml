@@ -4,21 +4,20 @@ inputs:
   name:
     description: 'Executable name'
     required: true
-  output-path:
+  binaries-base-path:
     description: 'Path for binaries output'
     required: true
 runs:
   using: "composite"
   steps:
     - run: |
-        mkdir -p ${{ inputs.output-path }}
-        mkdir ${{ inputs.output-path }}/x86_64-pc-windows-msvc
-        mkdir ${{ inputs.output-path }}/x86_64-unknown-linux-gnu
-        mkdir ${{ inputs.output-path }}/x86_64-apple-darwin
-        mkdir ${{ inputs.output-path }}/aarch64-apple-darwin
-        deno compile --lite --unstable --target x86_64-pc-windows-msvc --output ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }} mod.ts
-        deno compile --lite --unstable --target x86_64-unknown-linux-gnu --output ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
-        deno compile --lite --unstable --target x86_64-apple-darwin --output ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }} mod.ts
-        deno compile --lite --unstable --target aarch64-apple-darwin --output ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
-        
+        mkdir -p ${{ inputs.binaries-base-path }}
+        mkdir ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc
+        mkdir ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu
+        mkdir ${{ inputs.binaries-base-path }}/x86_64-apple-darwin
+        mkdir ${{ inputs.binaries-base-path }}/aarch64-apple-darwin
+        deno compile --lite --unstable --target x86_64-pc-windows-msvc --output ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc/${{ inputs.name }} mod.ts
+        deno compile --lite --unstable --target x86_64-unknown-linux-gnu --output ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
+        deno compile --lite --unstable --target x86_64-apple-darwin --output ${{ inputs.binaries-base-path }}/x86_64-apple-darwin/${{ inputs.name }} mod.ts
+        deno compile --lite --unstable --target aarch64-apple-darwin --output ${{ inputs.binaries-base-path }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
       shell: bash

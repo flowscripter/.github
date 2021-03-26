@@ -4,8 +4,8 @@ inputs:
   name:
     description: 'Executable name'
     required: true
-  output-path:
-    description: 'Path for binaries output'
+  binaries-base-path:
+    description: 'Release binaries path'
     required: true
   token:
     description: 'Github token'
@@ -14,10 +14,10 @@ runs:
   using: "composite"
   steps:
     - run: |
-        zip -j ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
-        zip -j ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
-        zip -j ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}
-        zip -j ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}
+        zip -j ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
+        zip -j ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
+        zip -j ${{ inputs.binaries-base-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.binaries-base-path }}/x86_64-apple-darwin/${{ inputs.name }}
+        zip -j ${{ inputs.binaries-base-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip ${{ inputs.binaries-base-path }}/aarch64-apple-darwin/${{ inputs.name }}
         cat <<EOT >> .releaserc
         ---
         branches:
@@ -29,14 +29,14 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/github"
             - assets:
-                - path: ${{ inputs.output-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-Linux-\${nextRelease.version}.zip'
-                - path: ${{ inputs.output-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-macOS_x86_64-\${nextRelease.version}.zip'
-                - path: ${{ inputs.output-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-macOS-\${nextRelease.version}.zip'
-                - path: ${{ inputs.output-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
+                - path: ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
                   name: '${{ inputs.name }}-Windows-\${nextRelease.version}.zip'
+                - path: ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-Linux-\${nextRelease.version}.zip'
+                - path: ${{ inputs.binaries-base-path }}/x86_64-apple-darwin/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-macOS_x86_64-\${nextRelease.version}.zip'
+                - path: ${{ inputs.binaries-base-path }}/aarch64-apple-darwin/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-macOS-\${nextRelease.version}.zip'
         EOT
         npm install conventional-changelog-conventionalcommits
         npx semantic-release
