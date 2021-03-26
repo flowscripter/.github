@@ -16,8 +16,6 @@ jobs:
         uses: denolib/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno }}
-      - name: Cache dependencies
-        run: deno cache deps.ts
       - name: Run tests
         run: deno test -A --unstable
   release:
@@ -30,6 +28,6 @@ jobs:
         with:
           node-version: 13
       - name: Release Deno
-        uses: flowscripter/.github/actions/release-deno-library@v1.16
+        uses: flowscripter/.github/actions/release-deno-library@v1.17
         with:
-          name: deno-template
+          token: ${{ secrets.GITHUB_TOKEN }}
