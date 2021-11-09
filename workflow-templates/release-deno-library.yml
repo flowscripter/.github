@@ -7,15 +7,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        deno: ["v1.x", "nightly"]
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
       - name: Setup Deno
-        uses: denolib/setup-deno@v2
+        uses: denoland/setup-deno@v1
         with:
-          deno-version: ${{ matrix.deno }}
+          deno-version: v1.x
       - name: Run tests
         run: deno test -A --unstable
   release:
@@ -28,6 +27,6 @@ jobs:
         with:
           node-version: 13
       - name: Release Deno
-        uses: flowscripter/.github/actions/release-deno-library@v1.18
+        uses: flowscripter/.github/actions/release-deno-library@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
