@@ -7,7 +7,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Perform release
+      run: |
         cat <<EOT >> .releaserc
         ---
         branches:

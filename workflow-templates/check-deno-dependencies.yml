@@ -16,6 +16,7 @@ jobs:
         run: |
           deno install -A -f -n udd https://deno.land/x/udd@0.5.0/main.ts
           udd deps.ts --test="deno test -A --unstable"
+          udd tests/test_deps.ts --test="deno test -A --unstable"
       - name: Create PR
         uses: peter-evans/create-pull-request@v3
         with:
