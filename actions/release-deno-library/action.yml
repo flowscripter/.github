@@ -9,6 +9,10 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
     - name: Perform release
       run: |
         cat <<EOT >> .releaserc
@@ -22,7 +26,7 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/github"
         EOT
-        npm install conventional-changelog-conventionalcommits
+        npm install --no-save conventional-changelog-conventionalcommits
         npx semantic-release
       shell: bash
       working-directory: ./.github/workflows
