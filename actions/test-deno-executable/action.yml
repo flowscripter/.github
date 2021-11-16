@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - run: |
-        deno compile --lite --unstable --output ${{ inputs.binary-path }} mod.ts
+        deno compile --unstable --output ${{ inputs.binary-path }} mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         export EXECUTABLE=${{ inputs.binary-path }}

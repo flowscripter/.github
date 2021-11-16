@@ -44,4 +44,3 @@ runs:
       working-directory: ./.github/workflows
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
-
