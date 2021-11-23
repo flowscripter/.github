@@ -1,16 +1,18 @@
 name: test-deno-executable
 description: 'Test Deno executable'
-inputs:
-  binary-path:
-    description: 'Path for binary output'
-    required: true
 runs:
   using: "composite"
   steps:
+    - name: Windows Separator
+      if: matrix.os == 'windows-latest'
+      run: echo "os_separator=\" >> $GITHUB_ENV
+    - name: Non-Windows Separator
+      if: matrix.os != 'windows-latest'
+      run: echo "os_separator=/" >> $GITHUB_ENV
     - run: |
-        deno compile --unstable --output ${{ inputs.binary-path }} mod.ts
+        deno compile --unstable --output ${{ runner.temp }}${{ env.os_separator }}executable mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
-        export EXECUTABLE=${{ inputs.binary-path }}
+        export EXECUTABLE=${{ runner.temp }}${{ env.os_separator }}executable
         behave
       shell: bash
