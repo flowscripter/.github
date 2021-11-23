@@ -9,10 +9,10 @@ runs:
       shell: bash
     - name: Non-Windows Separator
       if: runner.os != 'Windows'
-      run: echo "EXECUTABLE=${{ runner.temp }}/executable" >> $env:GITHUB_ENV
+      run: echo "EXECUTABLE=${{ runner.temp }}/executable" >> GITHUB_ENV
       shell: bash
     - run: |
-        deno compile --unstable --output ${{ runner.temp }}${{ env.os_separator }}executable mod.ts
+        deno compile --unstable --output ${{ env.EXECUTABLE }} mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         behave
