@@ -7,7 +7,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Cross-Compile
+      run: |
         mkdir ${{ runner.temp }}/x86_64-pc-windows-msvc
         mkdir ${{ runner.temp }}/x86_64-unknown-linux-gnu
         mkdir ${{ runner.temp }}/x86_64-apple-darwin

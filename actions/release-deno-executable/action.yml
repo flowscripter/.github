@@ -10,7 +10,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - name: Perform release
+      run: |
         zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
         zip -j ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
         zip -j ${{ runner.temp }}/x86_64-apple-darwin/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-apple-darwin/${{ inputs.name }}

@@ -1,8 +1,0 @@
-{
-    "name": "Test Deno Workflow",
-    "description": "Install Deno (stable and nightly builds) and test across Windows, Ubuntu and macOS",
-    "iconName": "example-icon",
-    "categories": [
-        "Deno"
-    ]
-}
