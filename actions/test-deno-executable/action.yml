@@ -4,9 +4,9 @@ runs:
   using: "composite"
   steps:
     - run: |
-        export EXECUTABLE=${{ runner.temp }}/executable
-        deno compile --unstable --output ${{ runner.temp }}/executable mod.ts
+        deno compile --unstable --output functional_tests/executable mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
+        echo "EXECUTABLE=executable" >> $env:GITHUB_ENV
         behave
       shell: bash
