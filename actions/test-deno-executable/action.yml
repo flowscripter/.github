@@ -5,11 +5,11 @@ runs:
   steps:
     - name: Windows Separator
       if: runner.os == 'Windows'
-      run: echo "os_separator=\" >> $GITHUB_ENV
+      run: echo "os_separator=\\" >> $env:GITHUB_ENV
       shell: bash
     - name: Non-Windows Separator
       if: runner.os != 'Windows'
-      run: echo "os_separator=/" >> $GITHUB_ENV
+      run: echo "os_separator=/" >> $env:GITHUB_ENV
       shell: bash
     - run: |
         deno compile --unstable --output ${{ runner.temp }}${{ env.os_separator }}executable mod.ts
