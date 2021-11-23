@@ -4,11 +4,13 @@ runs:
   using: "composite"
   steps:
     - name: Windows Separator
-      if: matrix.os == 'windows-latest'
+      if: runner.os == 'Windows'
       run: echo "os_separator=\" >> $GITHUB_ENV
+      shell: bash
     - name: Non-Windows Separator
-      if: matrix.os != 'windows-latest'
+      if: runner.os != 'Windows'
       run: echo "os_separator=/" >> $GITHUB_ENV
+      shell: bash
     - run: |
         deno compile --unstable --output ${{ runner.temp }}${{ env.os_separator }}executable mod.ts
         cd functional_tests 
