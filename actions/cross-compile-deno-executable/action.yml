@@ -1,0 +1,23 @@
+name: cross-compile-deno-executable
+description: 'Cross-compile Deno Executable'
+inputs:
+  name:
+    description: 'Executable name'
+    required: true
+  binaries-base-path:
+    description: 'Path for binaries output'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        mkdir -p ${{ inputs.binaries-base-path }}
+        mkdir ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc
+        mkdir ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu
+        mkdir ${{ inputs.binaries-base-path }}/x86_64-apple-darwin
+        mkdir ${{ inputs.binaries-base-path }}/aarch64-apple-darwin
+        deno compile --unstable --target x86_64-pc-windows-msvc --output ${{ inputs.binaries-base-path }}/x86_64-pc-windows-msvc/${{ inputs.name }} mod.ts
+        deno compile --unstable --target x86_64-unknown-linux-gnu --output ${{ inputs.binaries-base-path }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
+        deno compile --unstable --target x86_64-apple-darwin --output ${{ inputs.binaries-base-path }}/x86_64-apple-darwin/${{ inputs.name }} mod.ts
+        deno compile --unstable --target aarch64-apple-darwin --output ${{ inputs.binaries-base-path }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
+      shell: bash
