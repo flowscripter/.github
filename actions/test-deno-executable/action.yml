@@ -7,6 +7,6 @@ runs:
         deno compile --unstable --output functional_tests/executable mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
-        export EXECUTABLE=executable
+        export EXECUTABLE=./executable
         behave
       shell: bash
