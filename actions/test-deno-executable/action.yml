@@ -3,17 +3,9 @@ description: 'Test Deno executable'
 runs:
   using: "composite"
   steps:
-    - name: Windows Separator
-      if: runner.os == 'Windows'
-      run: echo "EXECUTABLE=${{ runner.temp }}\executable" >> $env:GITHUB_ENV
-      shell: bash
-    - name: Non-Windows Separator
-      if: runner.os != 'Windows'
-      run: echo "EXECUTABLE=${{ runner.temp }}/executable" >> $env:GITHUB_ENV
-      shell: bash
     - run: |
-        echo $EXECUTABLE
-        deno compile --unstable --output ${{ env.EXECUTABLE }} mod.ts
+        export EXECUTABLE=${{ runner.temp }}/executable
+        deno compile --unstable --output ${{ runner.temp }}/executable mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         behave
