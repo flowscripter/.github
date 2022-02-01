@@ -1,0 +1,8 @@
+{
+    "name": "Lint Rust Workflow",
+    "description": "Run cargo fmt",
+    "iconName": "example-icon",
+    "categories": [
+        "Rust"
+    ]
+}

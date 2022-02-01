@@ -1,0 +1,12 @@
+name: lint-rust
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Lint source
+        run: cargo fmt -- --check

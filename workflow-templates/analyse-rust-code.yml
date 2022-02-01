@@ -1,0 +1,20 @@
+name: analyse-rust-code
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Clippy
+        run: rustup component add clippy
+      - name: Run Clippy
+        run: cargo clippy
+      - name: Setup Cargo Audit
+        run: cargo install cargo-audit
+      - name: Run Cargo Audit
+        run: cargo audit

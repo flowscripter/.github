@@ -1,0 +1,23 @@
+name: run-rust-tests
+description: 'Run Rust Tests'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Run tests
+      run: |
+        rustup default nightly
+        cargo install grcov
+        rustup component add llvm-tools-preview
+        cargo clean
+        cargo test
+        grcov . --binary-path ./target/debug -s . -t lcov --branch -o ./coverage.lcov
+      shell: bash
+      env:
+        RUSTFLAGS: -Zinstrument-coverage
+        LLVM_PROFILE_FILE: "%p-%m.profraw"
+    - name: Publish coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        file: ./coverage.lcov

@@ -1,0 +1,10 @@
+name: generate-rust-docs
+description: 'Generate Rust Docs'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Generate docs
+      run: cargo doc
+      shell: bash

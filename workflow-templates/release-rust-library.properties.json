@@ -1,0 +1,9 @@
+{
+    "name": "Release a Rust library Workflow",
+    "description": "Run Rust tests and perform a semantic versioned release",
+    "iconName": "example-icon",
+    "categories": [
+        "Rust",
+        "Utility"
+    ]
+}

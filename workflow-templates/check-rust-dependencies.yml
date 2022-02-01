@@ -1,0 +1,25 @@
+name: check-rust-dependencies
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Setup Cargo Edit
+        run: cargo install cargo-edit
+      - name: Update dependencies
+        run: |
+          cargo update
+          cargo upgrade --to-lockfile
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.CREATE_PR_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: 'chore: update dependencies'
+          body: |
+            chore: update dependencies
+          branch: update-dependencies
