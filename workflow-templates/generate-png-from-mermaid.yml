@@ -20,7 +20,7 @@ jobs:
         run: echo ${{ steps.source_changes.outputs.files }}
       - name: Compile mermaid
         if: steps.source_changes.outputs.files != ''
-        uses: neenjaw/compile-mermaid-markdown-action@0.3.3
+        uses: neenjaw/compile-mermaid-markdown-action@v0.3.3
         with:
           files: ${{ steps.source_changes.outputs.files }}
           output: 'images'
