@@ -19,23 +19,9 @@ jobs:
       - name: Cross-Compile Rust
         uses: flowscripter/.github/actions/cross-compile-deno-rust-library@v1
         with:
-          name: template-deno-rust-library
-          dependency-url: https://github.com/flowscripter/template-deno-rust-library/releases/download/latest
-      - name: Get result changes
-        id: result_changes
-        run: echo "::set-output name=files::$(git status -s bindings/bindings.ts)"
-      - name: Show result changes
-        if: steps.source_changes.outputs.files != ''
-        run: echo ${{ steps.result_changes.outputs.files }}
-      - name: Commit and push changes
-        if: steps.result_changes.outputs.files != ''
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'chore: generate Deno FFI bindings'
-          file_pattern: 'bindings/bindings.ts'
+          release: true
       - name: Release Deno and Rust
         uses: flowscripter/.github/actions/release-deno-rust-library@v1
-        if: steps.result_changes.outputs.files == ''
         with:
           name: flowscripter_template_deno_rust_library
           github-token: ${{ secrets.GITHUB_TOKEN }}

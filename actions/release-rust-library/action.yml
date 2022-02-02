@@ -12,10 +12,10 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v2
-    - name: Setup Node.js
+    - name: Install Node
       uses: actions/setup-node@v2
       with:
-        node-version: 14
+        node-version: 16
     - name: Perform release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8

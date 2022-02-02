@@ -15,10 +15,53 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v2
-    - name: Setup Node.js
+    - name: Install Node
       uses: actions/setup-node@v2
       with:
-        node-version: 14
+        node-version: 16
+    - name: Install Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Setup Deno
+      run: |
+        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+      shell: bash
+    - name: Determine next release version
+      run: |
+        cargo install semantic-release-rust --version 1.0.0-alpha.8
+        cat <<EOT >> .releaserc
+        ---
+        branches:
+          - main
+        plugins:
+          - - "@semantic-release/commit-analyzer"
+            - preset: conventionalcommits
+          - - "@semantic-release/exec"
+            - verifyReleaseCmd: "echo NEXT_RELEASE_VERSION=${nextRelease.version} >> NEXT_RELEASE_VERSION"
+        EOT
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
+        npx semantic-release -d    
+        cat NEXT_RELEASE_VERSION >> $GITHUB_ENV
+      shell: bash
+    - name: Generate Deno FFI Bindings
+      run: |
+        deno_bindgen --release https://github.com/${{ GITHUB_REPOSITORY }}/releases/tag/v${{ env.NEXT_RELEASE_VERSION }}
+      shell: bash
+    - name: Get source changes
+      id: source_changes
+      run: echo "::set-output name=files::$(git diff --no-commit-id --name-only HEAD^ HEAD | grep -e 'bindings/bindings\.ts$' | xargs)"
+      shell: bash
+    - name: Show result changes
+      if: steps.source_changes.outputs.files != ''
+      run: echo ${{ steps.source_changes.outputs.files }}
+      shell: bash
+    - name: Commit and push changes for release
+      if: steps.source_changes.outputs.files != ''
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: 'chore: update Deno FFI bindings for release'
+        file_pattern: 'bindings/bindings.ts'
     - name: Perform release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
@@ -51,3 +94,13 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         CARGO_REGISTRY_TOKEN: ${{ inputs.cargo-registry-token }}
+    - name: Revert source changes
+      if: steps.source_changes.outputs.files != ''
+      run: git revert HEAD^
+      shell: bash
+    - name: Commit and push changes for dev
+      if: steps.source_changes.outputs.files != ''
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: 'chore: update Deno FFI bindings for development'
+        file_pattern: 'bindings/bindings.ts'

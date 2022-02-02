@@ -5,7 +5,7 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v2
-    - name: Setup Deno
+    - name: Install Deno
       uses: denoland/setup-deno@v1
       with:
         deno-version: v1.x
