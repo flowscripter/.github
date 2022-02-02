@@ -38,7 +38,7 @@ runs:
           - - "@semantic-release/commit-analyzer"
             - preset: conventionalcommits
           - - "@semantic-release/exec"
-            - verifyReleaseCmd: "echo NEXT_RELEASE_VERSION=${nextRelease.version} >> NEXT_RELEASE_VERSION"
+            - verifyReleaseCmd: "echo NEXT_RELEASE_VERSION=\${nextRelease.version} >> NEXT_RELEASE_VERSION"
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
         npx semantic-release -d    
