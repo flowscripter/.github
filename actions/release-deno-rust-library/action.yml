@@ -46,7 +46,7 @@ runs:
       shell: bash
     - name: Generate Deno FFI Bindings
       run: |
-        deno_bindgen --release https://github.com/${{ GITHUB_REPOSITORY }}/releases/tag/v${{ env.NEXT_RELEASE_VERSION }}
+        deno_bindgen --release https://github.com/${{ env.GITHUB_REPOSITORY }}/releases/tag/v${{ env.NEXT_RELEASE_VERSION }}
       shell: bash
     - name: Get source changes
       id: source_changes
