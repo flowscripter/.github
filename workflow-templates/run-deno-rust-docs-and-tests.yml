@@ -1,0 +1,20 @@
+name: run-deno-rust-docs-and-tests
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deno Docs
+        uses: flowscripter/.github/actions/generate-deno-docs@v1
+      - name: Rust Docs
+        uses: flowscripter/.github/actions/generate-rust-docs@v1
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Test Deno
+        uses: flowscripter/.github/actions/run-deno-rust-tests@v1

@@ -18,7 +18,6 @@ runs:
       run: |
         zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
         zip -j ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
-        zip -j ${{ runner.temp }}/x86_64-apple-darwin/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-apple-darwin/${{ inputs.name }}
         zip -j ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }}.zip ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }}
         cat <<EOT >> .releaserc
         ---
@@ -35,8 +34,6 @@ runs:
                   name: '${{ inputs.name }}-Windows-\${nextRelease.version}.zip'
                 - path: ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
                   name: '${{ inputs.name }}-Linux-\${nextRelease.version}.zip'
-                - path: ${{ runner.temp }}/x86_64-apple-darwin/${{ inputs.name }}.zip
-                  name: '${{ inputs.name }}-macOS_x86_64-\${nextRelease.version}.zip'
                 - path: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }}.zip
                   name: '${{ inputs.name }}-macOS-\${nextRelease.version}.zip'
         EOT

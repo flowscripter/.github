@@ -1,0 +1,40 @@
+name: run-deno-rust-tests
+description: 'Run Rust with Deno FFI bindings Tests'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Setup Rust
+      run: |
+        rustup default nightly
+        cargo install grcov
+        rustup component add llvm-tools-preview
+        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+      shell: bash
+    - name: Run Rust tests
+      run: |
+        deno_bindgen
+        cargo test
+        grcov . --binary-path ./target/debug -s . -t lcov --branch -o ./coverage.lcov
+      shell: bash
+      env:
+        RUSTFLAGS: -Zinstrument-coverage
+        LLVM_PROFILE_FILE: "%p-%m.profraw"
+    - name: Run Deno tests
+      run: |
+        deno test -A --unstable --coverage=coverage
+        deno coverage --unstable ./coverage --lcov > ./coverage/coverage.lcov
+      shell: bash
+    - name: Publish Rust coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        file: ./coverage.lcov
+    - name: Publish Deno coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        file: ./coverage/coverage.lcov

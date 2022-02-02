@@ -17,10 +17,8 @@ runs:
       run: |
         mkdir ${{ runner.temp }}/x86_64-pc-windows-msvc
         mkdir ${{ runner.temp }}/x86_64-unknown-linux-gnu
-        mkdir ${{ runner.temp }}/x86_64-apple-darwin
         mkdir ${{ runner.temp }}/aarch64-apple-darwin
         deno compile --unstable --target x86_64-pc-windows-msvc --output ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }} mod.ts
         deno compile --unstable --target x86_64-unknown-linux-gnu --output ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
-        deno compile --unstable --target x86_64-apple-darwin --output ${{ runner.temp }}/x86_64-apple-darwin/${{ inputs.name }} mod.ts
         deno compile --unstable --target aarch64-apple-darwin --output ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
       shell: bash

@@ -1,0 +1,49 @@
+name: cross-compile-deno-rust-library
+description: 'Cross-compile Rust with Deno FFI bindings Library'
+inputs:
+  dependency-url:
+    description: 'URL for dependency in case of a release build'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Setup Rust
+      run: |
+        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+        rustup target add aarch64-apple-darwin
+        rustup target add x86_64-pc-windows-gnu
+        rustup target add x86_64-unknown-linux-gnu
+        brew install mingw-w64
+        brew tap SergioBenitez/osxct
+        brew install x86_64-unknown-linux-gnu
+      shell: bash
+    - name: Cross-Compile Release
+      if: ${{ inputs.dependency-url != '' }}
+      run: |
+        export SDKROOT=$(xcrun -sdk macosx --show-sdk-path)
+        export MACOSX_DEPLOYMENT_TARGET=$(xcrun -sdk macosx --show-sdk-platform-version)
+        export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=x86_64-unknown-linux-gnu-gcc
+        export CARGO_TARGET_DIR=${{ runner.temp }}/target
+        deno_bindgen --release=${{ inputs.dependency-url }}
+        cargo build --target=aarch64-apple-darwin --release
+        cargo build --target=x86_64-pc-windows-gnu --release
+        cargo build --target=x86_64-unknown-linux-gnu --release
+      shell: bash
+    - name: Cross-Compile Debug
+      if: ${{ inputs.release == '' }}
+      run: |
+        export SDKROOT=$(xcrun -sdk macosx --show-sdk-path)
+        export MACOSX_DEPLOYMENT_TARGET=$(xcrun -sdk macosx --show-sdk-platform-version)
+        export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=x86_64-unknown-linux-gnu-gcc
+        export CARGO_TARGET_DIR=${{ runner.temp }}/target
+        deno_bindgen 
+        cargo build --target=aarch64-apple-darwin
+        cargo build --target=x86_64-pc-windows-gnu
+        cargo build --target=x86_64-unknown-linux-gnu
+      shell: bash
