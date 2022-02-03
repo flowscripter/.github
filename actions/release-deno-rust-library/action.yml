@@ -1,4 +1,4 @@
-name: release-deno-library
+name: release-deno-rust-library
 description: 'Release Rust with Deno FFI bindings to GitHub and Crates.io'
 inputs:
   name:
@@ -50,7 +50,9 @@ runs:
       shell: bash
     - name: Get source changes
       id: source_changes
-      run: echo "::set-output name=files::$(git diff --no-commit-id --name-only HEAD^ HEAD | grep -e 'bindings/bindings\.ts$' | xargs)"
+      run: |
+        git diff --no-commit-id --name-only HEAD^ HEAD
+        echo "::set-output name=files::$(git diff --no-commit-id --name-only HEAD^ HEAD | grep bindings.ts | xargs)"
       shell: bash
     - name: Show result changes
       if: steps.source_changes.outputs.files != ''
