@@ -49,22 +49,6 @@ runs:
       run: |
         deno_bindgen --release https://github.com/${{ env.GITHUB_REPOSITORY }}/releases/tag/v${{ steps.next_release.outputs.version }}
       shell: bash
-    - name: Get source changes
-      id: source_changes
-      run: |
-        git diff --no-commit-id --name-only HEAD^ HEAD
-        echo "::set-output name=files::$(git diff --no-commit-id --name-only HEAD^ HEAD | grep bindings.ts | xargs)"
-      shell: bash
-    - name: Show result changes
-      if: steps.source_changes.outputs.files != ''
-      run: echo ${{ steps.source_changes.outputs.files }}
-      shell: bash
-    - name: Commit and push changes for release
-      if: steps.source_changes.outputs.files != ''
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: 'chore: update Deno FFI bindings for release'
-        file_pattern: 'bindings/bindings.ts'
     - name: Perform release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
@@ -90,7 +74,7 @@ runs:
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
               publishCmd: "semantic-release-rust publish"
           - - "@semantic-release/git"
-            - assets: Cargo.toml
+            - assets: ["Cargo.toml", "bindings/bindings.ts"]
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
         npx semantic-release
@@ -99,13 +83,3 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         CARGO_REGISTRY_TOKEN: ${{ inputs.cargo-registry-token }}
-    - name: Revert source changes
-      if: steps.source_changes.outputs.files != ''
-      run: git revert HEAD^
-      shell: bash
-    - name: Commit and push changes for dev
-      if: steps.source_changes.outputs.files != ''
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: 'chore: update Deno FFI bindings for development'
-        file_pattern: 'bindings/bindings.ts'
