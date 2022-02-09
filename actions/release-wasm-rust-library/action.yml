@@ -22,13 +22,6 @@ runs:
       uses: actions/setup-node@v2
       with:
         node-version: 16
-    - name: Build Package
-      run: |
-        cargo install wasm-bindgen
-
-      shell: bash
-      env:
-        SCOPE: ${{ inputs.scope }}
     - name: Perform release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
