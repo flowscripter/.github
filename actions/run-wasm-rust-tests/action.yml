@@ -1,0 +1,12 @@
+name: run-wasm-rust-tests
+description: 'Run Rust Wasm Tests'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Run tests
+      run: |
+        cargo install wasm-pack  
+        wasm-pack test --headless --firefox
+      shell: bash

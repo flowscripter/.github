@@ -1,0 +1,20 @@
+name: release-wasm-rust-library
+on:
+  push:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Wasm Rust
+        uses: flowscripter/.github/actions/run-wasm-rust-tests@v1
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release Wasm Rust
+        uses: flowscripter/.github/actions/release-wasm-rust-library@v1
+        with:
+          scope: @flowscripter
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          cargo-registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}

@@ -1,0 +1,62 @@
+name: release-wasm-rust-library
+description: 'Release Wasm Rust library to GitHub and publish package to NPM'
+inputs:
+  scope:
+    description: 'Package scope'
+    required: true
+  github-token:
+    description: 'Github token'
+    required: true
+  npm-token:
+    description: 'NPM token'
+    required: true
+  cargo-registry-token:
+    description: 'Crates.io token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Install Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - name: Build Package
+      run: |
+        cargo install wasm-bindgen
+
+      shell: bash
+      env:
+        SCOPE: ${{ inputs.scope }}
+    - name: Perform release
+      run: |
+        cargo install semantic-release-rust --version 1.0.0-alpha.8
+        cargo install wasm-pack
+        wasm-pack build --target web --scope ${{ inputs.scope }} --release
+        cat <<EOT >> .releaserc
+        ---
+        branches:
+          - main
+        plugins:
+          - - "@semantic-release/commit-analyzer"
+            - preset: conventionalcommits
+          - - "@semantic-release/release-notes-generator"
+            - preset: conventionalcommits
+          - - "@semantic-release/github"
+          - - "@semantic-release/npm"
+            - pkgRoot: pkg
+          - - "@semantic-release/exec"
+            - verifyConditionsCmd: "semantic-release-rust verify-conditions"
+              prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
+              publishCmd: "semantic-release-rust publish"
+          - - "@semantic-release/git"
+            - assets: Cargo.toml
+        EOT
+        npx semantic-release
+      shell: bash
+      working-directory: ./.github/workflows
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        NPM_TOKEN: ${{ inputs.npm-token }}
+        CARGO_REGISTRY_TOKEN: ${{ inputs.cargo-registry-token }}

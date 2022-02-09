@@ -1,0 +1,15 @@
+name: run-rust-docs-and-wasm-tests
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rust Docs
+        uses: flowscripter/.github/actions/generate-rust-docs@v1
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Rust Wasm
+        uses: flowscripter/.github/actions/run-wasm-rust-tests@v1
