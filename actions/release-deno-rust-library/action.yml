@@ -28,6 +28,7 @@ runs:
         deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
       shell: bash
     - name: Determine next release version
+      id: next_release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cat <<EOT >> .releaserc
@@ -38,15 +39,15 @@ runs:
           - - "@semantic-release/commit-analyzer"
             - preset: conventionalcommits
           - - "@semantic-release/exec"
-            - verifyReleaseCmd: "echo NEXT_RELEASE_VERSION=\${nextRelease.version} >> NEXT_RELEASE_VERSION"
+            - verifyReleaseCmd: ""::set-output name=version::\${nextRelease.version}"
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
         npx semantic-release -d    
-        cat NEXT_RELEASE_VERSION >> $GITHUB_ENV
       shell: bash
     - name: Generate Deno FFI Bindings
+      if: steps.next_release.outputs.version != ''
       run: |
-        deno_bindgen --release https://github.com/${{ env.GITHUB_REPOSITORY }}/releases/tag/v${{ env.NEXT_RELEASE_VERSION }}
+        deno_bindgen --release https://github.com/${{ env.GITHUB_REPOSITORY }}/releases/tag/v${{ steps.next_release.outputs.version }}
       shell: bash
     - name: Get source changes
       id: source_changes
