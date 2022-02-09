@@ -1,5 +1,5 @@
 {
-    "name": "Deno Docs and Unit Test Workflow",
+    "name": "Deno Docs and Test Workflow",
     "description": "Generate API docs, run Deno tests across Windows, Ubuntu and macOS",
     "iconName": "example-icon",
     "categories": [

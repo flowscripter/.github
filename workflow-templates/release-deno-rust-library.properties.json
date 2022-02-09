@@ -4,7 +4,6 @@
     "iconName": "example-icon",
     "categories": [
         "Deno",
-        "Rust",
-        "Utility"
+        "Rust"
     ]
 }
