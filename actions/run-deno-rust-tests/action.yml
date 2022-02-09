@@ -30,11 +30,7 @@ runs:
         deno test -A --unstable --coverage=coverage
         deno coverage --unstable ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
-    - name: Publish Rust coverage report
+    - name: Publish Deno Rust coverage report
       uses: codecov/codecov-action@v2
       with:
-        file: ./coverage.lcov
-    - name: Publish Deno coverage report
-      uses: codecov/codecov-action@v2
-      with:
-        file: ./coverage/coverage.lcov
+        files: ./coverage.lcov,./coverage/coverage.lcov
