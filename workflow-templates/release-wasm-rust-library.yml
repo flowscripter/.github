@@ -14,7 +14,7 @@ jobs:
       - name: Release Wasm Rust
         uses: flowscripter/.github/actions/release-wasm-rust-library@v1
         with:
-          scope: @flowscripter
+          scope: flowscripter
           github-token: ${{ secrets.GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
           cargo-registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
