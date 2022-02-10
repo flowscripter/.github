@@ -46,6 +46,7 @@ runs:
           - - "@semantic-release/git"
             - assets: Cargo.toml
         EOT
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
         npx semantic-release
       shell: bash
       working-directory: ./.github/workflows
