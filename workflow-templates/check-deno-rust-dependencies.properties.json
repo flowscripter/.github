@@ -1,0 +1,9 @@
+{
+  "name": "Check Deno and Rust Dependencies Workflow",
+  "description": "Check for Deno and Rust dependencies updates, raise a PR if required",
+  "iconName": "example-icon",
+  "categories": [
+    "Deno",
+    "Rust"
+  ]
+}

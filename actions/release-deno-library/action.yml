@@ -29,6 +29,5 @@ runs:
         npm install --no-save conventional-changelog-conventionalcommits
         npx semantic-release
       shell: bash
-      working-directory: ./.github/workflows
       env:
         GITHUB_TOKEN: ${{ inputs.token }}

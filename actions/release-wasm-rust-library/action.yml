@@ -38,7 +38,7 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/github"
           - - "@semantic-release/npm"
-            - pkgRoot: pkg
+            - pkgRoot: ./pkg
           - - "@semantic-release/exec"
             - verifyConditionsCmd: "semantic-release-rust verify-conditions"
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
@@ -49,7 +49,6 @@ runs:
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
       shell: bash
-      working-directory: ./.github/workflows
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         NPM_TOKEN: ${{ inputs.npm-token }}
