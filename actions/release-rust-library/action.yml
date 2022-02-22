@@ -19,7 +19,7 @@ runs:
     - name: Perform release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
-        cat <<EOT >> .releaserc
+        cat <<EOT > .releaserc
         ---
         branches:
           - main

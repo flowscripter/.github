@@ -15,7 +15,7 @@ runs:
         node-version: 16
     - name: Perform release
       run: |
-        cat <<EOT >> .releaserc
+        cat <<EOT > .releaserc
         ---
         branches:
           - main

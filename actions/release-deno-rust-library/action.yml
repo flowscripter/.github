@@ -31,7 +31,7 @@ runs:
       id: next_release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
-        cat <<EOT >> .releaserc
+        cat <<EOT > .releaserc
         ---
         branches:
           - main
@@ -52,7 +52,7 @@ runs:
     - name: Perform release
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
-        cat <<EOT >> .releaserc
+        cat <<EOT > .releaserc
         ---
         branches:
           - main
@@ -64,11 +64,11 @@ runs:
           - - "@semantic-release/github"
             - assets:
                 - path: ${{ runner.temp }}/target/aarch64-apple-darwin/release/lib${{ inputs.name }}.dylib
-                  name: 'lib${{ inputs.name }}.dylib'
+                  name: "lib${{ inputs.name }}.dylib"
                 - path: ${{ runner.temp }}/target/x86_64-pc-windows-gnu/release/${{ inputs.name }}.dll
-                  name: '${{ inputs.name }}.dll'
+                  name: "${{ inputs.name }}.dll"
                 - path: ${{ runner.temp }}/target/x86_64-unknown-linux-gnu/release/lib${{ inputs.name }}.so
-                  name: 'lib${{ inputs.name }}.so'
+                  name: "lib${{ inputs.name }}.so"
           - - "@semantic-release/exec"
             - verifyConditionsCmd: "semantic-release-rust verify-conditions"
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"

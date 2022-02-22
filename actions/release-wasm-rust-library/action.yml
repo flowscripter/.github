@@ -27,7 +27,7 @@ runs:
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cargo install wasm-pack
         wasm-pack build --target web --scope ${{ inputs.scope }} --release
-        cat <<EOT >> .releaserc
+        cat <<EOT > .releaserc
         ---
         branches:
           - main
