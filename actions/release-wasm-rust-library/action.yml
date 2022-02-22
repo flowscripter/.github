@@ -4,15 +4,6 @@ inputs:
   scope:
     description: 'Package scope'
     required: true
-  github-token:
-    description: 'Github token'
-    required: true
-  npm-token:
-    description: 'NPM token'
-    required: true
-  cargo-registry-token:
-    description: 'Crates.io token'
-    required: true
 runs:
   using: "composite"
   steps:
@@ -50,6 +41,6 @@ runs:
         npx semantic-release
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        NPM_TOKEN: ${{ inputs.npm-token }}
-        CARGO_REGISTRY_TOKEN: ${{ inputs.cargo-registry-token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}

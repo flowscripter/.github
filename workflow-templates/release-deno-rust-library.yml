@@ -24,5 +24,3 @@ jobs:
         uses: flowscripter/.github/actions/release-deno-rust-library@v1
         with:
           name: flowscripter_template_deno_rust_library
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          cargo-registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}

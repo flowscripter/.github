@@ -1,9 +1,5 @@
 name: release-deno-library
 description: 'Release Deno library to GitHub'
-inputs:
-  token:
-    description: 'Github token'
-    required: true
 runs:
   using: "composite"
   steps:
@@ -30,4 +26,4 @@ runs:
         npx semantic-release
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ inputs.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
