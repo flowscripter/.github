@@ -4,6 +4,9 @@ inputs:
   name:
     description: 'Executable name'
     required: true
+  github-token:
+    description: 'Github token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -38,4 +41,4 @@ runs:
         npx semantic-release
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}

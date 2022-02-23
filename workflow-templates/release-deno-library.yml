@@ -18,3 +18,5 @@ jobs:
     steps:
       - name: Release Deno
         uses: flowscripter/.github/actions/release-deno-library@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
