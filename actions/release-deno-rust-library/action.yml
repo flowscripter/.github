@@ -65,18 +65,21 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/github"
             - assets:
-                - path: ${{ runner.temp }}/target/aarch64-apple-darwin/release/lib${{ inputs.name }}.dylib
-                  name: "lib${{ inputs.name }}.dylib"
-                - path: ${{ runner.temp }}/target/x86_64-pc-windows-gnu/release/${{ inputs.name }}.dll
-                  name: "${{ inputs.name }}.dll"
-                - path: ${{ runner.temp }}/target/x86_64-unknown-linux-gnu/release/lib${{ inputs.name }}.so
-                  name: "lib${{ inputs.name }}.so"
+              - path: ${{ runner.temp }}/target/aarch64-apple-darwin/release/lib${{ inputs.name }}.dylib
+                name: "lib${{ inputs.name }}.dylib"
+              - path: ${{ runner.temp }}/target/x86_64-pc-windows-gnu/release/${{ inputs.name }}.dll
+                name: "${{ inputs.name }}.dll"
+              - path: ${{ runner.temp }}/target/x86_64-unknown-linux-gnu/release/lib${{ inputs.name }}.so
+                name: "lib${{ inputs.name }}.so"
           - - "@semantic-release/exec"
             - verifyConditionsCmd: "semantic-release-rust verify-conditions"
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
               publishCmd: "semantic-release-rust publish"
           - - "@semantic-release/git"
-            - assets: ["Cargo.toml", "bindings/bindings.ts"]
+            - assets: 
+              - Cargo.toml
+              - Cargo.lock
+              - bindings/bindings.ts
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
