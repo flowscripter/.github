@@ -29,7 +29,7 @@ runs:
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cargo install wasm-pack
         wasm-pack build --target web --scope ${{ inputs.scope }} --release
-        jq '. |= . + {"publishConfig": {"access": "public"}}' pkg/package.json
+        jq '. |= . + {"publishConfig": {"access": "public"}}' pkg/package.json > pkg/package.json.tmp && mv pkg/package.json.tmp pkg/package.json
         cat <<EOT > .releaserc
         ---
         branches:
