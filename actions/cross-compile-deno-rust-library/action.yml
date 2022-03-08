@@ -4,8 +4,7 @@ inputs:
   release:
     description: 'Whether to perform a release build'
     required: false
-    default: false
-    type: boolean
+    default: "false"
 runs:
   using: "composite"
   steps:
@@ -28,7 +27,7 @@ runs:
         echo "CARGO_TARGET_DIR=${{ runner.temp }}/target" >> $GITHUB_ENV
       shell: bash
     - name: Cross-Compile Release
-      if: ${{ inputs.release == true }}
+      if: ${{ inputs.release == "true" }}
       run: |
         deno_bindgen
         cargo build --target=aarch64-apple-darwin --release
@@ -36,7 +35,7 @@ runs:
         cargo build --target=x86_64-unknown-linux-gnu --release
       shell: bash
     - name: Cross-Compile Debug
-      if: ${{ inputs.release == false }}
+      if: ${{ inputs.release == "false" }}
       run: |
         deno_bindgen 
         cargo build --target=aarch64-apple-darwin

@@ -19,7 +19,7 @@ jobs:
       - name: Cross-Compile Rust
         uses: flowscripter/.github/actions/cross-compile-deno-rust-library@v1
         with:
-          release: true
+          release: "true"
       - name: Release Deno and Rust
         uses: flowscripter/.github/actions/release-deno-rust-library@v1
         with:
