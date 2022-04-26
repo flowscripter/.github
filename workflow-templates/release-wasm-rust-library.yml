@@ -10,6 +10,8 @@ jobs:
         uses: flowscripter/.github/actions/run-wasm-rust-tests@v1
   release:
     runs-on: ubuntu-latest
+    needs:
+      - test
     steps:
       - name: Release Wasm Rust
         uses: flowscripter/.github/actions/release-wasm-rust-library@v1
