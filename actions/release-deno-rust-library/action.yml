@@ -53,7 +53,6 @@ runs:
       shell: bash
     - name: Perform release
       run: |
-        cargo install semantic-release-rust --version 1.0.0-alpha.8
         cat <<EOT > .releaserc
         ---
         branches:
@@ -63,6 +62,11 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
+          - - "@semantic-release/git"
+            - assets: 
+              - Cargo.toml
+              - Cargo.lock
+              - bindings/bindings.ts
           - - "@semantic-release/github"
             - assets:
               - path: ${{ runner.temp }}/target/aarch64-apple-darwin/release/lib${{ inputs.name }}.dylib
@@ -75,11 +79,6 @@ runs:
             - verifyConditionsCmd: "semantic-release-rust verify-conditions"
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
               publishCmd: "semantic-release-rust publish"
-          - - "@semantic-release/git"
-            - assets: 
-              - Cargo.toml
-              - Cargo.lock
-              - bindings/bindings.ts
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
