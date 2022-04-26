@@ -51,7 +51,7 @@ runs:
               - Cargo.toml
               - Cargo.lock
         EOT
-        npm install -D conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
       shell: bash
       env:
