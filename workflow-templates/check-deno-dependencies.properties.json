@@ -1,6 +1,6 @@
 {
     "name": "Check Deno Dependencies Workflow",
-    "description": "Check for Deno dependencies updates, raise a PR if required",
+    "description": "Check for Deno dependencies updates, raise a PR if required, auto-merge if checks pass",
     "iconName": "example-icon",
     "categories": [
         "Deno"

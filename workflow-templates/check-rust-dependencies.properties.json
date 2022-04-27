@@ -1,6 +1,6 @@
 {
     "name": "Check Rust Dependencies Workflow",
-    "description": "Check for Rust dependencies updates, raise a PR if required",
+    "description": "Check for Rust dependencies updates, raise a PR if required, auto-merge if checks pass",
     "iconName": "example-icon",
     "categories": [
         "Rust"
