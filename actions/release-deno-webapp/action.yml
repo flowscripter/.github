@@ -18,6 +18,10 @@ runs:
       uses: actions/setup-node@v2
       with:
         node-version: 16
+    - name: Install Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
     - name: Perform release
       run: |
         zip -j ${{ runner.temp }}/${{ inputs.name }}.zip html/*
