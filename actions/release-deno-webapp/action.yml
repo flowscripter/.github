@@ -24,7 +24,6 @@ runs:
         deno-version: v1.x
     - name: Perform release
       run: |
-        zip -j ${{ runner.temp }}/${{ inputs.name }}.zip html/*
         cat <<EOT > .releaserc
         ---
         branches:
@@ -35,7 +34,7 @@ runs:
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
           - - "@semantic-release/exec"
-            - prepareCmd: "deno bundle mod.ts html/mod.bundle.js"
+            - prepareCmd: "deno bundle mod.ts html/mod.bundle.js && zip -j ${{ runner.temp }}/${{ inputs.name }}.zip html/*"
           - - "@semantic-release/github"
             - assets:
                 - path: ${{ runner.temp }}/${{ inputs.name }}.zip
