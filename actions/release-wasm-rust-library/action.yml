@@ -26,8 +26,6 @@ runs:
         node-version: 16
     - name: Perform release
       run: |
-        cargo install semantic-release-rust --version 1.0.0-alpha.8
-        cargo install wasm-pack
         cat <<EOT > .releaserc
         ---
         branches:
@@ -49,6 +47,8 @@ runs:
               - Cargo.toml
               - Cargo.lock
         EOT
+        cargo install semantic-release-rust --version 1.0.0-alpha.8
+        cargo install wasm-pack
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
       shell: bash

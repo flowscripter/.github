@@ -58,6 +58,7 @@ runs:
               - path: ${{ runner.temp }}/target/x86_64-unknown-linux-gnu/release/lib${{ inputs.name }}.so
                 name: "lib${{ inputs.name }}.so"
         EOT
+        cargo install semantic-release-rust --version 1.0.0-alpha.8
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
       shell: bash
