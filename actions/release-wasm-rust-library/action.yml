@@ -28,8 +28,6 @@ runs:
       run: |
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cargo install wasm-pack
-        wasm-pack build --target web --scope ${{ inputs.scope }} --release
-        jq '. |= . + {"publishConfig": {"access": "public"}}' pkg/package.json > pkg/package.json.tmp && mv pkg/package.json.tmp pkg/package.json
         cat <<EOT > .releaserc
         ---
         branches:
@@ -39,13 +37,13 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
+          - - "@semantic-release/exec"
+            - verifyConditionsCmd: "semantic-release-rust verify-conditions && wasm-pack build --target web --scope ${{ inputs.scope }} --release && jq '. |= . + {\"publishConfig\": {\"access\": \"public\"}}' pkg/package.json > pkg/package.json.tmp && mv pkg/package.json.tmp pkg/package.json"
+              prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check"
+              publishCmd: "cargo publish --no-verify"
           - - "@semantic-release/github"
           - - "@semantic-release/npm"
             - pkgRoot: ./pkg
-          - - "@semantic-release/exec"
-            - verifyConditionsCmd: "semantic-release-rust verify-conditions"
-              prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
-              publishCmd: "semantic-release-rust publish"
           - - "@semantic-release/git"
             - assets:
               - Cargo.toml
