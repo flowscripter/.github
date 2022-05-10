@@ -1,0 +1,22 @@
+name: test-deno-webapp
+description: 'Test Deno webapp'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Install Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Behave Tests
+      run: |
+        deno bundle mod.ts html/mod.bundle.js
+        cd functional_tests 
+        pip3 install -r pip-requirements.txt
+        behave
+      shell: bash

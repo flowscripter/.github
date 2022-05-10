@@ -1,0 +1,38 @@
+name: release-deno-webapp
+description: 'Release Deno webapp to GitHub'
+inputs:
+  name:
+    description: 'Webapp name'
+    required: true
+  github-token:
+    description: 'Github token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - name: Perform release
+      run: |
+        zip -j ${{ runner.temp }}/${{ inputs.name }}.zip html/*
+        cat <<EOT > .releaserc
+        ---
+        branches:
+          - main
+        plugins:
+          - - "@semantic-release/commit-analyzer"
+            - preset: conventionalcommits
+          - - "@semantic-release/release-notes-generator"
+            - preset: conventionalcommits
+          - - "@semantic-release/github"
+            - assets:
+                - path: ${{ runner.temp }}/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-\${nextRelease.version}.zip'
+        EOT
+        npm install conventional-changelog-conventionalcommits
+        npx semantic-release
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}

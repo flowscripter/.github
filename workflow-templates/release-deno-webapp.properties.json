@@ -1,0 +1,8 @@
+{
+    "name": "Release a Deno Webapp Workflow",
+    "description": "Run Deno tests, compile and test Deno webapp and perform a semantic versioned release",
+    "iconName": "example-icon",
+    "categories": [
+        "Deno"
+    ]
+}
