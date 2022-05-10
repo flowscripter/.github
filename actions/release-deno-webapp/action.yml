@@ -30,12 +30,14 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
+          - - "@semantic-release/exec"
+            - prepareCmd: "deno bundle mod.ts html/mod.bundle.js"
           - - "@semantic-release/github"
             - assets:
                 - path: ${{ runner.temp }}/${{ inputs.name }}.zip
                   name: '${{ inputs.name }}-\${nextRelease.version}.zip'
         EOT
-        npm install conventional-changelog-conventionalcommits
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
         npx semantic-release
       shell: bash
       env:
