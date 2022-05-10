@@ -38,7 +38,6 @@ runs:
           - - "@semantic-release/git"
             - assets: 
               - Cargo.toml
-              - Cargo.lock
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
         npx semantic-release
