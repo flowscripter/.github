@@ -13,12 +13,9 @@ runs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Build webapp
-      run: |
-        deno bundle mod.ts html/mod.bundle.js
-      shell: bash
     - name: Behave Tests
       run: |
+        deno bundle mod.ts html/mod.bundle.js
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         behave
