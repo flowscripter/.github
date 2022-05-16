@@ -15,7 +15,7 @@ runs:
         python-version: 3.8
     - name: Behave Tests
       run: |
-        deno compile --unstable --output functional_tests/executable mod.ts
+        deno compile --unstable --allow-env --allow-read --allow-write --allow-ffi --allow-net --output functional_tests/executable mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         export EXECUTABLE=./executable
