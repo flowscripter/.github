@@ -42,7 +42,7 @@ runs:
             - preset: conventionalcommits
           - - "@semantic-release/exec"
             - verifyConditionsCmd: "semantic-release-rust verify-conditions"
-              prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check && deno_bindgen --release https://github.com/${{ env.GITHUB_REPOSITORY }}/releases/tag/v\${nextRelease.version}"
+              prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check && deno_bindgen --release https://github.com/${{ github.repository }}/releases/download/v\${nextRelease.version}"
               publishCmd: "cargo publish --no-verify"
           - - "@semantic-release/git"
             - assets: 
