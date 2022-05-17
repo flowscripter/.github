@@ -22,7 +22,7 @@ runs:
       uses: denoland/setup-deno@v1
       with:
         deno-version: v1.x
-    - name: Perform release
+    - name: Perform release and publish demo
       run: |
         cat <<EOT > .releaserc
         ---
@@ -34,13 +34,17 @@ runs:
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
           - - "@semantic-release/exec"
-            - prepareCmd: "deno bundle mod.ts html/mod.bundle.js && zip -j ${{ runner.temp }}/${{ inputs.name }}.zip html/*"
+            - prepareCmd: "deno bundle mod.ts html/mod.bundle.js && zip -j ${{ runner.temp }}/${{ inputs.name }}.zip html/* && touch html/.nojekyll"
           - - "@semantic-release/github"
             - assets:
                 - path: ${{ runner.temp }}/${{ inputs.name }}.zip
                   name: '${{ inputs.name }}-\${nextRelease.version}.zip'
+          - - "@qiwi/semantic-release-gh-pages-plugin"
+            - msg: "site published \${nextRelease.version}"
+            - src: "html"
+            - dotfiles: true
         EOT
-        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @qiwi/semantic-release-gh-pages-plugin
         npx semantic-release
       shell: bash
       env:
