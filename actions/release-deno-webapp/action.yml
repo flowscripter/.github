@@ -44,7 +44,7 @@ runs:
               src: "html"
               dotfiles: true
         EOT
-        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @qiwi/semantic-release-gh-pages-plugin
+        npm install conventional-changelog-conventionalcommits @semantic-release/exec @qiwi/semantic-release-gh-pages-plugin
         npx semantic-release
       shell: bash
       env:
