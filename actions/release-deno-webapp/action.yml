@@ -41,8 +41,8 @@ runs:
                   name: '${{ inputs.name }}-\${nextRelease.version}.zip'
           - - "@qiwi/semantic-release-gh-pages-plugin"
             - msg: "site published \${nextRelease.version}"
-            - src: "html"
-            - dotfiles: true
+              src: "html"
+              dotfiles: true
         EOT
         npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @qiwi/semantic-release-gh-pages-plugin
         npx semantic-release
