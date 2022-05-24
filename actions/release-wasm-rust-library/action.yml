@@ -1,14 +1,11 @@
 name: release-wasm-rust-library
-description: 'Release Wasm Rust library to GitHub and publish package to NPM'
+description: 'Release Wasm Rust library to GitHub and crates.io'
 inputs:
-  scope:
-    description: 'Package scope'
+  name:
+    description: 'Library name'
     required: true
   github-token:
     description: 'Github token'
-    required: true
-  npm-token:
-    description: 'NPM token'
     required: true
   cargo-registry-token:
     description: 'Crates.io token'
@@ -36,12 +33,19 @@ runs:
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
           - - "@semantic-release/exec"
-            - verifyConditionsCmd: "semantic-release-rust verify-conditions && wasm-pack build --target web --scope ${{ inputs.scope }} --release && jq '. |= . + {\"publishConfig\": {\"access\": \"public\"}}' pkg/package.json > pkg/package.json.tmp && mv pkg/package.json.tmp pkg/package.json"
+            - verifyConditionsCmd: "semantic-release-rust verify-conditions && wasm-pack build --target web --release"
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check"
               publishCmd: "cargo publish --no-verify"
           - - "@semantic-release/github"
-          - - "@semantic-release/npm"
-            - pkgRoot: ./pkg
+            - assets:
+              - path: pkg/${{ inputs.name }}.js
+                name: "${{ inputs.name }}.js"
+              - path: pkg/${{ inputs.name }}.d.ts
+                name: "${{ inputs.name }}.d.ts"
+              - path: pkg/${{ inputs.name }}_bg.wasm
+                name: "${{ inputs.name }}_bg.wasm"
+              - path: pkg/${{ inputs.name }}_bg.wasm.d.ts
+                name: "${{ inputs.name }}_bg.wasm.d.ts"
           - - "@semantic-release/git"
             - assets:
               - Cargo.toml
@@ -54,5 +58,4 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-        NPM_TOKEN: ${{ inputs.npm-token }}
         CARGO_REGISTRY_TOKEN: ${{ inputs.cargo-registry-token }}
