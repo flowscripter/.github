@@ -43,6 +43,7 @@ runs:
             - msg: "site published \${nextRelease.version}"
               src: "html"
               dotfiles: true
+              add: true
         EOT
         npm install conventional-changelog-conventionalcommits @semantic-release/exec @qiwi/semantic-release-gh-pages-plugin
         npx semantic-release

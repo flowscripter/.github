@@ -45,6 +45,7 @@ runs:
             - msg: "release published \${nextRelease.version}"
               src: "pkg"
               dotfiles: true
+              add: true
         EOT
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cargo install wasm-pack
