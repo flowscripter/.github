@@ -33,7 +33,7 @@ runs:
           - - "@semantic-release/release-notes-generator"
             - preset: conventionalcommits
           - - "@semantic-release/exec"
-            - verifyConditionsCmd: "semantic-release-rust verify-conditions && wasm-pack build --target web --release"
+            - verifyConditionsCmd: "semantic-release-rust verify-conditions && wasm-pack build --target web --release && rm pkg/package.json"
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check"
               publishCmd: "cargo publish --no-verify"
           - - "@semantic-release/github"
@@ -50,10 +50,14 @@ runs:
             - assets:
               - Cargo.toml
               - Cargo.lock
+          - - "@qiwi/semantic-release-gh-pages-plugin"
+            - msg: "release published \${nextRelease.version}"
+              src: "pkg"
+              dotfiles: true
         EOT
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cargo install wasm-pack
-        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git @qiwi/semantic-release-gh-pages-plugin
         npx semantic-release
       shell: bash
       env:
