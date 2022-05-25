@@ -37,15 +37,6 @@ runs:
               prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check"
               publishCmd: "cargo publish --no-verify"
           - - "@semantic-release/github"
-            - assets:
-              - path: pkg/${{ inputs.name }}.js
-                name: "${{ inputs.name }}.js"
-              - path: pkg/${{ inputs.name }}.d.ts
-                name: "${{ inputs.name }}.d.ts"
-              - path: pkg/${{ inputs.name }}_bg.wasm
-                name: "${{ inputs.name }}_bg.wasm"
-              - path: pkg/${{ inputs.name }}_bg.wasm.d.ts
-                name: "${{ inputs.name }}_bg.wasm.d.ts"
           - - "@semantic-release/git"
             - assets:
               - Cargo.toml
