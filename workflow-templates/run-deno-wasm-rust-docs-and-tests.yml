@@ -1,0 +1,20 @@
+name: run-deno-wasm-rust-docs-and-tests
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deno Docs
+        uses: flowscripter/.github/actions/generate-deno-docs@v1
+      - name: Rust Docs
+        uses: flowscripter/.github/actions/generate-rust-docs@v1
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Test Rust and WASM exposed as a Deno module
+        uses: flowscripter/.github/actions/run-deno-wasm-rust-tests@v1
