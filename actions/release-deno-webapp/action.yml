@@ -1,5 +1,5 @@
 name: release-deno-webapp
-description: 'Release Deno webapp to GitHub'
+description: 'Release Deno webapp to GitHub and GitHub Pages'
 inputs:
   name:
     description: 'Webapp name'

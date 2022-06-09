@@ -16,5 +16,5 @@ jobs:
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
-      - name: Test Deno
+      - name: Test Rust and Deno with FFI Bindings
         uses: flowscripter/.github/actions/run-deno-rust-tests@v1

@@ -1,5 +1,5 @@
 name: release-wasm-rust-library
-description: 'Release Wasm Rust library to GitHub and crates.io'
+description: 'Release Wasm Rust library to GitHub, GitHub Pages and crates.io'
 inputs:
   name:
     description: 'Library name'
