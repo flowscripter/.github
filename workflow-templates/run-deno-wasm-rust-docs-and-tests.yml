@@ -6,10 +6,8 @@ jobs:
   check-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate WASM
-        run: cargo install wasm-pack && wasm-pack build --target web
-      - name: Deno Docs
-        uses: flowscripter/.github/actions/generate-deno-docs@v1
+      - name: Deno Wasm Docs
+        uses: flowscripter/.github/actions/generate-deno-wasm-docs@v1
       - name: Rust Docs
         uses: flowscripter/.github/actions/generate-rust-docs@v1
   test:
