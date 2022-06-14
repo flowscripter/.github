@@ -24,4 +24,4 @@ jobs:
         uses: flowscripter/.github/actions/release-deno-webapp@v1
         with:
           name: template-deno-webapp
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.COMMIT_TOKEN }}
