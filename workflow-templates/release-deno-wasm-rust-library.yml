@@ -1,0 +1,10 @@
+name: release-deno-wasm-rust-library
+on:
+  push:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Rust and WASM exposed as a Deno module
+        uses: flowscripter/.github/actions/run-deno-wasm-rust-tests@v1
