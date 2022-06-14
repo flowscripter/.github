@@ -5,8 +5,22 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v2
-    - name: Run tests
+    - name: Run Rust tests
+      run: |
+        rustup default nightly
+        cargo install grcov
+        rustup component add llvm-tools-preview
+        cargo clean
+        cargo test
+        grcov . --binary-path ./target/debug -s . -t lcov --branch -o ./coverage.lcov
+      shell: bash
+    - name: Publish coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        file: ./coverage.lcov
+    - name: Run WASM tests
       run: |
         cargo install wasm-pack  
+        cargo clean
         wasm-pack test --headless --firefox
       shell: bash
