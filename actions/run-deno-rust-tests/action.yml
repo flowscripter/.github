@@ -23,7 +23,7 @@ runs:
         grcov . --binary-path ./target/debug -s . -t lcov --branch -o ./coverage.lcov
       shell: bash
       env:
-        RUSTFLAGS: -Zinstrument-coverage
+        RUSTFLAGS: -Cinstrument-coverage
         LLVM_PROFILE_FILE: "%p-%m.profraw"
     - name: Run Deno tests
       run: |
