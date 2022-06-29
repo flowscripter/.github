@@ -1,4 +1,4 @@
-name: check-rust-dependencies
+name: check-deno-rust-dependencies
 on:
   schedule:
     - cron:  '0 0 * * *'
