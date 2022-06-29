@@ -1,0 +1,10 @@
+{
+  "name": "Check Rust with WASM exposed as a Deno Module Dependencies Workflow",
+  "description": "Check for Deno and Rust dependencies updates, raise a PR if required, auto-merge if checks pass",
+  "iconName": "example-icon",
+  "categories": [
+    "Deno",
+    "Rust",
+    "WASM"
+  ]
+}
