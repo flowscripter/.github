@@ -1,4 +1,4 @@
-name: format-deno
+name: format-deno-code
 on:
   pull_request:
     branches: [main]

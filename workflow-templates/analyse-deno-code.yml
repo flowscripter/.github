@@ -1,4 +1,4 @@
-name: analyse-javascript-code
+name: analyse-deno-code
 on:
   push:
     branches: [main]
