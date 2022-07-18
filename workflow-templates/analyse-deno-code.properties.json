@@ -1,8 +1,9 @@
 {
-    "name": "Analyse Javascript Code Workflow",
+    "name": "Analyse Deno Code Workflow",
     "description": "Perform static analysis",
     "iconName": "example-icon",
     "categories": [
-        "TypeScript"
+        "TypeScript",
+        "Deno"
     ]
 }

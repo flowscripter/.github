@@ -16,3 +16,9 @@ jobs:
           languages: javascript
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v2
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Lint source
+        run: deno lint mod.ts deps.ts src/ tests/
