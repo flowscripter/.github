@@ -18,7 +18,7 @@ jobs:
           deno_bindgen
       - name: Update Deno dependencies
         run: |
-          deno install -A -f -n udd https://deno.land/x/udd@0.5.0/main.ts
+          deno install -A -f -n udd https://deno.land/x/udd/main.ts
           udd deps.ts --test="deno test -A --unstable"
           udd tests/test_deps.ts --test="deno test -A --unstable"
       - name: Setup Cargo Edit
