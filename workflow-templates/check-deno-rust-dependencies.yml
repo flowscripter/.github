@@ -27,7 +27,7 @@ jobs:
       - name: Update Rust dependencies
         run: |
           cargo update
-          cargo upgrade
+          cargo upgrade --incompatible
       - name: Create PR
         id: create-pr
         uses: peter-evans/create-pull-request@v3
