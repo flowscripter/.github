@@ -13,7 +13,7 @@ runs:
     - name: Install Node
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
     - name: Perform release
       run: |
         zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe

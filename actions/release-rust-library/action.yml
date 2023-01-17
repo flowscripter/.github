@@ -17,7 +17,7 @@ runs:
     - name: Install Node
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
     - name: Perform release
       run: |
         cat <<EOT > .releaserc
