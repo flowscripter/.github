@@ -1,5 +1,9 @@
 name: test-deno-webapp
 description: 'Test Deno webapp'
+inputs:
+  github-token:
+    description: 'Github token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -13,6 +17,14 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.12
+    - name: Install Firefox
+      uses: browser-actions/setup-firefox@v1
+      with:
+        firefox-version: 'latest'
+    - name: Install gecko driver
+      uses: browser-actions/setup-geckodriver@latest
+      with:
+        token: ${{ inputs.github-token }}
     - name: Behave Tests
       run: |
         deno bundle mod.ts html/mod.bundle.js
