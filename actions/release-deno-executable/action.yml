@@ -11,9 +11,9 @@ runs:
   using: "composite"
   steps:
     - name: Install Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
     - name: Perform release
       run: |
         zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
