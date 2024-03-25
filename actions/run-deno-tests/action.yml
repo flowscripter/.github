@@ -11,8 +11,8 @@ runs:
         deno-version: v1.x
     - name: Run tests
       run: |
-        deno test --allow-read -A --unstable --coverage=coverage
-        deno coverage --unstable ./coverage --lcov > ./coverage/coverage.lcov
+        deno test --allow-read -A --coverage=coverage
+        deno coverage ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish coverage report
       uses: codecov/codecov-action@v4

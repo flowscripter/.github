@@ -26,8 +26,8 @@ runs:
     - name: Run Deno tests
       run: |
         wasm-pack build --target web
-        deno test -A --unstable --coverage=coverage
-        deno coverage --exclude=bindings --unstable ./coverage --lcov > ./coverage/coverage.lcov
+        deno test -A --coverage=coverage
+        deno coverage --exclude=bindings ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish Deno Rust coverage report
       uses: codecov/codecov-action@v4
