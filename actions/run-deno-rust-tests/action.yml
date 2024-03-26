@@ -31,7 +31,7 @@ runs:
         LLVM_PROFILE_FILE: "%p-%m.profraw"
     - name: Run Deno tests
       run: |
-        deno test -A --coverage=coverage
+        deno test --allow-read --allow-ffi --allow-env --unstable-ffi -A --coverage=coverage
         deno coverage --exclude=bindings ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish Deno Rust coverage report
