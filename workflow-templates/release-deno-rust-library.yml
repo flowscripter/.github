@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Test Rust and Deno
         uses: flowscripter/.github/actions/run-deno-rust-tests@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
   release:
     runs-on: macOS-latest
     needs:

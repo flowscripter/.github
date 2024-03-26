@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Test Rust
         uses: flowscripter/.github/actions/run-rust-tests@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
   release:
     runs-on: ubuntu-latest
     needs:

@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Test Wasm Rust
         uses: flowscripter/.github/actions/run-wasm-rust-tests@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
   release:
     runs-on: ubuntu-latest
     needs:

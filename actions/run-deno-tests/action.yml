@@ -1,5 +1,9 @@
 name: run-deno-tests
 description: 'Run Deno Tests'
+inputs:
+  codecov-token:
+    description: 'Codecov token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -18,3 +22,5 @@ runs:
       uses: codecov/codecov-action@v4
       with:
         file: ./coverage/coverage.lcov
+      env:
+        CODECOV_TOKEN: ${{ inputs.codecov-token }}

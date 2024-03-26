@@ -1,5 +1,9 @@
 name: run-wasm-rust-tests
 description: 'Run Rust Wasm Tests'
+inputs:
+  codecov-token:
+    description: 'Codecov token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -21,6 +25,8 @@ runs:
       uses: codecov/codecov-action@v4
       with:
         file: ./coverage.lcov
+      env:
+        CODECOV_TOKEN: ${{ inputs.codecov-token }}
     - name: Run WASM tests
       run: |
         cargo install wasm-pack  

@@ -1,5 +1,9 @@
 name: run-deno-wasm-rust-tests
 description: 'Run Rust with WASM exposed as a Deno module Tests'
+inputs:
+  codecov-token:
+    description: 'Codecov token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -33,3 +37,5 @@ runs:
       uses: codecov/codecov-action@v4
       with:
         files: ./coverage.lcov,./coverage/coverage.lcov
+      env:
+        CODECOV_TOKEN: ${{ inputs.codecov-token }}

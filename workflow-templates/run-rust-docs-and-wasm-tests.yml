@@ -13,3 +13,5 @@ jobs:
     steps:
       - name: Test Rust Wasm
         uses: flowscripter/.github/actions/run-wasm-rust-tests@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
