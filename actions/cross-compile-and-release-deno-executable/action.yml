@@ -1,0 +1,68 @@
+name: cross-compile-and-release-deno-executable
+description: 'Cross-compile (with release version available) and Release Deno Executable'
+inputs:
+  name:
+    description: 'Executable name'
+    required: true
+  github-token:
+    description: 'Github token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Install Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Perform release
+      run: |
+        cat <<EOT > cross-compile.sh
+        #!/bin/sh
+        mkdir ${{ runner.temp }}/x86_64-pc-windows-msvc
+        mkdir ${{ runner.temp }}/x86_64-unknown-linux-gnu
+        mkdir ${{ runner.temp }}/aarch64-apple-darwin
+        deno compile --allow-env --target x86_64-pc-windows-msvc --output ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }} mod.ts
+        deno compile --allow-env --target x86_64-unknown-linux-gnu --output ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }} mod.ts
+        deno compile --allow-env --target aarch64-apple-darwin --output ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }} mod.ts
+        zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.exe
+        zip -j ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}
+        zip -j ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }}.zip ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }}
+        EOT
+        chmod +x cross-compile.sh
+        cat <<EOT > .releaserc
+        ---
+        branches:
+          - main
+        plugins:
+          - - "@semantic-release/commit-analyzer"
+            - preset: conventionalcommits
+          - - "@semantic-release/release-notes-generator"
+            - preset: conventionalcommits
+          - - "@semantic-release/exec"
+            - prepareCmd: "mkdir ../v\${nextRelease.version} && cp -R * ../v\${nextRelease.version} && cd ../v\${nextRelease.version} && ./cross-compile.sh"
+          - - "@semantic-release/github"
+            - assets:
+                - path: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-Windows-\${nextRelease.version}.zip'
+                - path: ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-Linux-\${nextRelease.version}.zip'
+                - path: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.name }}.zip
+                  name: '${{ inputs.name }}-macOS-\${nextRelease.version}.zip'
+        EOT
+        npm install conventional-changelog-conventionalcommits @semantic-release/exec
+        npx semantic-release
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+
+
+
+    - name: Cross-Compile
+      run: |
+      shell: bash
