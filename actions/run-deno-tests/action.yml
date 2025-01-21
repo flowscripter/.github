@@ -15,7 +15,7 @@ runs:
         deno-version: v2.x
     - name: Run tests
       run: |
-        deno test --allow-read --allow-ffi --allow-env --unstable-ffi -A --coverage=coverage
+        deno test --allow-read --allow-ffi --allow-env --unstable-ffi --coverage=coverage
         deno coverage ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish coverage report
