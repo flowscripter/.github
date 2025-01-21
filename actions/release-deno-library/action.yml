@@ -27,7 +27,7 @@ runs:
           - - "@semantic-release/github"
           - - "@sebbo2002/semantic-release-jsr"
         EOT
-        npm install --no-save conventional-changelog-conventionalcommits
+        npm install --no-save conventional-changelog-conventionalcommits @sebbo2002/semantic-release-jsr
         npx semantic-release
       shell: bash
       env:
