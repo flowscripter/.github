@@ -10,9 +10,9 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
       - name: Install Deno
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
       - name: Update dependencies
         run: |
           deno install -A -f -n udd https://deno.land/x/udd/main.ts
@@ -20,7 +20,7 @@ jobs:
           udd tests/test_deps.ts --test="deno test -A"
       - name: Create PR
         id: create-pr
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
           commit-message: 'chore: update dependencies'

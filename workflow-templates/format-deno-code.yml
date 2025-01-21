@@ -9,8 +9,8 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
       - name: Install Deno
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
       - name: Format source
         run: deno fmt --check mod.ts deps.ts src/ tests/

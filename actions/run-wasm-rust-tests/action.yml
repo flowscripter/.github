@@ -22,7 +22,7 @@ runs:
         RUSTFLAGS: -Cinstrument-coverage
         LLVM_PROFILE_FILE: "%p-%m.profraw"
     - name: Publish coverage report
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         file: ./coverage.lcov
       env:
