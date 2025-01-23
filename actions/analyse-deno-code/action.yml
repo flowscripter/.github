@@ -17,5 +17,5 @@ runs:
         deno-version: v2.x
     - name: Lint source
       run: |
-        deno lint mod.ts deps.ts src/ tests/
+        deno lint mod.ts src/ tests/
       shell: bash

@@ -11,5 +11,5 @@ runs:
         deno-version: v2.x
     - name: Check code format
       run: |
-        deno fmt --check mod.ts deps.ts src/ tests/
+        deno fmt --check mod.ts src/ tests/
       shell: bash
