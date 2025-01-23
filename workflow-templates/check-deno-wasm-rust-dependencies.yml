@@ -7,41 +7,7 @@ jobs:
   update-dependencies:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
+      - name: Check Deno and Rust exposed as WASM Dependencies
+        uses: flowscripter/.github/actions/check-deno-wasm-rust-dependencies@v1
         with:
-          deno-version: v2.x
-      - name: Build
-        run: |
-          cargo install wasm-pack
-          wasm-pack build --target web
-      - name: Update Deno dependencies
-        run: |
-          deno install -A -f -n udd https://deno.land/x/udd/main.ts
-          udd deps.ts --test="deno test -A"
-          udd tests/test_deps.ts --test="deno test -A"
-      - name: Setup Cargo Edit
-        run: cargo install cargo-edit
-      - name: Update Rust dependencies
-        run: |
-          cargo update
-          cargo upgrade --incompatible
-      - name: Create PR
-        id: create-pr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.CREATE_PR_TOKEN }}
-          commit-message: 'chore: update dependencies'
-          title: 'chore: update dependencies'
-          body: |
-            chore: update dependencies
-          branch: update-dependencies
-      - name: Enable Pull Request Automerge
-        if: steps.create-pr.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.CREATE_PR_TOKEN }}
-          pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
-          merge-method: squash
+          pr-token: ${{ secrets.CREATE_PR_TOKEN }}

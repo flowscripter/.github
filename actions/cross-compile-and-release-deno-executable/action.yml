@@ -60,9 +60,3 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-
-
-
-    - name: Cross-Compile
-      run: |
-      shell: bash

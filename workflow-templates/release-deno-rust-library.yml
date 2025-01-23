@@ -17,6 +17,8 @@ jobs:
     runs-on: macOS-latest
     needs:
       - test
+    permissions:
+      contents: write
     steps:
       - name: Cross-Compile Rust
         uses: flowscripter/.github/actions/cross-compile-deno-rust-library@v1

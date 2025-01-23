@@ -1,0 +1,14 @@
+name: analyse-rust-code
+description: 'Analyse Rust Code'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Setup and Run Clippy and Cargo Audit
+      run: |
+        rustup component add clippy
+        cargo clippy
+        cargo install cargo-audit
+        cargo audit
+      shell: bash

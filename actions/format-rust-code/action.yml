@@ -1,0 +1,11 @@
+name: format-rust-code
+description: 'Format Rust Code'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Check code format
+      run: |
+        cargo fmt -- --check
+      shell: bash

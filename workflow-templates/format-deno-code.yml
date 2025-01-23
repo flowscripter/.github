@@ -6,11 +6,5 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Install Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-      - name: Format source
-        run: deno fmt --check mod.ts deps.ts src/ tests/
+      - name: Format Deno Code
+        uses: flowscripter/.github/actions/format-deno-code@v1

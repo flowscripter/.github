@@ -6,7 +6,5 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Format source
-        run: cargo fmt -- --check
+      - name: Format Rust Code
+        uses: flowscripter/.github/actions/format-rust-code@v1

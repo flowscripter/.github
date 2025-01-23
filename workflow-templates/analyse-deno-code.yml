@@ -8,17 +8,5 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v3
-      - name: Install Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-      - name: Lint source
-        run: deno lint mod.ts deps.ts src/ tests/
+      - name: Analyse Deno Code
+        uses: flowscripter/.github/actions/analyse-deno-code@v1
