@@ -18,7 +18,7 @@ runs:
         rustup default nightly
         cargo install grcov
         rustup component add llvm-tools-preview
-        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+        deno install --global -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
       shell: bash
     - name: Run Rust tests
       run: |

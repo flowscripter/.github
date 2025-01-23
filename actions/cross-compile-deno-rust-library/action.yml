@@ -16,7 +16,7 @@ runs:
         deno-version: v2.x
     - name: Setup Rust and Deno
       run: |
-        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+        deno install --global -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
         rustup target add aarch64-apple-darwin
         rustup target add x86_64-pc-windows-gnu
         rustup target add x86_64-unknown-linux-gnu

@@ -27,7 +27,7 @@ runs:
         deno-version: v2.x
     - name: Setup Deno
       run: |
-        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+        deno install --global -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
       shell: bash
     - name: Perform release
       run: |

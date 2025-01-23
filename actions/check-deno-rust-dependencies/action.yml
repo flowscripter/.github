@@ -15,7 +15,7 @@ runs:
         deno-version: v2.x
     - name: Setup deno bindgen and cargo edit, build and update dependencies
       run: |
-        deno install -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
+        deno install --global -Afq -n deno_bindgen https://deno.land/x/deno_bindgen/cli.ts
         deno_bindgen
         deno outdated --update --latest
         deno test -A
