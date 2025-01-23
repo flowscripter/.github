@@ -1,0 +1,8 @@
+{
+    "name": "Rust Docs and Test Workflow",
+    "description": "Generate API docs, run Rust tests across Windows, Ubuntu and macOS",
+    "iconName": "example-icon",
+    "categories": [
+        "Rust"
+    ]
+}
