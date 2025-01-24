@@ -3,8 +3,6 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Format Deno Code
-        uses: flowscripter/.github/actions/format-deno-code@v1
+  call-format-deno-code:
+    uses: flowscripter/.github/workflows/format-deno-code.yml@v1
+    secrets: inherit

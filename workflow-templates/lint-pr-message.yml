@@ -6,9 +6,6 @@ on:
       - edited
       - synchronize
 jobs:
-  lint-pr:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: flowscripter/.github/actions/lint-pr-message@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+  call-lint-pr-message:
+    uses: flowscripter/.github/workflows/lint-pr-message.yml@v1
+    secrets: inherit

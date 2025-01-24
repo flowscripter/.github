@@ -4,10 +4,6 @@ on:
   schedule:
     - cron:  '0 0 * * *'
 jobs:
-  update-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Deno Dependencies
-        uses: flowscripter/.github/actions/check-deno-dependencies@v1
-        with:
-          pr-token: ${{ secrets.CREATE_PR_TOKEN }}
+  call-check-deno-dependencies:
+    uses: flowscripter/.github/workflows/check-deno-dependencies.yml@v1
+    secrets: inherit

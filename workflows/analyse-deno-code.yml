@@ -1,0 +1,23 @@
+name: analyse-deno-code
+on:
+  workflow_call
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Lint source
+        run: |
+          deno lint mod.ts src/ tests/
+        shell: bash

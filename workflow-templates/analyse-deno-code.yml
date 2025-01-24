@@ -5,8 +5,6 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  analyze:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Analyse Deno Code
-        uses: flowscripter/.github/actions/analyse-deno-code@v1
+  call-analyse-deno-code:
+    uses: flowscripter/.github/workflows/analyse-deno-code.yml@v1
+    secrets: inherit
