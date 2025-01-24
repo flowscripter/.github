@@ -4,5 +4,5 @@ on:
     branches: [main]
 jobs:
   call-format-deno-code:
-    uses: flowscripter/.github/workflows/format-deno-code.yml@v1
+    uses: flowscripter/.github/.github/workflows/format-deno-code.yml@v1
     secrets: inherit

@@ -5,5 +5,5 @@ on:
     - cron:  '0 0 * * *'
 jobs:
   call-check-deno-dependencies:
-    uses: flowscripter/.github/workflows/check-deno-dependencies.yml@v1
+    uses: flowscripter/.github/.github/workflows/check-deno-dependencies.yml@v1
     secrets: inherit

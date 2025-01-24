@@ -6,5 +6,5 @@ on:
     branches: [main]
 jobs:
   call-analyse-deno-code:
-    uses: flowscripter/.github/workflows/analyse-deno-code.yml@v1
+    uses: flowscripter/.github/.github/workflows/analyse-deno-code.yml@v1
     secrets: inherit
