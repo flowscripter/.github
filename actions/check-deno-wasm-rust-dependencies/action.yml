@@ -16,7 +16,7 @@ runs:
     - name: Setup deno, wasm and cargo edit, build and update dependencies
       run: |
         deno outdated --update --latest
-        deno test -A
+        deno test -A --permit-no-files
         cargo install wasm-pack
         wasm-pack build --target web
         cargo install cargo-edit

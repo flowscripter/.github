@@ -1,8 +1,0 @@
-{
-    "name": "Deno Docs Workflow",
-    "description": "Generate API docs",
-    "iconName": "example-icon",
-    "categories": [
-        "Deno"
-    ]
-}

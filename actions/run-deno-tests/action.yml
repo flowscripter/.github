@@ -10,15 +10,18 @@ runs:
     - name: Checkout source
       uses: actions/checkout@v4
     - name: Install Deno
+      if: ${{ hashFiles('tests/') != '' }}
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
     - name: Run tests
+      if: ${{ hashFiles('tests/') != '' }}
       run: |
         deno test --allow-read --allow-ffi --allow-env --unstable-ffi --coverage=coverage
         deno coverage ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish coverage report
+      if: ${{ hashFiles('tests/') != '' }}
       uses: codecov/codecov-action@v5
       with:
         file: ./coverage/coverage.lcov
