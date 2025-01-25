@@ -1,7 +1,6 @@
-name: test-deno-executable
+name: run-deno-executable-tests
 on:
-  pull_request:
-    branches: [main]
+  workflow_call
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -10,4 +9,4 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-14]
     steps:
       - name: Test Deno Executable
-        uses: flowscripter/.github/actions/test-deno-executable@v1
+        uses: flowscripter/.github/actions/run-deno-executable-tests@v1

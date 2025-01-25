@@ -1,5 +1,5 @@
-name: test-deno-executable-non-compiled
-description: 'Test Deno executable non-compiled - workaround compiled Deno not supporting dynamic import'
+name: run-deno-executable-tests
+description: 'Run Deno executable tests'
 runs:
   using: "composite"
   steps:
@@ -18,6 +18,6 @@ runs:
         deno compile --unstable --allow-env --allow-read --allow-write --allow-ffi --allow-net --output functional_tests/executable mod.ts
         cd functional_tests 
         pip3 install -r pip-requirements.txt
-        export EXECUTABLE="deno run --allow-net ../mod.ts"
+        export EXECUTABLE=./executable
         behave
       shell: bash

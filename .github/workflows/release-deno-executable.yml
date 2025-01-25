@@ -1,0 +1,85 @@
+name: release-deno-executable
+on:
+  workflow_call:
+    inputs:
+      executable-name:
+        required: true
+        type: string
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Test Deno
+        uses: flowscripter/.github/actions/run-deno-tests@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+  test-deno-executable:
+    runs-on: ${{ matrix.os }}
+    needs:
+      - test
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Test Deno Executable
+        uses: flowscripter/.github/actions/run-deno-executable-tests@v1
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - test-deno-executable
+    permissions:
+      contents: write
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Perform release
+        run: |
+          cat <<EOT > cross-compile.sh
+          #!/bin/sh
+          mkdir ${{ runner.temp }}/x86_64-pc-windows-msvc
+          mkdir ${{ runner.temp }}/x86_64-unknown-linux-gnu
+          mkdir ${{ runner.temp }}/aarch64-apple-darwin
+          deno compile --allow-env --target x86_64-pc-windows-msvc --output ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }} mod.ts
+          deno compile --allow-env --target x86_64-unknown-linux-gnu --output ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }} mod.ts
+          deno compile --allow-env --target aarch64-apple-darwin --output ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }} mod.ts
+          zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.exe
+          zip -j ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}.zip ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}
+          zip -j ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}.zip ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}
+          EOT
+          chmod +x cross-compile.sh
+          cat <<EOT > .releaserc
+          ---
+          branches:
+            - main
+          plugins:
+            - - "@semantic-release/commit-analyzer"
+              - preset: conventionalcommits
+            - - "@semantic-release/release-notes-generator"
+              - preset: conventionalcommits
+            - - "@semantic-release/exec"
+              - prepareCmd: "mkdir ../@v\${nextRelease.version} && cp -R * ../@v\${nextRelease.version} && cd ../@v\${nextRelease.version} && ./cross-compile.sh"
+            - - "@semantic-release/github"
+              - assets:
+                  - path: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.zip
+                    name: '${{ inputs.executable-name }}-Windows-\${nextRelease.version}.zip'
+                  - path: ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}.zip
+                    name: '${{ inputs.executable-name }}-Linux-\${nextRelease.version}.zip'
+                  - path: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}.zip
+                    name: '${{ inputs.executable-name }}-macOS-\${nextRelease.version}.zip'
+          EOT
+          npm install conventional-changelog-conventionalcommits @semantic-release/exec
+          npx semantic-release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -20,7 +20,28 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - name: Release Deno
-        uses: flowscripter/.github/actions/release-deno-library@v1
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Node
+        uses: actions/setup-node@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 22
+      - name: Perform release
+        run: |
+          cat <<EOT > .releaserc
+          ---
+          branches:
+            - main
+          plugins:
+            - - "@semantic-release/commit-analyzer"
+              - preset: conventionalcommits
+            - - "@semantic-release/release-notes-generator"
+              - preset: conventionalcommits
+            - - "@semantic-release/github"
+            - - "@sebbo2002/semantic-release-jsr"
+          EOT
+          npm install --no-save conventional-changelog-conventionalcommits @sebbo2002/semantic-release-jsr
+          npx semantic-release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

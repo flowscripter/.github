@@ -1,6 +1,6 @@
 {
     "name": "Test Deno Executable Workflow",
-    "description": "Test Deno executable",
+    "description": "Run Deno executable tests",
     "iconName": "example-icon",
     "categories": [
         "Test",

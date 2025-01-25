@@ -1,0 +1,8 @@
+name: run-deno-executable-tests
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  call-test-deno-executable:
+    uses: flowscripter/.github/.github/workflows/run-deno-executable-tests.yml@v1
+    secrets: inherit
