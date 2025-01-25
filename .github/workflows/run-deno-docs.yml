@@ -1,0 +1,9 @@
+name: run-deno-docs
+on:
+  workflow_call
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deno Docs
+        uses: flowscripter/.github/actions/generate-deno-docs@v1
