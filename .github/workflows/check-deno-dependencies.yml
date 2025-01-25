@@ -2,7 +2,7 @@ name: check-deno-dependencies
 on:
   workflow_call
 jobs:
-  check-deno-dependencies:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source

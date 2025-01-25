@@ -2,7 +2,7 @@ name: format-deno-code
 on:
   workflow_call
 jobs:
-  analyze:
+  format:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
