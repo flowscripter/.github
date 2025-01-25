@@ -1,8 +1,10 @@
 name: analyse-rust-code
-description: 'Analyse Rust Code'
-runs:
-  using: "composite"
-  steps:
+on:
+  workflow_call
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout source
       uses: actions/checkout@v4
     - name: Setup and Run Clippy and Cargo Audit

@@ -5,8 +5,6 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  analyze:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Analyse Rust Code
-        uses: flowscripter/.github/actions/analyse-rust-code@v1
+  call-analyse-rust-code:
+    uses: flowscripter/.github/.github/workflows/analyse-rust-code.yml@v1
+    secrets: inherit

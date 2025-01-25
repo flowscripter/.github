@@ -3,8 +3,6 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Format Rust Code
-        uses: flowscripter/.github/actions/format-rust-code@v1
+  call-format-deno-code:
+    uses: flowscripter/.github/.github/workflows/format-rust-code.yml@v1
+    secrets: inherit

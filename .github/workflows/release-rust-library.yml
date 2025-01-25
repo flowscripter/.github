@@ -1,0 +1,54 @@
+name: release-deno-library
+on:
+  workflow_call
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Test Rust
+        uses: flowscripter/.github/actions/run-rust-tests@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Perform release
+        run: |
+          cat <<EOT > .releaserc
+          ---
+          branches:
+            - main
+          plugins:
+            - - "@semantic-release/commit-analyzer"
+              - preset: conventionalcommits
+            - - "@semantic-release/release-notes-generator"
+              - preset: conventionalcommits
+            - "@semantic-release/github"
+            - - "@semantic-release/exec"
+              - verifyConditionsCmd: "semantic-release-rust verify-conditions"
+                prepareCmd: "semantic-release-rust prepare \${nextRelease.version}"
+                publishCmd: "semantic-release-rust publish"
+            - - "@semantic-release/git"
+              - assets: 
+                - Cargo.toml
+          EOT
+          cargo install semantic-release-rust --version 1.0.0-alpha.8
+          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
+          npx semantic-release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
