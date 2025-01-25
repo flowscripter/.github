@@ -6,3 +6,5 @@ jobs:
   call-release-deno-executable:
     uses: flowscripter/.github/.github/workflows/release-deno-executable.yml@v1
     secrets: inherit
+    with:
+      executable-name: "example"

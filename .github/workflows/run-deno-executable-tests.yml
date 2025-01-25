@@ -6,7 +6,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-14]
+        os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Test Deno Executable
         uses: flowscripter/.github/actions/run-deno-executable-tests@v1
