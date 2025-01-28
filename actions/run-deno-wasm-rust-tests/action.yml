@@ -30,7 +30,7 @@ runs:
     - name: Run Deno tests
       run: |
         wasm-pack build --target web
-        deno test --allow-read --allow-ffi --allow-env --unstable-ffi --coverage=coverage
+        deno test --permit-no-files --allow-read --allow-ffi --allow-env --unstable-ffi --coverage=coverage
         deno coverage --exclude=bindings ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish Deno Rust coverage report

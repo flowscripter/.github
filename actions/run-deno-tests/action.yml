@@ -17,7 +17,7 @@ runs:
     - name: Run tests
       if: ${{ hashFiles('tests/') != '' }}
       run: |
-        deno test --allow-read --allow-ffi --allow-env --unstable-ffi --coverage=coverage
+        deno test --permit-no-files --allow-read --allow-write --allow-ffi --allow-env --unstable-ffi --coverage=coverage
         deno coverage ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish coverage report
