@@ -24,6 +24,6 @@ runs:
       if: ${{ hashFiles('tests/') != '' }}
       uses: codecov/codecov-action@v5
       with:
-        file: ./coverage/coverage.lcov
+        files: ./coverage/coverage.lcov
       env:
         CODECOV_TOKEN: ${{ inputs.codecov-token }}

@@ -24,6 +24,6 @@ runs:
     - name: Publish coverage report
       uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.lcov
+        files: ./coverage.lcov
       env:
         CODECOV_TOKEN: ${{ inputs.codecov-token }}
