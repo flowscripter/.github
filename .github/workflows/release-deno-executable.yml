@@ -68,7 +68,7 @@ jobs:
             - - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
             - - "@semantic-release/exec"
-              - prepareCmd: "mkdir ../@v\${nextRelease.version} && cp -R * ../@v\${nextRelease.version} && cd ../@v\${nextRelease.version} && ./cross-compile.sh"
+              - prepareCmd: "mkdir ../@v\${nextRelease.version} && cp -R deno.* mod.ts src ../@v\${nextRelease.version} && cd ../@v\${nextRelease.version} && ./cross-compile.sh"
             - - "@semantic-release/github"
               - assets:
                   - path: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.zip
