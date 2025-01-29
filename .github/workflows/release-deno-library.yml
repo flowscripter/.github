@@ -39,8 +39,11 @@ jobs:
               - preset: conventionalcommits
             - - "@semantic-release/github"
             - - "@sebbo2002/semantic-release-jsr"
+            - - "@semantic-release/git"
+              - assets: 
+                - deno.json
           EOT
-          npm install --no-save conventional-changelog-conventionalcommits @sebbo2002/semantic-release-jsr
+          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git @sebbo2002/semantic-release-jsr
           npx semantic-release
         shell: bash
         env:
