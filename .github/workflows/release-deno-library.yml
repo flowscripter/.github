@@ -37,7 +37,7 @@ jobs:
               - preset: conventionalcommits
             - - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
-            - - "@semantic-release/github"
+            - "@semantic-release/github"
             - - "@sebbo2002/semantic-release-jsr"
             - - "@semantic-release/git"
               - assets: 
