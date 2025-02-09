@@ -44,10 +44,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Install Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
       - name: Perform release
         run: |
           cat <<EOT > .releaserc
