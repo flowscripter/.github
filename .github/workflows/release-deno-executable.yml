@@ -120,7 +120,7 @@ jobs:
       - name: Sign Windows
         uses: skymatic/code-sign-action@v1
         with:
-          certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE }}'
+          certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
           password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
           certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
           folder: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.exe
@@ -156,12 +156,12 @@ jobs:
       - name: Install App Store Connect API Key
         run: |
           mkdir -p private_keys/
-          echo '${{ secrets.APPLE_APP_STORE_CONNECT_KEY }}' > private_keys/AuthKey_${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY }}.p12
+          echo '${{ secrets.APPLE_APP_STORE_CONNECT_KEY_PEM }}' | tr ' ' '\n' > private_keys/AuthKey_${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}.p12
         shell: bash
       - name: Write signing certificate
         run: |
-          echo '${{ secrets.APPLE_CODESIGN_CERTIFICATE }}' > codesign.txt
-          base64 -d -i codesign.txt -o codesign.crt
+          echo '${{ secrets.APPLE_CODESIGN_CERTIFICATE_P12_BASE64 }}' > codesign_cert.p12.base64
+          base64 -d -i codesign_cert.p12.base64 -o codesign_cert.p12
         shell: bash
       - name: Sign and Notarize
         uses: indygreg/apple-code-sign-action@v1
@@ -169,10 +169,10 @@ jobs:
           input_path: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}
           notarize: true
           staple: true
-          p12_file: codesign.crt
+          p12_file: codesign_cert.p12
           p12_password: ${{ secrets.APPLE_CODESIGN_CERTIFICATE_PASSWORD }}
-          app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER }}
-          app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY }}
+          app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
+          app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
       - name: Zip MacOS
         run: |
           zip -j ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}.zip ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}
