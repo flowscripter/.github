@@ -65,9 +65,9 @@ jobs:
               - assets: 
                 - deno.json
           EOT
+          deno install
           npm install conventional-changelog-conventionalcommits @semantic-release/git @sebbo2002/semantic-release-jsr
           npx semantic-release
-          deno install
         shell: bash
         env:
           GITHUB_ACTION: yes
