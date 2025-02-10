@@ -30,6 +30,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
       - name: Perform release
         run: |
           cat <<EOT > .releaserc
@@ -47,6 +51,7 @@ jobs:
               - assets: 
                 - deno.json
           EOT
+          deno install
           npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git @sebbo2002/semantic-release-jsr
           npx semantic-release
         shell: bash
