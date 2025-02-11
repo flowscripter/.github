@@ -49,7 +49,7 @@ runs:
         EOT
         cargo install semantic-release-rust --version 1.0.0-alpha.8
         cargo install wasm-pack
-        npm install conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git @qiwi/semantic-release-gh-pages-plugin
+        npm install --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git @qiwi/semantic-release-gh-pages-plugin
         npx semantic-release
       shell: bash
       env:
