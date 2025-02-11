@@ -1,0 +1,8 @@
+name: release-bun-library
+on:
+  push:
+    branches: [main]
+jobs:
+  call-release-bun-library:
+    uses: flowscripter/.github/.github/workflows/release-bun-library.yml
+    secrets: inherit

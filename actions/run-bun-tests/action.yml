@@ -1,0 +1,14 @@
+name: run-bun-tests
+description: 'Run Bun Tests'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
+    - name: Run tests
+      run: bun test
+      shell: bash

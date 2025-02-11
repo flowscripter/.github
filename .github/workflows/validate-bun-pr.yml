@@ -1,0 +1,19 @@
+name: validate-bun-pr
+on:
+  workflow_call
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Bun Source
+        uses: flowscripter/.github/actions/check-bun-source
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Run Bun Tests
+        uses: flowscripter/.github/actions/run-bun-tests

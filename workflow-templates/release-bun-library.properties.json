@@ -1,0 +1,8 @@
+{
+    "name": "Release a Bun library Workflow",
+    "description": "Analyse Bun code, run tests and perform a semantic versioned release",
+    "iconName": "example-icon",
+    "categories": [
+        "Bun"
+    ]
+}

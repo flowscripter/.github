@@ -1,0 +1,8 @@
+name: validate-bun-pr
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  call-validate-bun-pr:
+    uses: flowscripter/.github/.github/workflows/validate-bun-pr.yml
+    secrets: inherit
