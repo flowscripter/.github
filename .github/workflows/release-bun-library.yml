@@ -47,12 +47,13 @@ jobs:
             - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
             - "@semantic-release/github"
+            - "@sebbo2002/semantic-release-jsr"
             - "@semantic-release/npm"
             - "@semantic-release/git"
               - assets: 
                 - package.json
           EOT
-          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git
+          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git @sebbo2002/semantic-release-jsr
           npx semantic-release
         shell: bash
         env:
