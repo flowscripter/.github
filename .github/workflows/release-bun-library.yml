@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Bun Source
-        uses: flowscripter/.github/actions/check-bun-source
+        uses: flowscripter/.github/actions/check-bun-source@main
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
   test:
@@ -16,7 +16,7 @@ jobs:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Run Bun Tests
-        uses: flowscripter/.github/actions/run-bun-tests
+        uses: flowscripter/.github/actions/run-bun-tests@main
   release:
     runs-on: ubuntu-latest
     needs:
