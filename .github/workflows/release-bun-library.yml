@@ -26,6 +26,13 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
+      pages: write
+    concurrency:
+      group: "release"
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -47,16 +54,31 @@ jobs:
             - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
             - "@semantic-release/github"
-            - "@sebbo2002/semantic-release-jsr"
             - "@semantic-release/npm"
             - "@semantic-release/git"
               - assets: 
                 - package.json
           EOT
-          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git @sebbo2002/semantic-release-jsr
+          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git
           npx semantic-release
         shell: bash
         env:
           GITHUB_ACTION: yes
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Generate docs
+        run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
+        shell: bash
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

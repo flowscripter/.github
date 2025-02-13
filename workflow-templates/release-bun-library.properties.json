@@ -1,6 +1,6 @@
 {
     "name": "Release a Bun library Workflow",
-    "description": "Analyse Bun code, run tests and perform a semantic versioned release",
+    "description": "Analyse Bun source, run Bun tests across Windows, Ubuntu and macOS, perform a semantic versioned release and publish docs",
     "iconName": "example-icon",
     "categories": [
         "Bun"

@@ -1,6 +1,6 @@
 {
     "name": "Bun Docs and Test Workflow",
-    "description": "Check Bun code, run Bun tests across Windows, Ubuntu and macOS",
+    "description": "Check Bun source, run Bun tests across Windows, Ubuntu and macOS",
     "iconName": "example-icon",
     "categories": [
         "Bun"

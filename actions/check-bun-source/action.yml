@@ -26,8 +26,8 @@ runs:
       run: deno fmt --check index.ts src/ tests/
       shell: bash 
     - name: Generate docs
-      run: deno doc index.ts
-      shell: bash 
+      run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
+      shell: bash
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
       with:
