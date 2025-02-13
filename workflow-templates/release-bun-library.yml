@@ -4,5 +4,5 @@ on:
     branches: [main]
 jobs:
   call-release-bun-library:
-    uses: flowscripter/.github/.github/workflows/release-bun-library.yml@main
+    uses: flowscripter/.github/.github/workflows/release-bun-library.yml@v1
     secrets: inherit

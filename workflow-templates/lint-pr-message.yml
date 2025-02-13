@@ -7,5 +7,5 @@ on:
       - synchronize
 jobs:
   call-lint-pr-message:
-    uses: flowscripter/.github/.github/workflows/lint-pr-message.yml@main
+    uses: flowscripter/.github/.github/workflows/lint-pr-message.yml@v1
     secrets: inherit

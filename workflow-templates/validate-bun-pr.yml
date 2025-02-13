@@ -4,5 +4,5 @@ on:
     branches: [main]
 jobs:
   call-validate-bun-pr:
-    uses: flowscripter/.github/.github/workflows/validate-bun-pr.yml@main
+    uses: flowscripter/.github/.github/workflows/validate-bun-pr.yml@v1
     secrets: inherit
