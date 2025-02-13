@@ -1,5 +1,5 @@
 {
-    "name": "Update Bun Dependencies Workflow",
+    "name": "Check Bun Dependencies Workflow",
     "description": "Check for Bun dependencies updates, test and raise a PR if required, auto-merge if PR checks pass",
     "iconName": "example-icon",
     "categories": [

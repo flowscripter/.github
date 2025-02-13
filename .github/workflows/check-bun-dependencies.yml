@@ -1,4 +1,4 @@
-name: update-bun-dependencies
+name: check-bun-dependencies
 on:
   workflow_call
 jobs:
