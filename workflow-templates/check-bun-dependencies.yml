@@ -5,5 +5,5 @@ on:
     - cron:  '0 0 * * *'
 jobs:
   call-check-bun-dependencies:
-    uses: flowscripter/.github/.github/workflows/check-bun-dependencies.yml
+    uses: flowscripter/.github/.github/workflows/check-bun-dependencies.yml@v1
     secrets: inherit
