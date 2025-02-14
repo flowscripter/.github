@@ -1,8 +1,0 @@
-{
-    "name": "Analyse Rust Code Workflow",
-    "description": "Perform static analysis and check security advisories",
-    "iconName": "example-icon",
-    "categories": [
-        "Rust"
-    ]
-}

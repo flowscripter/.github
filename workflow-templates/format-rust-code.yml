@@ -1,8 +1,0 @@
-name: format-rust-code
-on:
-  pull_request:
-    branches: [main]
-jobs:
-  call-format-deno-code:
-    uses: flowscripter/.github/.github/workflows/format-rust-code.yml@v1
-    secrets: inherit
