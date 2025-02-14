@@ -1,0 +1,8 @@
+{
+    "name": "Release a Bun executable Workflow",
+    "description": "Analyse Bun source, run Bun tests across Windows, Ubuntu and macOS, compile and test Bun executable  perform a semantic versioned release and publish docs",
+    "iconName": "example-icon",
+    "categories": [
+        "Bun"
+    ]
+}

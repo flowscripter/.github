@@ -1,0 +1,23 @@
+name: run-bun-executable-tests
+description: 'Run Bun executable tests'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Behave Tests
+      run: |
+        bun build index.ts --compile --outfile functional_tests/executable
+        cd functional_tests 
+        pip3 install -r pip-requirements.txt
+        export EXECUTABLE=./executable
+        behave
+      shell: bash

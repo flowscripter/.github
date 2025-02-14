@@ -1,4 +1,4 @@
-name: validate-bun-pr
+name: validate-bun-executable-pr
 on:
   workflow_call
 jobs:
@@ -17,3 +17,12 @@ jobs:
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
+  test-executable:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Run Bun Executable Tests
+        uses: flowscripter/.github/actions/run-bun-executable-tests@v1
+      
