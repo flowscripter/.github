@@ -39,10 +39,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Install Node
-        uses: actions/setup-node@v4
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 22
+          bun-version: "latest"
       - name: Perform release
         run: |
           cat <<EOT > .releaserc
@@ -60,8 +60,8 @@ jobs:
               - assets: 
                 - package.json
           EOT
-          npm install --no-save conventional-changelog-conventionalcommits @semantic-release/git
-          npx semantic-release
+          bun add --no-save conventional-changelog-conventionalcommits @semantic-release/git
+          bunx semantic-release
         shell: bash
         env:
           GITHUB_ACTION: yes

@@ -1,0 +1,56 @@
+name: check-bun-rust-source
+description: 'Check Bun and Rust Source'
+inputs:
+  codecov-token:
+    description: 'Codecov token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: javascript
+    - name: Perform CodeQL analysis
+      uses: github/codeql-action/analyze@v3
+    - name: Install Deno
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.x
+    - name: Setup and Run Clippy and Cargo Audit
+      run: |
+        rustup default nightly
+        rustup component add clippy
+        cargo clippy
+        cargo install cargo-audit
+        cargo audit
+      shell: bash
+    - name: Lint
+      run: deno lint index.ts src/ tests/
+      shell: bash 
+    - name: Format
+      run: |
+        deno fmt --check index.ts src/ tests/
+        cargo fmt -- --check
+      shell: bash 
+    - name: Generate docs
+      run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
+      shell: bash
+    - name: Compile
+      run: cargo build --release
+      shell: bash
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
+    - name: Check coverage
+      run: bun test --coverage --coverage-reporter=lcov > coverage.lcov
+      shell: bash
+    - name: Publish coverage report
+      uses: codecov/codecov-action@v5
+      with:
+        files: coverage.lcov
+      env:
+        CODECOV_TOKEN: ${{ inputs.codecov-token }}

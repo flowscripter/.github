@@ -1,0 +1,8 @@
+name: release-bun-rust-library
+on:
+  push:
+    branches: [main]
+jobs:
+  call-release-bun-rust-library:
+    uses: flowscripter/.github/.github/workflows/release-bun-rust-library.yml@v1
+    secrets: inherit
