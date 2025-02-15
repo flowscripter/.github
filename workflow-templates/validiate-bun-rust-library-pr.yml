@@ -3,6 +3,6 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  call-validate-rust-library-pr:
+  call-validate-bun-rust-library-pr:
     uses: flowscripter/.github/.github/workflows/validate-bun-rust-library-pr.yml@v1
     secrets: inherit
