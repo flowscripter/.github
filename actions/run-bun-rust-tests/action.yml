@@ -9,11 +9,9 @@ runs:
       run: |
         rustup default nightly
         cargo clean
-        cargo build --release --target-dir ${{ runner.temp }}
+        cargo build --release --target-dir ./target
         cargo test
       shell: bash
-      env:
-        TMPDIR: ${{ runner.temp }}
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
       with:
@@ -21,5 +19,3 @@ runs:
     - name: Run tests
       run: bun test
       shell: bash
-      env:
-        TMPDIR: ${{ runner.temp }}
