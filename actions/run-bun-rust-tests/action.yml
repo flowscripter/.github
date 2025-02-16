@@ -9,10 +9,8 @@ runs:
       run: |
         rustup default nightly
         cargo clean
-        cargo build --release --target-dir ./target
+        cargo build --release --target-dir /tmp
         cargo test
-        cmd /c tree /f
-        pwd
       shell: bash
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
