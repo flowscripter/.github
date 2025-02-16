@@ -9,7 +9,7 @@ runs:
       run: |
         rustup default nightly
         cargo clean
-        cargo build --release --target-dir $TMPDIR
+        cargo build --release --target-dir ${{ runner.temp }}
         cargo test
       shell: bash
       env:
