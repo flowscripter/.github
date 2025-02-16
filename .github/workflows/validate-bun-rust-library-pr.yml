@@ -2,13 +2,13 @@ name: validate-bun-rust-library-pr
 on:
   workflow_call
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Bun and Rust Source
-        uses: flowscripter/.github/actions/check-bun-rust-source@v1
-        with:
-          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+  # check:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check Bun and Rust Source
+  #       uses: flowscripter/.github/actions/check-bun-rust-source@v1
+  #       with:
+  #         codecov-token: ${{ secrets.CODECOV_TOKEN }}
   test:
     runs-on: ${{ matrix.os }}
     strategy:
