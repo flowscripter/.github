@@ -9,9 +9,11 @@ runs:
       run: |
         rustup default nightly
         cargo clean
-        cargo build --release --target-dir $GITHUB_WORKSPACE/target
+        cargo build --release --target-dir $TMPDIR/target 
         cargo test
       shell: bash
+      env:
+        TMPDIR: ${{ runner.temp }}
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
       with:
