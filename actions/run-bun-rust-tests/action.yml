@@ -9,7 +9,7 @@ runs:
       run: |
         rustup default nightly
         cargo clean
-        cargo build --release --target-dir $TMPDIR/target 
+        cargo build --release --target-dir $TMPDIR
         cargo test
       shell: bash
       env:
