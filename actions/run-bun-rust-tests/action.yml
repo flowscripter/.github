@@ -11,6 +11,7 @@ runs:
         cargo clean
         cargo build --release --target-dir ${{ runner.temp }}
         cargo test
+      shell: bash
       env:
         TMPDIR: ${{ runner.temp }}
     - name: Install Bun
