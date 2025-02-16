@@ -11,7 +11,7 @@ runs:
         cargo clean
         cargo build --release --target-dir ./target
         cargo test
-        tree /f
+        cmd /c tree /f
         pwd
       shell: bash
     - name: Install Bun
