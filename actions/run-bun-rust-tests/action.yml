@@ -9,7 +9,7 @@ runs:
       run: |
         rustup default nightly
         cargo clean
-        cargo build --release --target-dir /tmp
+        cargo build --release --target-dir /tmp/target
         cargo test
       shell: bash
     - name: Install Bun
