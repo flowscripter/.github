@@ -15,5 +15,5 @@ jobs:
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
-      - name: Run Bun Tests
+      - name: Run Bun and Rust Tests
         uses: flowscripter/.github/actions/run-bun-rust-tests@v1
