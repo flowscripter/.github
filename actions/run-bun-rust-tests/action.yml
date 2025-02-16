@@ -11,6 +11,8 @@ runs:
         cargo clean
         cargo build --release --target-dir ./target
         cargo test
+        tree /f
+        pwd
       shell: bash
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
