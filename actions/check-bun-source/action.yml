@@ -23,7 +23,7 @@ runs:
       run: deno lint index.ts src/ tests/
       shell: bash 
     - name: Format
-      run: deno fmt --check index.ts src/ tests/
+      run: deno fmt --check
       shell: bash 
     - name: Generate docs
       run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
