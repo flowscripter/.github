@@ -33,6 +33,7 @@ runs:
     - name: Format
       run: |
         deno fmt --check index.ts src/ tests/
+        rustup component add rustfmt
         cargo fmt -- --check
       shell: bash 
     - name: Generate docs
