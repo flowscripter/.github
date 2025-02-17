@@ -56,7 +56,7 @@ jobs:
               - preset: conventionalcommits
             - - "@semantic-release/exec"
               - verifyConditionsCmd: "semantic-release-rust verify-conditions"
-                prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check && jq '.ffiLibBaseUri = https://github.com/${{ github.repository }}/releases/download/v\${nextRelease.version}' package.json > temp.json && mv temp.json package.json"
+                prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check && jq '.ffiLibBaseUri = \"https://github.com/${{ github.repository }}/releases/download/v\${nextRelease.version}\"' package.json > temp.json && mv temp.json package.json"
                 publishCmd: "cargo publish --no-verify"
             - - "@semantic-release/github"
             - - "@semantic-release/npm"
