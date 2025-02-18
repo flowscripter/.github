@@ -47,6 +47,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -57,6 +59,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Perform release
+        id: release
         run: |
           cat <<EOT > .releaserc
           ---
