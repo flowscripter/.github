@@ -116,7 +116,6 @@ jobs:
         shell: bash
       - name: Release Linux
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: target/release/*.so
   release-windows:
@@ -149,7 +148,6 @@ jobs:
 #     folder: target/release/*.dll
       - name: Release Windows
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: target/release/*.dll
   release-macos:
@@ -194,7 +192,6 @@ jobs:
 #     app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
       - name: Release MacOS
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: target/release/*.dylib
   
