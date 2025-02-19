@@ -15,5 +15,6 @@ runs:
         cargo clean
         cargo build --release
         cargo test
+        bun install
         bun test
       shell: bash

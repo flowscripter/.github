@@ -19,6 +19,13 @@ runs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
+    - name: Bun Install
+      run: bun install
+      shell: bash
     - name: Setup and Run Clippy and Cargo Audit
       run: |
         rustup default nightly
@@ -42,10 +49,6 @@ runs:
     - name: Compile
       run: cargo build --release
       shell: bash
-    - name: Install Bun
-      uses: oven-sh/setup-bun@v2
-      with:
-        bun-version: "latest"
     - name: Check coverage
       run: bun test --coverage --coverage-reporter=lcov > coverage.lcov
       shell: bash

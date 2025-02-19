@@ -10,5 +10,7 @@ runs:
       with:
         bun-version: "latest"
     - name: Run tests
-      run: bun test
+      run: |
+        bun install
+        bun test
       shell: bash

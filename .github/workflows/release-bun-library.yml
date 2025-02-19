@@ -43,6 +43,9 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: "latest"
+      - name: Bun Install
+        run: bun install
+        shell: bash
       - name: Perform release
         run: |
           cat <<EOT > .releaserc
