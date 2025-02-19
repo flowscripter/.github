@@ -126,6 +126,7 @@ jobs:
       - name: Release Linux
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.release.outputs.tag }}
           files: ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}.zip
   release-windows:
     runs-on: windows-latest
@@ -162,6 +163,7 @@ jobs:
       - name: Release Windows
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.release.outputs.tag }}
           files: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.zip
   release-macos:
     runs-on: macos-latest
@@ -211,4 +213,5 @@ jobs:
       - name: Release MacOS
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.release.outputs.tag }}
           files: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}.zip
