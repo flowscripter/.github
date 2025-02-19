@@ -60,7 +60,7 @@ jobs:
             - - "@semantic-release/exec"
               - verifyConditionsCmd: "semantic-release-rust verify-conditions"
                 prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && cargo check && jq '.ffiLibBaseUri = \"https://github.com/${{ github.repository }}/releases/download/v\${nextRelease.version}\"' package.json > temp.json && mv temp.json package.json"
-                publishCmd: "cargo publish --no-verify && echo 'tag=v\${nextRelease.version}' >> \"$GITHUB_OUTPUT\""
+                publishCmd: "cargo publish --no-verify && echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
             - - "@semantic-release/github"
             - - "@semantic-release/npm"
             - - "@semantic-release/git"
