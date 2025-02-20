@@ -2,7 +2,7 @@ name: check-rust-dependencies
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '0 0 * * *'
+    - cron:  '0 1 * * *'
 jobs:
   call-check-deno-dependencies:
     uses: flowscripter/.github/.github/workflows/check-rust-dependencies.yml@v1

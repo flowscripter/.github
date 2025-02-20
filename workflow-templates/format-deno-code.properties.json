@@ -1,8 +1,0 @@
-{
-    "name": "Format Deno Workflow",
-    "description": "Install Deno and format code",
-    "iconName": "example-icon",
-    "categories": [
-        "Deno"
-    ]
-}

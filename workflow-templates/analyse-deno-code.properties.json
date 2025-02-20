@@ -1,9 +1,0 @@
-{
-    "name": "Analyse Deno Code Workflow",
-    "description": "Perform static analysis",
-    "iconName": "example-icon",
-    "categories": [
-        "TypeScript",
-        "Deno"
-    ]
-}

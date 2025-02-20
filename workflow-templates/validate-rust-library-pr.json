@@ -1,0 +1,8 @@
+{
+    "name": "Check Rust Library Source and Test Workflow",
+    "description": "Check Rust source, run Rust tests across Windows, Ubuntu and macOS",
+    "iconName": "example-icon",
+    "categories": [
+        "Rust"
+    ]
+}

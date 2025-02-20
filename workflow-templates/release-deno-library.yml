@@ -1,8 +1,0 @@
-name: release-deno-library
-on:
-  push:
-    branches: [main]
-jobs:
-  call-release-deno-library:
-    uses: flowscripter/.github/.github/workflows/release-deno-library.yml@v1
-    secrets: inherit

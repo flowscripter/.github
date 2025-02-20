@@ -1,5 +1,5 @@
-name: run-bun-tests
-description: 'Run Bun Tests'
+name: run-bun-rust-tests
+description: 'Run Bun and Rust Tests'
 runs:
   using: "composite"
   steps:
@@ -11,6 +11,10 @@ runs:
         bun-version: "latest"
     - name: Run tests
       run: |
+        rustup default nightly
+        cargo clean
+        cargo build --release
+        cargo test
         bun install
         bun test
       shell: bash

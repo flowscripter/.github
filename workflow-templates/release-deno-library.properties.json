@@ -1,8 +1,0 @@
-{
-    "name": "Release a Deno library Workflow",
-    "description": "Run Deno tests and perform a semantic versioned release",
-    "iconName": "example-icon",
-    "categories": [
-        "Deno"
-    ]
-}

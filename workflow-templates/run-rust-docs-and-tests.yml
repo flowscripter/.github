@@ -1,8 +1,0 @@
-name: run-rust-docs-and-tests
-on:
-  pull_request:
-    branches: [main]
-jobs:
-  call-run-rust-docs-and-tests:
-    uses: flowscripter/.github/.github/workflows/run-rust-docs-and-tests.yml@v1
-    secrets: inherit

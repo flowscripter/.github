@@ -1,0 +1,10 @@
+name: release-bun-executable
+on:
+  push:
+    branches: [main]
+jobs:
+  call-release-bun-executable:
+    uses: flowscripter/.github/.github/workflows/release-bun-executable.yml@v1
+    secrets: inherit
+    with:
+      executable-name: "example"

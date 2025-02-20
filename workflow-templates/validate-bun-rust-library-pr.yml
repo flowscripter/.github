@@ -1,0 +1,8 @@
+name: validate-bun-rust-library-pr
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  call-validate-bun-rust-library-pr:
+    uses: flowscripter/.github/.github/workflows/validate-bun-rust-library-pr.yml@v1
+    secrets: inherit

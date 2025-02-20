@@ -1,0 +1,9 @@
+{
+    "name": "Release a Bun with FFI binding library Workflow",
+    "description": "Analyse Bun and Rust source, run Bun and Rust tests across Windows, Ubuntu and macOS, perform a semantic versioned release and publish docs",
+    "iconName": "example-icon",
+    "categories": [
+        "Bun",
+        "Rust"
+    ]
+}
