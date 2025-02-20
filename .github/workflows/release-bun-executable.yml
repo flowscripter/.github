@@ -180,6 +180,8 @@ jobs:
       - release
     permissions:
       contents: write
+    outputs:
+      sha256: ${{ steps.zip_macos.outputs.sha256 }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -229,6 +231,14 @@ jobs:
           files: |
             ${{ inputs.executable-name }}_MacOS_aarch64.zip
             ${{ inputs.executable-name }}_MacOS_aarch64.sha256
+  update-formula:
+    runs-on: ubuntu-latest
+    needs:
+      - release
+      - release-macos
+    permissions:
+      contents: write
+    steps:
       - name: Update Homebrew Formula
         uses: naijabx/update-formula-homebrew-action@v1
         with:
@@ -236,7 +246,7 @@ jobs:
           tap: flowscripter/homebrew-tap
           formula: ${{ inputs.executable-name }}.rb  
           download-url: https://github.com/${{ github.repository}}/releases/download/v${{ needs.release.outputs.tag }}/${{ inputs.executable-name }}_MacOS_aarch64.zip
-          sha256: ${{ steps.zip_macos.outputs.sha256 }}
+          sha256: ${{ needs.release-macos.outputs.sha256 }}
           commit-message: "Update Brew formula for ${{ inputs.executable-name }} to ${{ needs.release.outputs.tag }}"
         env:
           COMMIT_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
