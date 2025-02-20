@@ -216,9 +216,11 @@ jobs:
 #     app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
 #     app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
       - name: Zip MacOS
+        id: zip_macos
         run: |
           zip -j ${{ inputs.executable-name }}_MacOS_aarch64.zip ${{ inputs.executable-name }}
           shasum -a 256 ${{ inputs.executable-name }}_MacOS_aarch64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_MacOS_aarch64.sha256
+          echo "sha256=$(cat ${{ inputs.executable-name }}_MacOS_aarch64.sha256)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Release MacOS
         uses: softprops/action-gh-release@v2
@@ -227,3 +229,14 @@ jobs:
           files: |
             ${{ inputs.executable-name }}_MacOS_aarch64.zip
             ${{ inputs.executable-name }}_MacOS_aarch64.sha256
+      - name: Update Homebrew Formula
+        uses: naijabx/update-formula-homebrew-action@v1
+        with:
+          repo: ${{ github.repository}}
+          tap: flowscripter/homebrew-tap
+          formula: ${{ inputs.executable-name }}.rb  
+          download-url: https://github.com/${{ github.repository}}/releases/download/v${{ needs.release.outputs.tag }}/${{ inputs.executable-name }}_MacOS_aarch64.zip
+          sha256: ${{ steps.zip_macos.outputs.sha256 }}
+          commit-message: "Update Brew formula for ${{ inputs.executable-name }} to ${{ needs.release.outputs.tag }}"
+        env:
+          COMMIT_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
