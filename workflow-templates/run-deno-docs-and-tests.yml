@@ -1,8 +1,0 @@
-name: run-deno-docs-and-tests
-on:
-  pull_request:
-    branches: [main]
-jobs:
-  call-run-deno-docs-and-tests:
-    uses: flowscripter/.github/.github/workflows/run-deno-docs-and-tests.yml@v1
-    secrets: inherit

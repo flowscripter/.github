@@ -1,9 +1,0 @@
-{
-    "name": "Release a Rust with Deno FFI bindings library Workflow",
-    "description": "Run Deno and Rust tests and perform a semantic versioned release",
-    "iconName": "example-icon",
-    "categories": [
-        "Deno",
-        "Rust"
-    ]
-}
