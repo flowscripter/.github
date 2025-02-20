@@ -240,7 +240,7 @@ jobs:
       contents: write
     steps:
       - name: Update Homebrew Formula
-        uses: naijabx/update-formula-homebrew-action@v1.1
+        uses: PanterSoft/update-formula-homebrew-action@master
         with:
           repo: ${{ github.repository}}
           tap: flowscripter/homebrew-tap
