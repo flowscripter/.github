@@ -240,12 +240,12 @@ jobs:
       contents: write
     steps:
       - name: Update Homebrew Formula
-        uses: naijabx/update-formula-homebrew-action@v1.1
+        uses: PanterSoft/update-formula-homebrew-action@master
         with:
           repo: ${{ github.repository}}
           tap: flowscripter/homebrew-tap
           formula: ${{ inputs.executable-name }}.rb  
-          download-url: https://github.com/${{ github.repository}}/releases/download/v${{ needs.release.outputs.tag }}/${{ inputs.executable-name }}_MacOS_aarch64.zip
+          download-url: https://github.com/${{ github.repository}}/releases/download/${{ needs.release.outputs.tag }}/${{ inputs.executable-name }}_MacOS_aarch64.zip
           sha256: ${{ needs.release-macos.outputs.sha256 }}
           commit-message: "Update Brew formula for ${{ inputs.executable-name }} to ${{ needs.release.outputs.tag }}"
         env:
