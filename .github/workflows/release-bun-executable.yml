@@ -124,7 +124,7 @@ jobs:
         run: |
           bun install
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
-          zip -j ${{ inputs.executable-name }}_Linux-x86_64.zip ${{ inputs.executable-name }}
+          zip -j ${{ inputs.executable-name }}_Linux_x86_64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_x86_64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x86_64.sha256
         shell: bash
       - name: Release Linux
@@ -164,7 +164,7 @@ jobs:
 #     folder: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.exe
       - name: Zip Windows
         run: |
-          zip -j ${{ inputs.executable-name }}_Windows_x86_64.zip ${{ inputs.executable-name }}.exe
+          7z a ${{ inputs.executable-name }}_Windows_x86_64.zip ${{ inputs.executable-name }}.exe
           sha256sum ${{ inputs.executable-name }}_Windows_x86_64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Windows_x86_64.sha256
         shell: bash
       - name: Release Windows
@@ -218,7 +218,7 @@ jobs:
       - name: Zip MacOS
         run: |
           zip -j ${{ inputs.executable-name }}_MacOS_aarch64.zip ${{ inputs.executable-name }}
-          sha256sum ${{ inputs.executable-name }}_MacOS_aarch64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_MacOS_aarch64.sha256
+          shasum -a 256 ${{ inputs.executable-name }}_MacOS_aarch64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_MacOS_aarch64.sha256
         shell: bash
       - name: Release MacOS
         uses: softprops/action-gh-release@v2
