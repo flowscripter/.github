@@ -125,13 +125,16 @@ jobs:
           bun install
           mkdir ${{ runner.temp }}/x86_64-unknown-linux-gnu
           bun build index.ts --compile --outfile ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }} 
-          zip -j ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_\(Linux-x86_64\).zip ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}
+          zip -j ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_Linux-x86_64.zip ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}
+          sha256sum ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_Linux_x86_64.zip | awk '{ print $1 }' > ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_Linux_x86_64.sha256
         shell: bash
       - name: Release Linux
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_\(Linux_x86_64\).zip
+          files: |
+            ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_Linux_x86_64.zip
+            ${{ runner.temp }}/x86_64-unknown-linux-gnu/${{ inputs.executable-name }}_Linux_x86_64.sha256
   release-windows:
     runs-on: windows-latest
     needs:
@@ -162,13 +165,17 @@ jobs:
 #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
 #     folder: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.exe
       - name: Zip Windows
-        run: zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_\(Windows_x86_64\).zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.exe
+        run: |
+          zip -j ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_Windows_x86_64.zip ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}.exe
+          sha256sum ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_Windows_x86_64.zip | awk '{ print $1 }' > ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_Windows_x86_64.sha256
         shell: bash
       - name: Release Windows
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_\(Windows_x86_64\).zip
+          files: |
+            ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_Windows_x86_64.zip
+            ${{ runner.temp }}/x86_64-pc-windows-msvc/${{ inputs.executable-name }}_Windows_x86_64.sha256
   release-macos:
     runs-on: macos-latest
     needs:
@@ -212,10 +219,14 @@ jobs:
 #     app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
 #     app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
       - name: Zip MacOS
-        run: zip -j ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_\(MacOS_aarch64\).zip ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}
+        run: |
+          zip -j ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_MacOS_aarch64.zip ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}
+          sha256sum ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_MacOS_aarch64.zip | awk '{ print $1 }' > ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_MacOS_aarch64.sha256
         shell: bash
       - name: Release MacOS
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_\(MacOS_aarch64\).zip
+          files: |
+            ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_MacOS_aarch64.zip
+            ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}_MacOS_aarch64.sha256
