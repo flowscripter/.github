@@ -15,6 +15,7 @@ runs:
         python-version: 3.12
     - name: Behave Tests
       run: |
+        bun install
         bun build index.ts --compile --outfile functional_tests/executable
         cd functional_tests 
         pip3 install -r pip-requirements.txt
