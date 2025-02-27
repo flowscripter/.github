@@ -71,6 +71,7 @@ jobs:
                 - Cargo.toml
                 - Cargo.lock
                 - package.json
+                - bun.lock
           EOT
           cargo install semantic-release-rust --version 1.0.0-alpha.8
           bun add --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git

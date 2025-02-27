@@ -80,6 +80,7 @@ jobs:
             - - "@semantic-release/git"
               - assets: 
                 - package.json
+                - bun.lock
           EOT
           bun add --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
           bunx semantic-release
