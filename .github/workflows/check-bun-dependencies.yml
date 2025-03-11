@@ -21,10 +21,10 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
-          commit-message: 'fix: update dependencies'
-          title: 'fix: update dependencies'
+          commit-message: 'chore: update dependencies'
+          title: 'chore: update dependencies'
           body: |
-            fix: update dependencies
+            chore: update dependencies
           branch: update-dependencies
       - name: Enable Pull Request Automerge
         if: steps.create-pr.outputs.pull-request-operation == 'created'
