@@ -2,6 +2,8 @@ name: validate-bun-library-pr
 on:
   pull_request:
     branches: [main]
+permissions:
+  contents: read
 jobs:
   call-validate-bun-library-pr:
     uses: flowscripter/.github/.github/workflows/validate-bun-library-pr.yml@v1

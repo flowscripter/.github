@@ -5,6 +5,8 @@ on:
       - opened
       - edited
       - synchronize
+permissions:
+  contents: read
 jobs:
   call-lint-pr-message:
     uses: flowscripter/.github/.github/workflows/lint-pr-message.yml@v1

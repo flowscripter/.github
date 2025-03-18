@@ -2,6 +2,12 @@ name: release-bun-executable
 on:
   push:
     branches: [main]
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+  pages: write
 jobs:
   call-release-bun-executable:
     uses: flowscripter/.github/.github/workflows/release-bun-executable.yml@v1
