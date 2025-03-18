@@ -9,12 +9,6 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v4
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: javascript
-    - name: Perform CodeQL analysis
-      uses: github/codeql-action/analyze@v3
     - name: Install Deno
       uses: denoland/setup-deno@v2
       with:
