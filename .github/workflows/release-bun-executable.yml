@@ -275,3 +275,4 @@ jobs:
           identifier: Flowscripter.${{ inputs.executable-name }}
           max-versions-to-keep: 5
           token: ${{ secrets.WINGET_TOKEN }}
+          release-tag: ${{ needs.release.outputs.tag }}
