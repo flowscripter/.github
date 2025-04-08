@@ -276,3 +276,4 @@ jobs:
           max-versions-to-keep: 5
           token: ${{ secrets.WINGET_TOKEN }}
           release-tag: ${{ needs.release.outputs.tag }}
+          installers-regex: _Windows_x86_64\.zip$
