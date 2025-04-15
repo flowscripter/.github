@@ -1,0 +1,14 @@
+name: release-bun-bundle
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+  pages: write
+jobs:
+  call-release-bun-bundle:
+    uses: flowscripter/.github/.github/workflows/release-bun-bundle.yml@v1
+    secrets: inherit
