@@ -1,0 +1,14 @@
+name: release-bun-webapp
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+  pages: write
+jobs:
+  call-release-bun-webapp:
+    uses: flowscripter/.github/.github/workflows/release-bun-webapp.yml@v1
+    secrets: inherit

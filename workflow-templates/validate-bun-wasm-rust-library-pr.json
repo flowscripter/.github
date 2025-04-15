@@ -1,0 +1,10 @@
+{
+    "name": "Check Bun and Rust (exposed as WASM) Library Source and Test Workflow",
+    "description": "Check Bun and Rust (exposed as WASM) source, run Bun and Rust tests across Windows, Ubuntu and macOS",
+    "iconName": "example-icon",
+    "categories": [
+        "Bun",
+        "Rust",
+        "WASM"
+    ]
+}

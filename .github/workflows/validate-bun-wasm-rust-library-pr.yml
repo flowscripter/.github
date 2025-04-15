@@ -1,0 +1,19 @@
+name: validate-bun-wasm-rust-library-pr
+on:
+  workflow_call
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Bun and Rust (WASM) Source
+        uses: flowscripter/.github/actions/check-bun-wasm-rust-source@v1
+        with:
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Run Bun and Rust (WASM) Tests
+        uses: flowscripter/.github/actions/run-bun-wasm-rust-tests@v1

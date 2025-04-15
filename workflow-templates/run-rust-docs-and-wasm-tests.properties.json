@@ -1,9 +1,0 @@
-{
-  "name": "Rust Docs and Wasm Test Workflow",
-  "description": "Generate API docs, run Rust WASM tests",
-  "iconName": "example-icon",
-  "categories": [
-    "Wasm",
-    "Rust"
-  ]
-}

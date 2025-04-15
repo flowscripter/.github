@@ -1,0 +1,10 @@
+name: validate-bun-webapp-pr
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  call-validate-bun-webapp-pr:
+    uses: flowscripter/.github/.github/workflows/validate-bun-webapp-pr.yml@v1
+    secrets: inherit

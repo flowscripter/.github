@@ -1,0 +1,10 @@
+{
+    "name": "Release a Bun and Rust (exposed as WASM) Library Workflow",
+    "description": "Analyse Bun and Rust (exposed as WASM) source, run Bun and Rust tests across Windows, Ubuntu and macOS, perform a semantic versioned release and publish docs",
+    "iconName": "example-icon",
+    "categories": [
+        "Bun",
+        "Rust",
+        "WASM"
+    ]
+}

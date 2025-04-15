@@ -1,0 +1,12 @@
+{
+    "name": "Check Bun Webapp Source and Test Workflow",
+    "description": "Check Bun source, run Bun Selenium tests",
+    "iconName": "example-icon",
+    "categories": [
+        "Test",
+        "Bun",
+        "Webapp",
+        "Behave",
+        "Selenium"
+    ]
+}

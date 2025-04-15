@@ -1,5 +1,5 @@
-name: run-deno-wasm-rust-tests
-description: 'Run Rust with WASM exposed as a Deno module Tests'
+name: check-bun-wasm-rust-source
+description: 'Check Bun and Rust (WASM) Source'
 inputs:
   codecov-token:
     description: 'Codecov token'
@@ -13,11 +13,33 @@ runs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
-    - name: Setup Rust and Deno
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
+    - name: Bun Install
+      run: bun install
+      shell: bash
+    - name: Setup and Run Clippy and Cargo Audit
       run: |
         rustup default nightly
-        cargo install grcov wasm-pack  
+        cargo install cargo-audit grcov wasm-pack
+        rustup component add clippy
         rustup component add llvm-tools-preview
+        cargo clippy
+        cargo audit
+      shell: bash
+    - name: Lint
+      run: deno lint index.ts src/ tests/
+      shell: bash 
+    - name: Format
+      run: |
+        deno fmt --check
+        rustup component add rustfmt
+        cargo fmt -- --check
+      shell: bash 
+    - name: Generate docs
+      run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
       shell: bash
     - name: Run Rust tests
       run: |
@@ -27,10 +49,13 @@ runs:
       env:
         RUSTFLAGS: -Cinstrument-coverage
         LLVM_PROFILE_FILE: "%p-%m.profraw"
+    - name: Compile
+      run: wasm-pack build --target web
+      shell: bash
     - name: Run Deno tests
       run: |
         wasm-pack build --target web
-        deno test --permit-no-files --allow-read --allow-ffi --allow-env --unstable-ffi --coverage=coverage
+        bun test --coverage=coverage
         deno coverage --exclude=bindings ./coverage --lcov > ./coverage/coverage.lcov
       shell: bash
     - name: Publish Deno Rust coverage report

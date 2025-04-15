@@ -1,5 +1,5 @@
-name: test-deno-webapp
-description: 'Test Deno webapp'
+name: run-bun-webapp-tests
+description: 'Run Bun Webapp Tests'
 inputs:
   github-token:
     description: 'Github token'
@@ -9,14 +9,14 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v4
-    - name: Install Deno
-      uses: denoland/setup-deno@v2
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
       with:
-        deno-version: v2.x
+        bun-version: "latest"
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.12
+        python-version: 3.13
     - name: Install Firefox
       uses: browser-actions/setup-firefox@v1
       with:
@@ -27,7 +27,7 @@ runs:
         token: ${{ inputs.github-token }}
     - name: Behave Tests
       run: |
-        deno bundle mod.ts html/mod.bundle.js
+        bun build index.ts --outdir ./html --minify
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         behave

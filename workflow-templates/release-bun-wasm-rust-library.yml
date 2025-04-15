@@ -1,0 +1,14 @@
+name: release-bun-wasm-rust-library
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+  pages: write
+jobs:
+  call-release-bun-rust-library:
+    uses: flowscripter/.github/.github/workflows/release-bun-wasm-rust-library.yml@v1
+    secrets: inherit

@@ -1,0 +1,25 @@
+name: run-bun-wasm-rust-tests
+description: 'Run Bun and Rust (WASM) Tests'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
+    - name: Setup Rust
+      run: |
+        rustup default nightly
+        cargo install wasm-pack
+      shell: bash
+    - name: Run Rust tests
+      run: |
+        cargo test
+      shell: bash
+    - name: Run Deno tests
+      run: |
+        wasm-pack build --target web
+        bun test
+      shell: bash
