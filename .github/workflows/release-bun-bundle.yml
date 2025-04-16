@@ -49,7 +49,7 @@ jobs:
         run: bun install
         shell: bash
       - name: Bun Bundle
-        run: bun build index.ts --outdir ./bundle --minify
+        run: bun build index.ts --outdir ./dist --entry-naming bundle.js --minify
         shell: bash
       - name: Perform release
         id: release
