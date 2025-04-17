@@ -66,6 +66,7 @@ jobs:
             - - "@semantic-release/exec"
               - publishCmd: "echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
             - - "@semantic-release/github"
+            - - "@semantic-release/npm"
             - - "@semantic-release/git"
               - assets: 
                 - package.json
