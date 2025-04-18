@@ -53,9 +53,7 @@ runs:
       run: wasm-pack build --target web
       shell: bash
     - name: Run Deno tests
-      run: |
-        wasm-pack build --target web
-        bun test --coverage --coverage-reporter=lcov > coverage-bun.lcov
+      run: bun test --coverage --coverage-reporter=lcov > coverage-bun.lcov
       shell: bash
     - name: Publish Deno Rust coverage report
       uses: codecov/codecov-action@v5
