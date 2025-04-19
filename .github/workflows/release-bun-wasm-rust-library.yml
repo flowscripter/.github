@@ -61,12 +61,10 @@ jobs:
             - - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
             - - "@semantic-release/exec"
-              - verifyConditionsCmd: "wasm-pack build --target web --release"
+              - verifyConditionsCmd: "wasm-pack build --target web --release --no-pack"
                 publishCmd: "echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
             - - "@semantic-release/github"
-              - path: pkg/
             - - "@semantic-release/npm"
-              - pkgRoot: pkg
             - - "@semantic-release/git"
               - assets: 
                 - Cargo.toml

@@ -20,6 +20,6 @@ runs:
       shell: bash
     - name: Run Deno tests
       run: |
-        wasm-pack build --target web
+        wasm-pack build --target web --no-pack
         bun test
       shell: bash

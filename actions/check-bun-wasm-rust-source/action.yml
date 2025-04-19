@@ -50,7 +50,7 @@ runs:
         RUSTFLAGS: -Cinstrument-coverage
         LLVM_PROFILE_FILE: "%p-%m.profraw"
     - name: Compile
-      run: wasm-pack build --target web
+      run: wasm-pack build --target web --no-pack
       shell: bash
     - name: Run Deno tests
       run: bun test --coverage --coverage-reporter=lcov > coverage-bun.lcov
