@@ -61,7 +61,7 @@ jobs:
             - - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
             - - "@semantic-release/exec"
-              - verifyConditionsCmd: "wasm-pack build --target web --release --no-pack"
+              - verifyConditionsCmd: "wasm-pack build --target web --release --no-pack && rm pkg/.gitignore"
                 publishCmd: "echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
             - - "@semantic-release/github"
             - - "@semantic-release/npm"
