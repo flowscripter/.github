@@ -68,7 +68,7 @@ jobs:
             - - "@semantic-release/github"
             - - "@semantic-release/npm"
             - - "@semantic-release/git"
-              - assets: 
+              - assets:
                 - package.json
                 - bun.lock
           EOT
