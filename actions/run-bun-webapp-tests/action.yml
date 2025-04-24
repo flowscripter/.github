@@ -27,7 +27,8 @@ runs:
         token: ${{ inputs.github-token }}
     - name: Behave Tests
       run: |
-        bun build index.ts --outdir ./html --minify
+        bun install
+        bun build index.ts --outdir ./html --entry-naming bundle.js --minify
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         behave
