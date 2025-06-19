@@ -29,6 +29,7 @@ runs:
     - name: Generate docs
       run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
       shell: bash
+      if: hashFiles('index.ts') != ''
     - name: Check coverage
       run: bun test --coverage --coverage-reporter=lcov > coverage.lcov
       shell: bash

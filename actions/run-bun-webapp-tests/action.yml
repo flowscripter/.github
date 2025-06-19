@@ -28,7 +28,7 @@ runs:
     - name: Behave Tests
       run: |
         bun install
-        bun build index.ts --outdir ./html --entry-naming bundle.js --minify
+        bun run build
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         behave

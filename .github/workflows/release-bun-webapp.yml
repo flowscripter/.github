@@ -49,7 +49,7 @@ jobs:
         run: bun install
         shell: bash
       - name: Bun Bundle
-        run: bun build index.ts --outdir ./html --entry-naming bundle.js --minify
+        run: bun run build
         shell: bash
       - name: Perform release
         id: release
@@ -89,7 +89,7 @@ jobs:
         if: steps.release.outputs.tag != ''
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'html/'
+          path: 'dist/'
       - name: Deploy to GitHub Pages
         if: steps.release.outputs.tag != ''
         id: deployment
