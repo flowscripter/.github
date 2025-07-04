@@ -3,7 +3,7 @@ description: 'Check Bun Source'
 inputs:
   codecov-token:
     description: 'Codecov token'
-    required: true
+    required: false
 runs:
   using: "composite"
   steps:
@@ -39,3 +39,4 @@ runs:
         files: coverage.lcov
       env:
         CODECOV_TOKEN: ${{ inputs.codecov-token }}
+      if: inputs.codecov-token != ''
