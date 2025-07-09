@@ -93,7 +93,7 @@ jobs:
         shell: bash
         env:
           GITHUB_ACTION: yes
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN || 'xxx' }} # Not required if publishing to GitHub packages, but plugin expects a value
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
   release-linux:
     runs-on: ubuntu-latest
