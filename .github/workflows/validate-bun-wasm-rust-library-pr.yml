@@ -3,7 +3,7 @@ on:
   workflow_call:
     secrets:
       CODECOV_TOKEN:
-        required: true
+        required: false # if not provided codecov will not be run
 jobs:
   check:
     runs-on: ubuntu-latest

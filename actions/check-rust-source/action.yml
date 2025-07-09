@@ -3,7 +3,7 @@ description: 'Check Rust Source'
 inputs:
   codecov-token:
     description: 'Codecov token'
-    required: false
+    required: false # if not provided codecov will not be run
 runs:
   using: "composite"
   steps:
