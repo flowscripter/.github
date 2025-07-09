@@ -1,6 +1,9 @@
 name: validate-bun-rust-library-pr
 on:
-  workflow_call
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        required: true
 jobs:
   check:
     runs-on: ubuntu-latest
