@@ -84,7 +84,6 @@ jobs:
           GITHUB_ACTION: yes
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install Deno
         if: steps.release.outputs.tag != ''
         uses: denoland/setup-deno@v2
