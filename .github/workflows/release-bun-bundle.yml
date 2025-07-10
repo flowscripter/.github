@@ -35,6 +35,7 @@ jobs:
       pull-requests: write
       id-token: write
       pages: write
+      packages: write
     concurrency:
       group: "release"
       cancel-in-progress: false
