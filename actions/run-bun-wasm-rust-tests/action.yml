@@ -1,5 +1,9 @@
 name: run-bun-wasm-rust-tests
 description: 'Run Bun and Rust (WASM) Tests'
+inputs:
+  github-token:
+    description: 'Github token'
+    required: false # only required if accesing GitHub registry packages
 runs:
   using: "composite"
   steps:
@@ -23,3 +27,5 @@ runs:
         wasm-pack build --target web --no-pack
         bun test
       shell: bash
+      env:
+        GITHUB_NPM_TOKEN: ${{ inputs.github-token }}

@@ -1,5 +1,9 @@
 name: run-bun-tests
 description: 'Run Bun Tests'
+inputs:
+  github-token:
+    description: 'Github token'
+    required: false # only required if accesing GitHub registry packages
 runs:
   using: "composite"
   steps:
@@ -15,4 +19,4 @@ runs:
         bun test
       shell: bash
       env:
-        GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_NPM_TOKEN: ${{ inputs.github-token }}

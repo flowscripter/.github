@@ -34,4 +34,4 @@ runs:
         behave
       shell: bash
       env:
-        GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_NPM_TOKEN: ${{ inputs.github-token }}
