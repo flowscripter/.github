@@ -56,7 +56,7 @@ jobs:
       - name: Bun Install
         run: bun install
         shell: bash
-        with:
+        env:
           GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Bun Bundle
         run: bun build index.ts --outdir ./dist --entry-naming bundle.js --minify

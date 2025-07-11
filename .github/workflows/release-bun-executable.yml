@@ -68,7 +68,7 @@ jobs:
       - name: Bun Install
         run: bun install
         shell: bash
-        with:
+        env:
           GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Perform release
         id: release
@@ -122,6 +122,8 @@ jobs:
           zip -j ${{ inputs.executable-name }}_Linux_x86_64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_x86_64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x86_64.sha256
         shell: bash
+        env:
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release Linux
         uses: softprops/action-gh-release@v2
         with:
@@ -152,7 +154,7 @@ jobs:
           bun install
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
-        with:
+        env:
           GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # - name: Sign Windows
 #   uses: skymatic/code-sign-action@v1
@@ -197,7 +199,7 @@ jobs:
           bun install
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
-        with:
+        env:
           GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # - name: Install App Store Connect API Key
 #   run: |
