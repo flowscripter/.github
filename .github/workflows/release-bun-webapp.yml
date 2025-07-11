@@ -4,8 +4,6 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
-      GITHUB_NPM_TOKEN:
-        required: false # to support GitHub hosted Packages  
       PUSH_TO_MAIN_TOKEN:
         required: true
 jobs:
@@ -56,7 +54,7 @@ jobs:
         run: bun install
         shell: bash
         with:
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_NPM_TOKEN }}
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Bun Bundle
         run: bun run build
         shell: bash

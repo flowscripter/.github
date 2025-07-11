@@ -10,8 +10,6 @@ on:
         required: false # if not provided codecov will not be run
       NPM_TOKEN:
         required: true
-      GITHUB_NPM_TOKEN:
-        required: false # to support GitHub hosted Packages  
       PUSH_TO_MAIN_TOKEN:
         required: true
       WINGET_TOKEN:
@@ -71,7 +69,7 @@ jobs:
         run: bun install
         shell: bash
         with:
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_NPM_TOKEN }}
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Perform release
         id: release
         run: |
@@ -131,7 +129,7 @@ jobs:
           files: |
             ${{ inputs.executable-name }}_Linux_x86_64.zip
             ${{ inputs.executable-name }}_Linux_x86_64.sha256
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_NPM_TOKEN }}
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release-windows:
     runs-on: windows-latest
     needs:
@@ -155,7 +153,7 @@ jobs:
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
         with:
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_NPM_TOKEN }}
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # - name: Sign Windows
 #   uses: skymatic/code-sign-action@v1
 #   with:
@@ -200,7 +198,7 @@ jobs:
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
         with:
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_NPM_TOKEN }}
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # - name: Install App Store Connect API Key
 #   run: |
 #     mkdir -p private_keys/

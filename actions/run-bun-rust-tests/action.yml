@@ -18,3 +18,5 @@ runs:
         bun install
         bun test
       shell: bash
+      with:
+        GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
