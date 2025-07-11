@@ -4,6 +4,8 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
+      NPM_TOKEN:
+        required: true
       NPM_GITHUB_TOKEN:
         required: false # to support GitHub hosted Packages  
       PUSH_TO_MAIN_TOKEN:
@@ -87,8 +89,7 @@ jobs:
         shell: bash
         env:
           GITHUB_ACTION: yes
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
       - name: Install Deno
         if: steps.release.outputs.tag != ''
