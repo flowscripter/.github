@@ -1,5 +1,9 @@
 name: run-bun-webapp-tests
 description: 'Run Bun Webapp Tests'
+inputs:
+  github-token:
+    description: 'Github token'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -20,7 +24,7 @@ runs:
     - name: Install gecko driver
       uses: browser-actions/setup-geckodriver@latest
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ inputs.github-token }}
     - name: Behave Tests
       run: |
         bun install
@@ -29,5 +33,3 @@ runs:
         pip3 install -r pip-requirements.txt
         behave
       shell: bash
-      env:
-        GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

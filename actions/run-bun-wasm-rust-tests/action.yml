@@ -23,5 +23,3 @@ runs:
         wasm-pack build --target web --no-pack
         bun test
       shell: bash
-      env:
-        GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
