@@ -1,9 +1,5 @@
 name: run-bun-executable-tests
 description: 'Run Bun executable tests'
-inputs:
-  github-token:
-    description: 'Github token'
-    required: false # only required if accesing GitHub registry packages
 runs:
   using: "composite"
   steps:
@@ -27,4 +23,4 @@ runs:
         behave
       shell: bash
       env:
-        GITHUB_NPM_TOKEN: ${{ inputs.github-token }}
+        GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

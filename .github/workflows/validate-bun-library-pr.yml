@@ -12,7 +12,6 @@ jobs:
         uses: flowscripter/.github/actions/check-bun-source@v1
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
   test:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -21,5 +20,3 @@ jobs:
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
