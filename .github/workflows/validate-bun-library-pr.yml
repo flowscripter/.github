@@ -4,6 +4,8 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
+      NPM_GITHUB_TOKEN:
+        required: false # required to support GitHub hosted Packages
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -20,3 +22,5 @@ jobs:
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
+        with:
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
