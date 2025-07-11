@@ -22,3 +22,5 @@ runs:
         export EXECUTABLE=./executable
         behave
       shell: bash
+      env:
+        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}

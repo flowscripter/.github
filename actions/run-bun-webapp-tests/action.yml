@@ -33,3 +33,5 @@ runs:
         pip3 install -r pip-requirements.txt
         behave
       shell: bash
+      env:
+        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}

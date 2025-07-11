@@ -20,6 +20,8 @@ runs:
     - name: Bun Install
       run: bun install
       shell: bash
+      env:
+        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
     - name: Lint
       run: deno lint index.ts src/ tests/
       shell: bash 

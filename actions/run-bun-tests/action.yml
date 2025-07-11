@@ -14,3 +14,5 @@ runs:
         bun install
         bun test
       shell: bash
+      env:
+        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
