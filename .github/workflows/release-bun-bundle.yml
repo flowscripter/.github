@@ -8,6 +8,8 @@ on:
         required: true
       PUSH_TO_MAIN_TOKEN:
         required: true
+      NPM_GITHUB_TOKEN:
+        required: false # to support GitHub hosted Packages  
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -57,7 +59,7 @@ jobs:
         run: bun install
         shell: bash
         env:
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       - name: Bun Bundle
         run: bun build index.ts --outdir ./dist --entry-naming bundle.js --minify
         shell: bash
@@ -88,6 +90,7 @@ jobs:
         env:
           GITHUB_ACTION: yes
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
       - name: Install Deno
         if: steps.release.outputs.tag != ''

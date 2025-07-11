@@ -6,6 +6,8 @@ on:
         required: false # if not provided codecov will not be run
       NPM_TOKEN:
         required: true
+      NPM_GITHUB_TOKEN:
+        required: false # to support GitHub hosted Packages  
       PUSH_TO_MAIN_TOKEN:
         required: true
       CARGO_REGISTRY_TOKEN:
@@ -59,7 +61,7 @@ jobs:
         run: bun install
         shell: bash
         env:
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       - name: Perform release
         id: release  
         run: |
@@ -92,6 +94,7 @@ jobs:
         env:
           GITHUB_ACTION: yes
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       - name: Install Deno
