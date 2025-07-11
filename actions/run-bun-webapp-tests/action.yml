@@ -4,6 +4,9 @@ inputs:
   github-token:
     description: 'Github token'
     required: true
+  npm-github-token:
+    description: 'GitHub token for NPM packages'
+    required: false # required to support GitHub hosted Packages
 runs:
   using: "composite"
   steps:
@@ -34,4 +37,4 @@ runs:
         behave
       shell: bash
       env:
-        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+        NPM_GITHUB_TOKEN: ${{ inputs.npm-github-token }}

@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Run Bun and Rust Tests
         uses: flowscripter/.github/actions/run-bun-rust-tests@v1
+        with:
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   release:
     runs-on: ubuntu-latest
     needs:

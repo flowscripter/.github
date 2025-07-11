@@ -4,6 +4,8 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
+      NPM_GITHUB_TOKEN:
+        required: false # required to support GitHub hosted Packages
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -12,6 +14,7 @@ jobs:
         uses: flowscripter/.github/actions/check-bun-wasm-rust-source@v1
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   test:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -20,3 +23,5 @@ jobs:
     steps:
       - name: Run Bun and Rust (WASM) Tests
         uses: flowscripter/.github/actions/run-bun-wasm-rust-tests@v1
+        with:
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}

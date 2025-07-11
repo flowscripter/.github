@@ -24,6 +24,7 @@ jobs:
         uses: flowscripter/.github/actions/check-bun-source@v1
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   test:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -32,6 +33,8 @@ jobs:
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
+        with:
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   test-executable:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -40,6 +43,8 @@ jobs:
     steps:
       - name: Run Bun Executable Tests
         uses: flowscripter/.github/actions/run-bun-executable-tests@v1
+        with:
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   release:
     runs-on: ubuntu-latest
     needs:

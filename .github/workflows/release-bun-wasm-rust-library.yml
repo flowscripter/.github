@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Run Bun and Rust (WASM) Tests
         uses: flowscripter/.github/actions/run-bun-wasm-rust-tests@v1
+        with:
+          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   release:
     runs-on: ubuntu-latest
     needs:
