@@ -1,9 +1,6 @@
 name: lint-pr-message
 on:
-  workflow_call:
-    secrets:
-      GITHUB_TOKEN:
-        required: true
+  workflow_call
 jobs:
   lint:
     runs-on: ubuntu-latest

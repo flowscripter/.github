@@ -4,8 +4,6 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
-      GITHUB_TOKEN:
-        required: true
 jobs:
   check:
     runs-on: ubuntu-latest
