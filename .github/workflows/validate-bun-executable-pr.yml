@@ -5,7 +5,7 @@ on:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
       NPM_GITHUB_TOKEN:
-        required: false # to support GitHub hosted Packages  
+        required: false # to access GitHub hosted Packages  
 jobs:
   check:
     runs-on: ubuntu-latest
