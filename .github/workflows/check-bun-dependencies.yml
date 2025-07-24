@@ -17,12 +17,14 @@ jobs:
         with:
           bun-version: "latest"
       - name: Update dependencies
-        run: |
-          bun update --latest
-          bun test
+        run: bun update --latest
         shell: bash
         env:
           NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+      - name: Run tests
+        run: bun test
+        shell: bash
+        if: hashFiles('tests/**') != ''
       - name: Create PR
         id: create-pr
         uses: peter-evans/create-pull-request@v7
