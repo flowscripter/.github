@@ -244,7 +244,6 @@ jobs:
   update-brew-formula:
     runs-on: ubuntu-latest
     needs:
-      - release
       - release-macos
     if: needs.release.outputs.tag != ''
     permissions:
@@ -264,7 +263,6 @@ jobs:
   update-winget-pkg:
     runs-on: windows-latest
     needs:
-      - release
       - release-windows
     if: needs.release.outputs.tag != ''
     permissions:
