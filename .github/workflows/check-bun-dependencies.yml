@@ -27,7 +27,7 @@ jobs:
         if: hashFiles('tests/**') != ''
       - name: Create PR
         id: create-pr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
           commit-message: 'chore: update dependencies'
