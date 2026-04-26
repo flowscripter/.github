@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout source
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Setup and Run Clippy and Cargo Audit
       run: |
         rustup component add clippy

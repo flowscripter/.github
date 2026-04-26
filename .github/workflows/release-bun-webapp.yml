@@ -48,7 +48,7 @@ jobs:
       tag: ${{ steps.release.outputs.tag }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           persist-credentials: false
       - name: Install Bun
@@ -64,7 +64,7 @@ jobs:
         run: bun run build
         shell: bash
       - name: Set up Node.js - Needed for semantic-release even though we use Bun as it checks for the node version
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 'latest'
       - name: Perform release
@@ -101,13 +101,13 @@ jobs:
           deno-version: v2.x
       - name: Setup Pages
         if: steps.release.outputs.tag != ''
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Upload artifact
         if: steps.release.outputs.tag != ''
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: 'dist/'
       - name: Deploy to GitHub Pages
         if: steps.release.outputs.tag != ''
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
