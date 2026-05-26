@@ -8,10 +8,6 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
-      NPM_TOKEN:
-        required: true # to publish npm or GitHub hosted Packages  
-      NPM_GITHUB_TOKEN:
-        required: false # to access GitHub hosted Packages  
       PUSH_TO_MAIN_TOKEN:
         required: true
       WINGET_TOKEN:
@@ -24,7 +20,6 @@ jobs:
         uses: flowscripter/.github/actions/check-bun-source@v1
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
-          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   test:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -33,8 +28,6 @@ jobs:
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
-        with:
-          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   test-executable:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -43,8 +36,6 @@ jobs:
     steps:
       - name: Run Bun Executable Tests
         uses: flowscripter/.github/actions/run-bun-executable-tests@v1
-        with:
-          npm-github-token: ${{ secrets.NPM_GITHUB_TOKEN }}
   release:
     runs-on: ubuntu-latest
     needs:
@@ -75,8 +66,6 @@ jobs:
       - name: Bun Install
         run: bun install
         shell: bash
-        env:
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       - name: Set up Node.js - Needed for semantic-release even though we use Bun as it checks for the node version
         uses: actions/setup-node@v6
         with:
@@ -107,7 +96,6 @@ jobs:
         shell: bash
         env:
           GITHUB_ACTION: yes
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
   release-linux:
     runs-on: ubuntu-latest
@@ -133,8 +121,6 @@ jobs:
           zip -j ${{ inputs.executable-name }}_Linux_x86_64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_x86_64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x86_64.sha256
         shell: bash
-        env:
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       - name: Release Linux
         uses: softprops/action-gh-release@v2
         with:
@@ -164,8 +150,6 @@ jobs:
           bun install
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
-        env:
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 # - name: Sign Windows
 #   uses: skymatic/code-sign-action@v1
 #   with:
@@ -209,8 +193,6 @@ jobs:
           bun install
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
-        env:
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 # - name: Install App Store Connect API Key
 #   run: |
 #     mkdir -p private_keys/

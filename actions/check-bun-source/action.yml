@@ -4,9 +4,6 @@ inputs:
   codecov-token:
     description: 'Codecov token'
     required: false # if not provided codecov will not be run
-  npm-github-token:
-    description: 'GitHub token for NPM packages'
-    required: false # required to support GitHub hosted Packages
 runs:
   using: "composite"
   steps:
@@ -23,8 +20,6 @@ runs:
     - name: Bun Install
       run: bun install
       shell: bash
-      env:
-        NPM_GITHUB_TOKEN: ${{ inputs.npm-github-token }}
     - name: Lint
       run: deno lint index.ts src/ tests/
       shell: bash 

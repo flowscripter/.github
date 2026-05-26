@@ -1,9 +1,5 @@
 name: run-bun-executable-tests
 description: 'Run Bun executable tests'
-inputs:
-  npm-github-token:
-    description: 'GitHub token for NPM packages'
-    required: false # required to support GitHub hosted Packages
 runs:
   using: "composite"
   steps:
@@ -16,7 +12,7 @@ runs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.13
+        python-version: 3.14
     - name: Behave Tests
       run: |
         bun install
@@ -26,5 +22,3 @@ runs:
         export EXECUTABLE=./executable
         behave
       shell: bash
-      env:
-        NPM_GITHUB_TOKEN: ${{ inputs.npm-github-token }}

@@ -4,9 +4,6 @@ inputs:
   github-token:
     description: 'Github token'
     required: true
-  npm-github-token:
-    description: 'GitHub token for NPM packages'
-    required: false # required to support GitHub hosted Packages
 runs:
   using: "composite"
   steps:
@@ -19,7 +16,7 @@ runs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.13
+        python-version: 3.14
     - name: Install Firefox
       uses: browser-actions/setup-firefox@v1
       with:
@@ -36,5 +33,3 @@ runs:
         pip3 install -r pip-requirements.txt
         behave
       shell: bash
-      env:
-        NPM_GITHUB_TOKEN: ${{ inputs.npm-github-token }}

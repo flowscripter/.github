@@ -4,8 +4,6 @@ on:
     secrets:
       CREATE_PR_TOKEN:
         required: true
-      NPM_GITHUB_TOKEN:
-        required: false # to access GitHub hosted Packages  
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -27,8 +25,6 @@ jobs:
           wasm-pack build --target web --release
           bun test
         shell: bash
-        env:
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       - name: Create PR
         id: create-pr
         uses: peter-evans/create-pull-request@v8

@@ -4,8 +4,6 @@ on:
     secrets:
       CREATE_PR_TOKEN:
         required: true
-      NPM_GITHUB_TOKEN:
-        required: false # to access GitHub hosted Packages
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -19,8 +17,6 @@ jobs:
       - name: Update dependencies
         run: bun update --latest
         shell: bash
-        env:
-          NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       - name: Run tests
         run: bun test
         shell: bash
