@@ -35,7 +35,7 @@ runs:
       shell: bash
       if: hashFiles('tests/**') != ''
     - name: Publish coverage report
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         files: coverage.lcov
       env:

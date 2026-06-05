@@ -47,7 +47,7 @@ runs:
       run: bun test --coverage --coverage-reporter=lcov > coverage.lcov
       shell: bash
     - name: Publish coverage report
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         files: coverage.lcov
       env:
