@@ -56,7 +56,7 @@ jobs:
       - name: Set up Node.js - Needed for semantic-release even though we use Bun as it checks for the node version
         uses: actions/setup-node@v6
         with:
-          node-version: 'latest'
+          node-version: 'lts/*'
       - name: Perform release
         id: release
         run: |
