@@ -9,10 +9,6 @@ runs:
   steps:
     - name: Checkout source
       uses: actions/checkout@v6
-    - name: Install Deno
-      uses: denoland/setup-deno@v2
-      with:
-        deno-version: v2.x
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
       with:
@@ -21,13 +17,13 @@ runs:
       run: bun install
       shell: bash
     - name: Lint
-      run: deno lint index.ts src/ tests/
+      run: bunx oxlint index.ts src/ tests/
       shell: bash 
     - name: Format
-      run: deno fmt --check
+      run: bun oxfmt --check
       shell: bash 
     - name: Generate docs
-      run: deno doc --html --name=$(basename ${{ github.repository }}) index.ts
+      run: bunx typedoc --readme none index.ts
       shell: bash
       if: hashFiles('index.ts') != ''
     - name: Check coverage

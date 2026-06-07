@@ -18,7 +18,7 @@ runs:
       run: |
         cargo test
       shell: bash
-    - name: Run Deno tests
+    - name: Run Bun tests
       run: |
         wasm-pack build --target web --no-pack
         bun test

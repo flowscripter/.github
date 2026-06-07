@@ -1,4 +1,4 @@
-name: release-deno-library
+name: release-rust-library
 on:
   workflow_call:
     secrets:
@@ -45,7 +45,7 @@ jobs:
       - name: Set up Node.js - Needed for semantic-release even though we use Bun as it checks for the node version
         uses: actions/setup-node@v6
         with:
-          node-version: 'lts/*'
+          node-version: 'latest'
       - name: Perform release
         run: |
           cat <<EOT > .releaserc
