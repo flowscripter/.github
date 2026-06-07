@@ -20,7 +20,7 @@ runs:
       run: bunx oxlint index.ts src/ tests/
       shell: bash 
     - name: Format
-      run: bun oxfmt --check
+      run: bunx oxfmt --check
       shell: bash 
     - name: Generate docs
       run: bunx typedoc --readme none index.ts

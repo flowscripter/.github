@@ -29,7 +29,7 @@ runs:
       shell: bash 
     - name: Format
       run: |
-        bun oxfmt --check
+        bunx oxfmt --check
         rustup component add rustfmt
         cargo fmt -- --check
       shell: bash 
