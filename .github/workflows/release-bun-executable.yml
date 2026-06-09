@@ -302,13 +302,14 @@ jobs:
   update-brew-formula:
     runs-on: ubuntu-latest
     needs:
+      - release
       - release-macos
     if: needs.release.outputs.tag != ''
     permissions:
       contents: write
     steps:
       - name: Update Homebrew Formula
-        uses: PanterSoft/update-formula-homebrew-action@master
+        uses: PanterSoft/update-formula-homebrew-action@v1
         with:
           repo: ${{ github.repository}}
           tap: flowscripter/homebrew-tap
@@ -329,7 +330,7 @@ jobs:
       contents: write
     steps:
       - name: Update Winget Package
-        uses: vedantmgoyal9/winget-releaser@main
+        uses: vedantmgoyal9/winget-releaser@v2
         with:
           identifier: Flowscripter.${{ inputs.executable-name }}
           max-versions-to-keep: 5
