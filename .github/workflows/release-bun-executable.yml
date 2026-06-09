@@ -191,7 +191,7 @@ jobs:
           certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
           password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
           certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
-          folder: ${{ runner.temp }}/x64-pc-windows-msvc/${{ inputs.executable-name }}.exe
+          folder: ${{ inputs.executable-name }}.exe
       - name: Zip Windows
         run: |
           7z a ${{ inputs.executable-name }}_Windows_x64.zip ${{ inputs.executable-name }}.exe
@@ -232,7 +232,7 @@ jobs:
           certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
           password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
           certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
-          folder: ${{ runner.temp }}/arm64-pc-windows-msvc/${{ inputs.executable-name }}.exe
+          folder: ${{ inputs.executable-name }}.exe
       - name: Zip Windows
         run: |
           7z a ${{ inputs.executable-name }}_Windows_arm64.zip ${{ inputs.executable-name }}.exe
