@@ -188,8 +188,7 @@ jobs:
       - name: Compile Windows
         run: |
           cargo build --release
-          mv target/release/*.dll target/release/*.x64.dll
-          export PACKAGE_NAME=$(yq -r '.package.name' Cargo.toml)
+          for f in target/release/*.dll; do mv "$f" "${f%.dll}.x64.dll"; done
         shell: bash
       - name: Sign Windows
         uses: skymatic/code-sign-action@v1
@@ -197,7 +196,7 @@ jobs:
           certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
           password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
           certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
-          folder: target/release/*.dll
+          folder: target/release
       - name: Release Windows
         uses: softprops/action-gh-release@v2
         with:
@@ -223,8 +222,7 @@ jobs:
       - name: Compile Windows
         run: |
           cargo build --release
-          mv target/release/*.dll target/release/*.arm64.dll
-          export PACKAGE_NAME=$(yq -r '.package.name' Cargo.toml)
+          for f in target/release/*.dll; do mv "$f" "${f%.dll}.arm64.dll"; done
         shell: bash
       - name: Sign Windows
         uses: skymatic/code-sign-action@v1
@@ -232,7 +230,7 @@ jobs:
           certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
           password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
           certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
-          folder: target/release/*.dll
+          folder: target/release
       - name: Release Windows
         uses: softprops/action-gh-release@v2
         with:
@@ -269,10 +267,14 @@ jobs:
           echo '${{ secrets.APPLE_CODESIGN_CERTIFICATE_P12_BASE64 }}' > codesign_cert.p12.base64
           base64 -d -i codesign_cert.p12.base64 -o codesign_cert.p12
         shell: bash
+      - name: Find dylib
+        id: find_dylib
+        run: echo "path=$(ls target/release/*.dylib)" >> $GITHUB_OUTPUT
+        shell: bash
       - name: Sign and Notarize
         uses: indygreg/apple-code-sign-action@v1
         with:
-          input_path: target/release/*.dylib
+          input_path: ${{ steps.find_dylib.outputs.path }}
           notarize: true
           staple: true
           p12_file: codesign_cert.p12
