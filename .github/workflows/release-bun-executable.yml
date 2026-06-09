@@ -282,7 +282,7 @@ jobs:
       - name: Sign and Notarize
         uses: indygreg/apple-code-sign-action@v1
         with:
-          input_path: ${{ runner.temp }}/aarch64-apple-darwin/${{ inputs.executable-name }}
+          input_path: ${{ inputs.executable-name }}
           notarize: true
           staple: true
           p12_file: codesign_cert.p12
