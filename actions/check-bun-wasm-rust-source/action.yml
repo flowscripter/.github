@@ -34,9 +34,6 @@ runs:
         rustup component add rustfmt
         cargo fmt -- --check
       shell: bash 
-    - name: Generate docs
-      run: bunx typedoc --readme none index.ts
-      shell: bash
     - name: Run Rust tests
       run: |
         cargo test
@@ -50,6 +47,9 @@ runs:
       shell: bash
     - name: Run Bun tests
       run: bun test --coverage --coverage-reporter=lcov > coverage-bun.lcov
+      shell: bash
+    - name: Generate docs
+      run: bunx typedoc --readme none index.ts
       shell: bash
     - name: Publish Bun Rust coverage report
       uses: codecov/codecov-action@v6
