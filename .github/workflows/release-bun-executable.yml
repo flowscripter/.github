@@ -321,6 +321,7 @@ jobs:
   update-winget-pkg:
     runs-on: windows-latest
     needs:
+      - release
       - release-windows-x64
       - release-windows-arm64
     if: needs.release.outputs.tag != ''
