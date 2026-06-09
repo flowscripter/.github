@@ -56,10 +56,6 @@ jobs:
       - name: Bun Bundle
         run: bun build index.ts --outdir ./dist --entry-naming bundle.js --minify
         shell: bash
-      - name: Set up Node.js - Needed for semantic-release even though we use Bun as it checks for the node version
-        uses: actions/setup-node@v6
-        with:
-          node-version: 'lts/*'
       - name: Perform release
         id: release
         run: |

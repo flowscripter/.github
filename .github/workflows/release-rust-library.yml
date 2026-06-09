@@ -42,10 +42,6 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: "latest"
-      - name: Set up Node.js - Needed for semantic-release even though we use Bun as it checks for the node version
-        uses: actions/setup-node@v6
-        with:
-          node-version: 'latest'
       - name: Perform release
         run: |
           cat <<EOT > .releaserc
