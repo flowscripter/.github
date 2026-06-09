@@ -92,7 +92,7 @@ jobs:
           bun-version: "latest"
       - name: Generate docs
         if: steps.release.outputs.tag != ''
-        run: bunx typedoc --readme none index.ts
+        run: bunx typedoc index.ts
         shell: bash
       - name: Setup Pages
         if: steps.release.outputs.tag != ''
