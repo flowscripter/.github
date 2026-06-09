@@ -190,13 +190,13 @@ jobs:
           cargo build --release
           for f in target/release/*.dll; do mv "$f" "${f%.dll}.x64.dll"; done
         shell: bash
-      - name: Sign Windows
-        uses: skymatic/code-sign-action@v1
-        with:
-          certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
-          password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
-          certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
-          folder: target/release
+      # - name: Sign Windows
+      #   uses: skymatic/code-sign-action@v1
+      #   with:
+      #     certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
+      #     password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
+      #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
+      #     folder: target/release
       - name: Release Windows
         uses: softprops/action-gh-release@v2
         with:
@@ -224,13 +224,13 @@ jobs:
           cargo build --release
           for f in target/release/*.dll; do mv "$f" "${f%.dll}.arm64.dll"; done
         shell: bash
-      - name: Sign Windows
-        uses: skymatic/code-sign-action@v1
-        with:
-          certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
-          password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
-          certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
-          folder: target/release
+      # - name: Sign Windows
+      #   uses: skymatic/code-sign-action@v1
+      #   with:
+      #     certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
+      #     password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
+      #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
+      #     folder: target/release
       - name: Release Windows
         uses: softprops/action-gh-release@v2
         with:
@@ -257,30 +257,30 @@ jobs:
         run: |
           cargo build --release
         shell: bash
-      - name: Install App Store Connect API Key
-        run: |
-          mkdir -p private_keys/
-          echo '${{ secrets.APPLE_APP_STORE_CONNECT_KEY_PEM }}' | tr ' ' '\n' > private_keys/AuthKey_${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}.p12
-        shell: bash
-      - name: Write signing certificate
-        run: |
-          echo '${{ secrets.APPLE_CODESIGN_CERTIFICATE_P12_BASE64 }}' > codesign_cert.p12.base64
-          base64 -d -i codesign_cert.p12.base64 -o codesign_cert.p12
-        shell: bash
-      - name: Find dylib
-        id: find_dylib
-        run: echo "path=$(ls target/release/*.dylib)" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Sign and Notarize
-        uses: indygreg/apple-code-sign-action@v1
-        with:
-          input_path: ${{ steps.find_dylib.outputs.path }}
-          notarize: true
-          staple: true
-          p12_file: codesign_cert.p12
-          p12_password: ${{ secrets.APPLE_CODESIGN_CERTIFICATE_PASSWORD }}
-          app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
-          app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
+      # - name: Install App Store Connect API Key
+      #   run: |
+      #     mkdir -p private_keys/
+      #     echo '${{ secrets.APPLE_APP_STORE_CONNECT_KEY_PEM }}' | tr ' ' '\n' > private_keys/AuthKey_${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}.p12
+      #   shell: bash
+      # - name: Write signing certificate
+      #   run: |
+      #     echo '${{ secrets.APPLE_CODESIGN_CERTIFICATE_P12_BASE64 }}' > codesign_cert.p12.base64
+      #     base64 -d -i codesign_cert.p12.base64 -o codesign_cert.p12
+      #   shell: bash
+      # - name: Find dylib
+      #   id: find_dylib
+      #   run: echo "path=$(ls target/release/*.dylib)" >> $GITHUB_OUTPUT
+      #   shell: bash
+      # - name: Sign and Notarize
+      #   uses: indygreg/apple-code-sign-action@v1
+      #   with:
+      #     input_path: ${{ steps.find_dylib.outputs.path }}
+      #     notarize: true
+      #     staple: true
+      #     p12_file: codesign_cert.p12
+      #     p12_password: ${{ secrets.APPLE_CODESIGN_CERTIFICATE_PASSWORD }}
+      #     app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
+      #     app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
       - name: Release MacOS
         uses: softprops/action-gh-release@v2
         with:
