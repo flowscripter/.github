@@ -333,7 +333,7 @@ jobs:
         uses: vedantmgoyal9/winget-releaser@v2
         with:
           identifier: Flowscripter.${{ inputs.executable-name }}
-          max-versions-to-keep: 5
+          max-versions-to-keep: 0
           token: ${{ secrets.WINGET_TOKEN }}
           release-tag: ${{ needs.release.outputs.tag }}
           installers-regex: _Windows_.*\.zip$
