@@ -15,7 +15,9 @@ jobs:
         with:
           bun-version: "latest"
       - name: Update dependencies
-        run: bun update --latest
+        run: |
+          bun update --latest
+          bun install --frozen-lockfile --minimum-release-age 259200
         shell: bash
       - name: Run tests
         run: bun test

@@ -12,9 +12,11 @@ jobs:
         uses: actions/checkout@v6
       - name: Setup cargo and update dependencies
         run: |
-          cargo install cargo-edit
+          cargo install cargo-edit cargo-audit
           cargo update
           cargo upgrade --incompatible
+          cargo audit
+          cargo build --locked
         shell: bash
       - name: Create PR
         id: create-pr

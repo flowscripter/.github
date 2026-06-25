@@ -22,6 +22,7 @@ jobs:
       - name: Update dependencies
         run: |
           bun update --latest
+          bun install --frozen-lockfile --minimum-release-age 259200
           wasm-pack build --target web --release
           bun test
         shell: bash
