@@ -27,7 +27,7 @@ runs:
         token: ${{ inputs.github-token }}
     - name: Behave Tests
       run: |
-        bun install
+        bun ci
         bun run build
         cd functional_tests 
         pip3 install -r pip-requirements.txt

@@ -63,7 +63,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Bun Install
-        run: bun install
+        run: bun ci
         shell: bash
       - name: Perform release
         id: release
@@ -116,7 +116,7 @@ jobs:
           bun-version: "latest"
       - name: Compile Linux
         run: |
-          bun install
+          bun ci
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
           zip -j ${{ inputs.executable-name }}_Linux_x64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x64.sha256
@@ -147,7 +147,7 @@ jobs:
           bun-version: "latest"
       - name: Compile Linux
         run: |
-          bun install
+          bun ci
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
           zip -j ${{ inputs.executable-name }}_Linux_arm64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_arm64.sha256
@@ -178,7 +178,7 @@ jobs:
           bun-version: "latest"
       - name: Compile Windows
         run: |
-          bun install
+          bun ci
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
       # - name: Sign Windows
@@ -219,7 +219,7 @@ jobs:
           bun-version: "latest"
       - name: Compile Windows
         run: |
-          bun install
+          bun ci
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
       # - name: Sign Windows
@@ -262,7 +262,7 @@ jobs:
           bun-version: "latest"
       - name: Compile MacOS
         run: |
-          bun install
+          bun ci
           bun build index.ts --compile --outfile ${{ inputs.executable-name }} 
         shell: bash
       # - name: Install App Store Connect API Key

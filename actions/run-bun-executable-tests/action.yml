@@ -15,7 +15,7 @@ runs:
         python-version: 3.14
     - name: Behave Tests
       run: |
-        bun install
+        bun ci
         bun build index.ts --compile --outfile functional_tests/executable
         cd functional_tests 
         pip3 install -r pip-requirements.txt

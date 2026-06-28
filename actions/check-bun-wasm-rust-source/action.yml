@@ -14,7 +14,7 @@ runs:
       with:
         bun-version: "latest"
     - name: Bun Install
-      run: bun install
+      run: bun ci
       shell: bash
     - name: Setup and Run Clippy and Cargo Audit
       run: |

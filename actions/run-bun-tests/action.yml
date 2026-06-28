@@ -10,7 +10,7 @@ runs:
       with:
         bun-version: "latest"
     - name: Install dependencies
-      run: bun install
+      run: bun ci
       shell: bash
     - name: Run tests
       run: bun test

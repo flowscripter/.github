@@ -53,7 +53,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Bun Install
-        run: bun install
+        run: bun ci
         shell: bash
       - name: Perform release
         id: release  
