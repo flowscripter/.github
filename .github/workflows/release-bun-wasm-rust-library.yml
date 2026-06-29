@@ -53,6 +53,9 @@ jobs:
       - name: Bun Install
         run: bun ci
         shell: bash
+      - name: Wasm Pack Install
+        run: cargo install wasm-pack
+        shell: bash
       - name: Build
         run: bun run build
         shell: bash
@@ -74,8 +77,7 @@ jobs:
             - - "@semantic-release/release-notes-generator"
               - preset: conventionalcommits
             - - "@semantic-release/exec"
-              - verifyConditionsCmd: "wasm-pack build --target web --release --no-pack && rm pkg/.gitignore"
-                publishCmd: "echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
+              - publishCmd: "echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
             - - "@semantic-release/github"
             - - "@semantic-release/npm"
             - - "@semantic-release/git"
@@ -85,7 +87,6 @@ jobs:
                 - package.json
                 - bun.lock
           EOT
-          cargo install wasm-pack
           bun add --no-save conventional-changelog-conventionalcommits @semantic-release/exec @semantic-release/git
           bunx semantic-release
         shell: bash
