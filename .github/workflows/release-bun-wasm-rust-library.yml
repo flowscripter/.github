@@ -50,7 +50,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: "latest"
-      - name: Bun Install
+      - name: Install packages
         run: bun ci
         shell: bash
       - name: Wasm Pack Install
@@ -93,11 +93,6 @@ jobs:
         env:
           GITHUB_ACTION: yes
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
-      - name: Install Bun
-        if: steps.release.outputs.tag != ''
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "latest"
       - name: Generate docs
         if: steps.release.outputs.tag != ''
         run: bunx typedoc index.ts

@@ -13,7 +13,7 @@ runs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: "latest"
-    - name: Bun Install
+    - name: Install packages
       run: bun ci
       shell: bash
     - name: Setup and Run Clippy and Cargo Audit
