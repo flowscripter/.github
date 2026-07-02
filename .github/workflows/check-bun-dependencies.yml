@@ -15,16 +15,20 @@ jobs:
         with:
           bun-version: "latest"
       - name: Update dependencies
-        run: |
-          bun update --latest
-          bun install --frozen-lockfile --minimum-release-age 259200
+        run: bun update --latest
+        shell: bash
+      - name: Check minimum release age
+        id: install
+        continue-on-error: true
+        run: bun install --frozen-lockfile --minimum-release-age 259200
         shell: bash
       - name: Run tests
         run: bun test
         shell: bash
-        if: hashFiles('tests/**') != ''
+        if: steps.install.outcome == 'success' && hashFiles('tests/**') != ''
       - name: Create PR
         id: create-pr
+        if: steps.install.outcome == 'success'
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
@@ -34,7 +38,7 @@ jobs:
             chore: update dependencies
           branch: update-dependencies
       - name: Enable Pull Request Automerge
-        if: steps.create-pr.outputs.pull-request-operation == 'created'
+        if: steps.install.outcome == 'success' && steps.create-pr.outputs.pull-request-operation == 'created'
         run: gh pr merge --squash --auto ${{ steps.create-pr.outputs.pull-request-number }}
         env:
           GH_TOKEN: ${{ secrets.CREATE_PR_TOKEN }}
