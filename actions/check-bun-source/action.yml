@@ -16,6 +16,9 @@ runs:
     - name: Bun Install
       run: bun ci
       shell: bash
+    - name: Build
+      run: bun run build
+      shell: bash
     - name: Lint
       run: bunx oxlint index.ts src/ tests/
       shell: bash 

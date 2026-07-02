@@ -24,6 +24,9 @@ runs:
         cargo install cargo-audit
         cargo audit
       shell: bash
+    - name: Build
+      run: bun run build
+      shell: bash
     - name: Lint
       run: bunx oxlint index.ts src/ tests/
       shell: bash 
