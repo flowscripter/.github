@@ -28,8 +28,10 @@ runs:
     - name: Behave Tests
       run: |
         bun ci
-        bun run build
-        cd functional_tests 
+        if jq -e '.scripts.build' package.json > /dev/null 2>&1; then
+          bun run build
+        fi
+        cd functional_tests
         pip3 install -r pip-requirements.txt
         behave
       shell: bash

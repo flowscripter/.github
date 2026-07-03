@@ -55,7 +55,17 @@ jobs:
       - name: Install packages
         run: bun ci
         shell: bash
+      - name: Check for build script
+        id: check-build
+        run: |
+          if jq -e '.scripts.build' package.json > /dev/null 2>&1; then
+            echo "has-build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-build=false" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
       - name: Build
+        if: steps.check-build.outputs.has-build == 'true'
         run: bun run build
         shell: bash
       - name: Perform release
