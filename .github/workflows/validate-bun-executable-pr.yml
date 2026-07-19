@@ -15,6 +15,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
@@ -23,6 +24,7 @@ jobs:
   test-executable:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
