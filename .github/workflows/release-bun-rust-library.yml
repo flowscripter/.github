@@ -69,7 +69,8 @@ jobs:
         run: bun run build
         shell: bash
       - name: Perform release
-        id: release  
+        id: perform_release
+        continue-on-error: true
         run: |
           cat <<EOT > .releaserc
           ---
@@ -90,9 +91,11 @@ jobs:
                 prepareCmd: "semantic-release-rust prepare \${nextRelease.version} && bunx oxfmt Cargo.toml && cargo check && jq '.ffiLibBaseUri = \"https://github.com/${{ github.repository }}/releases/download/v\${nextRelease.version}\"' package.json > temp.json && mv temp.json package.json"
                 publishCmd: "cargo publish --no-verify && echo tag=v\${nextRelease.version} >> $GITHUB_OUTPUT"
             - - "@semantic-release/github"
+              - successComment: false
+                failComment: false
             - - "@semantic-release/npm"
             - - "@semantic-release/git"
-              - assets: 
+              - assets:
                 - Cargo.toml
                 - Cargo.lock
                 - package.json
@@ -106,6 +109,16 @@ jobs:
           GITHUB_ACTION: yes
           GITHUB_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Determine release tag
+        id: release
+        run: |
+          TAG=$(git tag --points-at HEAD | head -n1)
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          if [ "${{ steps.perform_release.outcome }}" = "failure" ] && [ -z "$TAG" ]; then
+            echo "Release step failed and no tag was created - failing job" >&2
+            exit 1
+          fi
+        shell: bash
       - name: Generate docs
         if: steps.release.outputs.tag != ''
         run: bunx typedoc index.ts
