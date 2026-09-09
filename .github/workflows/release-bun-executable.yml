@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-latest]
+        os: [macOS-latest, windows-latest, ubuntu-latest, windows-11-arm, ubuntu-24.04-arm]
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
@@ -32,7 +32,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-latest]
+        os: [macOS-latest, windows-latest, ubuntu-latest, windows-11-arm, ubuntu-24.04-arm]
     steps:
       - name: Run Bun Executable Tests
         uses: flowscripter/.github/actions/run-bun-executable-tests@v1

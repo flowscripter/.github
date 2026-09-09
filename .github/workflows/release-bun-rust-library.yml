@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-latest]
+        os: [macOS-latest, windows-latest, ubuntu-latest, windows-11-arm, ubuntu-24.04-arm]
     steps:
       - name: Run Bun and Rust Tests
         uses: flowscripter/.github/actions/run-bun-rust-tests@v1
