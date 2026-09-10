@@ -15,8 +15,10 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      # windows-11-arm excluded: browser-actions/setup-geckodriver doesn't support that platform,
+      # so the Firefox-driven functional tests this job runs can't work there.
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-latest, windows-11-arm, ubuntu-24.04-arm]
+        os: [macOS-latest, windows-latest, ubuntu-latest, ubuntu-24.04-arm]
     steps:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-webapp-tests@v1
