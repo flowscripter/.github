@@ -20,6 +20,15 @@ runs:
       shell: bash
     - name: Run Bun tests
       run: |
-        wasm-pack build --target web --no-pack
+        # wasm-pack's prebuilt-binary downloader has no case for (Windows, ARM64) targeting
+        # wasm-opt (binaryen does publish an arm64-windows build, wasm-pack just doesn't know
+        # about it yet - https://github.com/rustwasm/wasm-pack/blob/main/src/install/mod.rs),
+        # so it bails with "Unrecognized target!" instead of degrading gracefully. Skip the
+        # optimization pass on that platform only; every other platform still gets it.
+        if [ "${{ runner.os }}" = "Windows" ] && [ "${{ runner.arch }}" = "ARM64" ]; then
+          wasm-pack build --target web --no-pack --no-opt
+        else
+          wasm-pack build --target web --no-pack
+        fi
         bun test
       shell: bash
