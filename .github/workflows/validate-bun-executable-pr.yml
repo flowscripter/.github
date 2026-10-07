@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       minify:
-        description: "Minify the compiled executable (whitespace and syntax only, identifiers are not renamed) and embed a sourcemap"
+        description: "Minify the compiled executable (whitespace and syntax only, identifiers are not renamed)"
         required: false
         type: boolean
         default: true
