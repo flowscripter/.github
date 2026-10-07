@@ -1,5 +1,10 @@
 name: run-bun-executable-tests
 description: 'Run Bun executable tests'
+inputs:
+  minify:
+    description: "Minify the compiled executable (whitespace and syntax only, identifiers are not renamed) and embed a sourcemap"
+    required: false
+    default: "true"
 runs:
   using: "composite"
   steps:
@@ -16,7 +21,7 @@ runs:
     - name: Behave Tests
       run: |
         bun ci
-        bun build index.ts --compile --outfile functional_tests/executable
+        bun build index.ts --compile ${{ inputs.minify == 'true' && '--minify-whitespace --minify-syntax --sourcemap' || '' }} --outfile functional_tests/executable
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         export EXECUTABLE=./executable
