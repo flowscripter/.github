@@ -1,6 +1,12 @@
 name: validate-bun-executable-pr
 on:
   workflow_call:
+    inputs:
+      minify:
+        description: "Minify the compiled executable (whitespace and syntax only, identifiers are not renamed) and embed a sourcemap"
+        required: false
+        type: boolean
+        default: true
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
@@ -30,3 +36,5 @@ jobs:
     steps:
       - name: Run Bun Executable Tests
         uses: flowscripter/.github/actions/run-bun-executable-tests@v1
+        with:
+          minify: ${{ inputs.minify }}
