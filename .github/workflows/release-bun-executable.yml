@@ -328,17 +328,28 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Update Homebrew Formula
-        uses: PanterSoft/update-formula-homebrew-action@master
+      - name: Checkout Homebrew Tap
+        uses: actions/checkout@v6
         with:
-          repo: ${{ github.repository}}
-          tap: flowscripter/homebrew-tap
-          formula: ${{ inputs.executable-name }}.rb  
-          download-url: https://github.com/${{ github.repository}}/releases/download/${{ needs.release.outputs.tag }}/${{ inputs.executable-name }}_MacOS_aarch64.zip
-          sha256: ${{ needs.release-macos.outputs.sha256 }}
-          commit-message: "Update Brew formula for ${{ inputs.executable-name }} to ${{ needs.release.outputs.tag }}"
+          repository: flowscripter/homebrew-tap
+          token: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
+      - name: Update Homebrew Formula
         env:
-          COMMIT_TOKEN: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
+          FORMULA: ${{ inputs.executable-name }}.rb
+          TAG: ${{ needs.release.outputs.tag }}
+          URL: https://github.com/${{ github.repository }}/releases/download/${{ needs.release.outputs.tag }}/${{ inputs.executable-name }}_MacOS_aarch64.zip
+          SHA256: ${{ needs.release-macos.outputs.sha256 }}
+        run: |
+          sed -i -E \
+            -e "s|^(\s*url\s+).*|\1\"${URL}\"|" \
+            -e "s|^(\s*sha256\s+).*|\1\"${SHA256}\"|" \
+            -e "s|^(\s*version\s+).*|\1\"${TAG}\"|" \
+            "${FORMULA}"
+          git diff --exit-code --quiet && { echo "Formula already up to date"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update Brew formula for ${FORMULA%.rb} to ${TAG}"
+          git push
   update-winget-pkg:
     runs-on: windows-latest
     needs:
