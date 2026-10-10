@@ -5,6 +5,14 @@ inputs:
     description: "Minify the compiled executable (whitespace and syntax only, identifiers are not renamed)"
     required: false
     default: "true"
+  sourcemap:
+    description: "Embed a zstd-compressed sourcemap in the compiled executable so errors and stack traces point to original source locations (increases executable size). Enabled by default; disable with `sourcemap: false`"
+    required: false
+    default: "true"
+  bytecode:
+    description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default; disable with `bytecode: false`"
+    required: false
+    default: "true"
 runs:
   using: "composite"
   steps:
@@ -21,7 +29,7 @@ runs:
     - name: Behave Tests
       run: |
         bun ci
-        bun build index.ts --compile ${{ inputs.minify == 'true' && '--minify-whitespace --minify-syntax' || '' }} --outfile functional_tests/executable
+        bun build index.ts --compile ${{ inputs.minify == 'true' && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap == 'true' && '--sourcemap' || '' }} ${{ inputs.bytecode == 'true' && '--bytecode' || '' }} --outfile functional_tests/executable
         cd functional_tests 
         pip3 install -r pip-requirements.txt
         export EXECUTABLE=./executable

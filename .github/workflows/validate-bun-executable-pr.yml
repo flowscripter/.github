@@ -7,6 +7,16 @@ on:
         required: false
         type: boolean
         default: true
+      sourcemap:
+        description: "Embed a zstd-compressed sourcemap in the compiled executable so errors and stack traces point to original source locations (increases executable size). Enabled by default; disable with `sourcemap: false`"
+        required: false
+        type: boolean
+        default: true
+      bytecode:
+        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default; disable with `bytecode: false`"
+        required: false
+        type: boolean
+        default: true
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
@@ -38,3 +48,5 @@ jobs:
         uses: flowscripter/.github/actions/run-bun-executable-tests@v1
         with:
           minify: ${{ inputs.minify }}
+          sourcemap: ${{ inputs.sourcemap }}
+          bytecode: ${{ inputs.bytecode }}
