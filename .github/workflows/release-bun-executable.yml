@@ -10,6 +10,16 @@ on:
         required: false
         type: boolean
         default: true
+      sourcemap:
+        description: "Embed a zstd-compressed sourcemap in the compiled executable so errors and stack traces point to original source locations (increases executable size)"
+        required: false
+        type: boolean
+        default: false
+      bytecode:
+        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size)"
+        required: false
+        type: boolean
+        default: false
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
@@ -43,6 +53,8 @@ jobs:
         uses: flowscripter/.github/actions/run-bun-executable-tests@v1
         with:
           minify: ${{ inputs.minify }}
+          sourcemap: ${{ inputs.sourcemap }}
+          bytecode: ${{ inputs.bytecode }}
   release:
     runs-on: ubuntu-latest
     needs:
@@ -137,7 +149,7 @@ jobs:
       - name: Compile Linux
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
           zip -j ${{ inputs.executable-name }}_Linux_x64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x64.sha256
         shell: bash
@@ -168,7 +180,7 @@ jobs:
       - name: Compile Linux
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
           zip -j ${{ inputs.executable-name }}_Linux_arm64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_arm64.sha256
         shell: bash
@@ -199,7 +211,7 @@ jobs:
       - name: Compile Windows
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Sign Windows
       #   uses: skymatic/code-sign-action@v1
@@ -240,7 +252,7 @@ jobs:
       - name: Compile Windows
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Sign Windows
       #   uses: skymatic/code-sign-action@v1
@@ -283,7 +295,7 @@ jobs:
       - name: Compile MacOS
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Install App Store Connect API Key
       #   run: |
