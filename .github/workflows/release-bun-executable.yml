@@ -11,15 +11,15 @@ on:
         type: boolean
         default: true
       sourcemap:
-        description: "Embed a zstd-compressed sourcemap in the compiled executable so errors and stack traces point to original source locations (increases executable size)"
+        description: "Embed a zstd-compressed sourcemap in the compiled executable so errors and stack traces point to original source locations (increases executable size). Enabled by default; disable with `sourcemap: false`"
         required: false
         type: boolean
-        default: false
+        default: true
       bytecode:
-        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size)"
+        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default; disable with `bytecode: false`"
         required: false
         type: boolean
-        default: false
+        default: true
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
