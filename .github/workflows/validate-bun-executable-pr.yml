@@ -13,10 +13,10 @@ on:
         type: boolean
         default: true
       bytecode:
-        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default; disable with `bytecode: false`"
+        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Disabled by default because Bun's --bytecode fails on projects that use top-level await (oven-sh/bun#40968); projects without top-level await can enable it with `bytecode: true`"
         required: false
         type: boolean
-        default: true
+        default: false
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
