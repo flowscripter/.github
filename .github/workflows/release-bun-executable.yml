@@ -16,10 +16,10 @@ on:
         type: boolean
         default: true
       bytecode:
-        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Disabled by default because Bun's --bytecode fails on projects that use top-level await (oven-sh/bun#40968); projects without top-level await can enable it with `bytecode: true`"
+        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default and built as ESM (`--format=esm`), because Bun's `--bytecode` otherwise forces CommonJS output, which cannot compile top-level await (oven-sh/bun#40968); disable with `bytecode: false`"
         required: false
         type: boolean
-        default: false
+        default: true
     secrets:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
@@ -149,7 +149,7 @@ jobs:
       - name: Compile Linux
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
           zip -j ${{ inputs.executable-name }}_Linux_x64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x64.sha256
         shell: bash
@@ -180,7 +180,7 @@ jobs:
       - name: Compile Linux
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
           zip -j ${{ inputs.executable-name }}_Linux_arm64.zip ${{ inputs.executable-name }}
           sha256sum ${{ inputs.executable-name }}_Linux_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_arm64.sha256
         shell: bash
@@ -211,7 +211,7 @@ jobs:
       - name: Compile Windows
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Sign Windows
       #   uses: skymatic/code-sign-action@v1
@@ -252,7 +252,7 @@ jobs:
       - name: Compile Windows
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Sign Windows
       #   uses: skymatic/code-sign-action@v1
@@ -295,7 +295,7 @@ jobs:
       - name: Compile MacOS
         run: |
           bun ci
-          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode' || '' }} --outfile ${{ inputs.executable-name }}
+          bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Install App Store Connect API Key
       #   run: |
