@@ -13,7 +13,7 @@ on:
         type: boolean
         default: true
       bytecode:
-        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default; disable with `bytecode: false`"
+        description: "Precompile JavaScript to bytecode at build time to shorten executable startup (increases build time and executable size). Enabled by default and built as ESM (`--format=esm`), because Bun's `--bytecode` otherwise forces CommonJS output, which cannot compile top-level await (oven-sh/bun#40968); disable with `bytecode: false`"
         required: false
         type: boolean
         default: true
