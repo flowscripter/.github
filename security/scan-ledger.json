@@ -1,8 +1,19 @@
 {
   "repos": {
     ".github": {
+      "branch": "main",
+      "commit": "df210bb8c6d5430c6135c10f189921a86f1ed855",
+      "dirty": true,
       "effort": "medium",
-      "status": "unscanned"
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 1,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
     },
     "cli": {
       "effort": "medium",
