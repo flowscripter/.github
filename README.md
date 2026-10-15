@@ -21,4 +21,4 @@ The `audit-repo-settings` workflow runs the audit every Monday. A failing run is
 
 ### Exceptions
 
-`homebrew-tap` is skipped until its settings are confirmed as deliberate. `winget-pkgs` is a fork and is ignored. Both lists, and the `.github` repo's own required checks, are in `scripts/repo-types.json`.
+`homebrew-tap` is skipped on purpose: the `release-bun-executable` workflow checks it out with `PUSH_TO_MAIN_TOKEN` and pushes the formula update straight to its default branch, with no pull request. A ruleset requiring pull requests or status checks would block that push, and it has no CI of its own to require. `winget-pkgs` is a fork and is ignored. Both lists, and the `.github` repo's own required checks, are in `scripts/repo-types.json`.
