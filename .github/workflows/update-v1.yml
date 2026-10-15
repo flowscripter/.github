@@ -1,7 +1,7 @@
 name: update-v1
 on:
   push:
-    branches: [master]
+    branches: [main]
 concurrency: update-v1
 permissions:
   contents: write
