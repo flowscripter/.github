@@ -74,7 +74,7 @@ jobs:
       tag: ${{ steps.release.outputs.tag }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: Install Bun
@@ -138,7 +138,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -169,7 +169,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -200,7 +200,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -241,7 +241,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -284,7 +284,7 @@ jobs:
       sha256: ${{ steps.zip_macos.outputs.sha256 }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -341,7 +341,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Homebrew Tap
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: flowscripter/homebrew-tap
           token: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
