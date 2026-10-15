@@ -1,0 +1,111 @@
+{
+  "org": "flowscripter",
+  "github_actions_integration_id": 15368,
+  "codecov": {
+    "integration_id": 254,
+    "checks": [
+      "codecov/patch",
+      "codecov/project"
+    ]
+  },
+  "ignore": {
+    "winget-pkgs": "fork of microsoft/winget-pkgs"
+  },
+  "skip": {
+    "homebrew-tap": "deliberate exception pending confirmation: no ruleset, auto-merge off; release workflows push to it"
+  },
+  "special": {
+    ".github": {
+      "checks": [
+        "actionlint",
+        "lint"
+      ],
+      "codecov": false
+    }
+  },
+  "types": {
+    "bun-library": {
+      "template": "template-bun-library",
+      "workflow": "validate-bun-library-pr",
+      "checks": [
+        "call-lint-pr-message / lint",
+        "call-validate-bun-library-pr / check",
+        "call-validate-bun-library-pr / test (macOS-latest)",
+        "call-validate-bun-library-pr / test (ubuntu-latest)",
+        "call-validate-bun-library-pr / test (windows-latest)",
+        "call-validate-bun-library-pr / test (ubuntu-24.04-arm)",
+        "call-validate-bun-library-pr / test (windows-11-arm)"
+      ]
+    },
+    "bun-executable": {
+      "template": "template-bun-executable",
+      "workflow": "validate-bun-executable-pr",
+      "checks": [
+        "call-lint-pr-message / lint",
+        "call-validate-bun-executable-pr / check",
+        "call-validate-bun-executable-pr / test (macOS-latest)",
+        "call-validate-bun-executable-pr / test (ubuntu-latest)",
+        "call-validate-bun-executable-pr / test (windows-latest)",
+        "call-validate-bun-executable-pr / test (ubuntu-24.04-arm)",
+        "call-validate-bun-executable-pr / test (windows-11-arm)",
+        "call-validate-bun-executable-pr / test-executable (macOS-latest)",
+        "call-validate-bun-executable-pr / test-executable (ubuntu-latest)",
+        "call-validate-bun-executable-pr / test-executable (windows-latest)",
+        "call-validate-bun-executable-pr / test-executable (ubuntu-24.04-arm)",
+        "call-validate-bun-executable-pr / test-executable (windows-11-arm)"
+      ]
+    },
+    "bun-webapp": {
+      "template": "template-bun-webapp",
+      "workflow": "validate-bun-webapp-pr",
+      "checks": [
+        "call-lint-pr-message / lint",
+        "call-validate-bun-webapp-pr / check",
+        "call-validate-bun-webapp-pr / test (macOS-latest)",
+        "call-validate-bun-webapp-pr / test (ubuntu-latest)",
+        "call-validate-bun-webapp-pr / test (windows-latest)",
+        "call-validate-bun-webapp-pr / test (ubuntu-24.04-arm)",
+        "call-validate-bun-webapp-pr / test (windows-11-arm)"
+      ]
+    },
+    "rust-library": {
+      "template": "template-rust-library",
+      "workflow": "validate-rust-library-pr",
+      "checks": [
+        "call-lint-pr-message / lint",
+        "call-validate-rust-library-pr / check",
+        "call-validate-rust-library-pr / test (macOS-latest)",
+        "call-validate-rust-library-pr / test (ubuntu-latest)",
+        "call-validate-rust-library-pr / test (windows-latest)",
+        "call-validate-rust-library-pr / test (ubuntu-24.04-arm)",
+        "call-validate-rust-library-pr / test (windows-11-arm)"
+      ]
+    },
+    "bun-rust-library": {
+      "template": "template-bun-rust-library",
+      "workflow": "validate-bun-rust-library-pr",
+      "checks": [
+        "call-lint-pr-message / lint",
+        "call-validate-bun-rust-library-pr / check",
+        "call-validate-bun-rust-library-pr / test (macOS-latest)",
+        "call-validate-bun-rust-library-pr / test (ubuntu-latest)",
+        "call-validate-bun-rust-library-pr / test (windows-latest)",
+        "call-validate-bun-rust-library-pr / test (ubuntu-24.04-arm)",
+        "call-validate-bun-rust-library-pr / test (windows-11-arm)"
+      ]
+    },
+    "bun-wasm-rust-library": {
+      "template": "template-bun-wasm-rust-library",
+      "workflow": "validate-bun-wasm-rust-library-pr",
+      "checks": [
+        "call-lint-pr-message / lint",
+        "call-validate-bun-wasm-rust-library-pr / check",
+        "call-validate-bun-wasm-rust-library-pr / test (macOS-latest)",
+        "call-validate-bun-wasm-rust-library-pr / test (ubuntu-latest)",
+        "call-validate-bun-wasm-rust-library-pr / test (windows-latest)",
+        "call-validate-bun-wasm-rust-library-pr / test (ubuntu-24.04-arm)",
+        "call-validate-bun-wasm-rust-library-pr / test (windows-11-arm)"
+      ]
+    }
+  }
+}
