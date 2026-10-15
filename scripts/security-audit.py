@@ -6,17 +6,21 @@
             security configuration. Needs GH_TOKEN with read access to alerts
             and repository administration.
   rescan  - open the monthly "deep scan due" issue in flowscripter/.github
-            (deduplicated by month marker). Needs GH_TOKEN allowed to create
+            (deduplicated by month marker), grouping repos using
+            security/scan-ledger.json. Needs GH_TOKEN allowed to create
             issues as the machine account.
+  ledger-add <repo> <CLAUDE-SECURITY-REVISION-*.json>
+          - record a finished scan in security/scan-ledger.json.
 """
 import json
 import os
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 ORG = "flowscripter"
 EXCLUDE = {"winget-pkgs"}
+LEDGER = os.path.join(os.path.dirname(__file__), "..", "security", "scan-ledger.json")
 WANT = {
     "secret_scanning": "enabled",
     "secret_scanning_push_protection": "enabled",
@@ -107,17 +111,33 @@ def cmd_rescan():
     if json.loads(existing):
         print(f"issue for {month} already exists")
         return
-    since = (now - timedelta(days=35)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    changed = []
+    with open(LEDGER) as f:
+        ledger = json.load(f)["repos"]
+    baseline, changed, current, deferred = [], [], [], []
     for r in repos():
-        p = gh("api", f"repos/{ORG}/{r}/commits?since={since}&per_page=1", check=False)
-        if p.returncode == 0 and json.loads(p.stdout):
-            changed.append(r)
-    listing = "\n".join(f"- {r}" for r in changed) or "- (no repo has new commits)"
+        e = ledger.get(r)
+        if e is None:
+            baseline.append(f"{r} (not in ledger, choose an effort)")
+        elif e["status"] == "deferred":
+            deferred.append(f"{r} ({e.get('reason', 'deferred')})")
+        elif e["status"] == "unscanned":
+            baseline.append(f"{r} ({e['effort']})")
+        else:
+            head = gh("api", f"repos/{ORG}/{r}/commits/HEAD", "-q", ".sha", check=False).stdout.strip()
+            if head and head != e["commit"]:
+                changed.append(f"{r} ({e['effort']}, last scanned {e['scanned']})")
+            else:
+                current.append(r)
+
+    def section(title, rows):
+        return f"**{title}**\n\n" + ("\n".join(f"- {x}" for x in rows) if rows else "- none") + "\n\n"
+
+    listing = (section("Needs baseline", baseline) + section("Changed since last scan", changed)
+               + section("Up to date", current) + section("Deferred", deferred))
     body = (
         f"Monthly deep security scan is due for {month}.\n\n"
-        "Repos with commits in the last 35 days:\n\n"
-        f"{listing}\n\n"
+        "Repos grouped by scan state (security/scan-ledger.json):\n\n"
+        f"{listing}"
         "On approval the main session runs the claude-security scan one repo at a time, "
         "diffs finding ids against the accepted list, and opens proposal issues for new findings only.\n\n"
         f"{marker}\n<!-- flowscripter-agent:v1 -->\n"
@@ -126,8 +146,35 @@ def cmd_rescan():
        f"security: monthly deep scan due {month}", "--body", body)
 
 
+def cmd_ledger_add(repo, revision_file):
+    with open(revision_file) as f:
+        j = json.load(f)
+    with open(LEDGER) as f:
+        data = json.load(f)
+    old = data["repos"].get(repo, {})
+    findings = j["findings"]
+    data["repos"][repo] = {
+        "effort": old.get("effort", j["effort"]),
+        "status": "scanned",
+        "scanned": j["generated_at"][:10],
+        "commit": j["revision"]["commit"],
+        "branch": j["revision"]["branch"],
+        "dirty": j["revision"]["dirty"],
+        "scannedEffort": j["effort"],
+        "findings": {k: findings[k] for k in ("critical", "high", "medium", "low")},
+    }
+    with open(LEDGER, "w") as f:
+        json.dump(data, f, indent=2, sort_keys=True)
+        f.write("\n")
+
+
 if __name__ == "__main__":
-    cmds = {"alerts": cmd_alerts, "rescan": cmd_rescan}
-    if len(sys.argv) != 2 or sys.argv[1] not in cmds:
+    args = sys.argv[1:]
+    if args[:1] == ["alerts"] and len(args) == 1:
+        cmd_alerts()
+    elif args[:1] == ["rescan"] and len(args) == 1:
+        cmd_rescan()
+    elif args[:1] == ["ledger-add"] and len(args) == 3:
+        cmd_ledger_add(args[1], args[2])
+    else:
         sys.exit(__doc__)
-    cmds[sys.argv[1]]()

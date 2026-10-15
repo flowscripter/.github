@@ -1,0 +1,8 @@
+CodeQL reports a polynomial regular expression (js/polynomial-redos, high) in src/util/s3Key.ts and src/location/parseS3LocationString.ts.
+
+The regular expression can take excessive time on crafted input. Review whether it can receive untrusted input and replace it with a linear-time parse or bound the input length.
+
+Details: https://github.com/flowscripter/io-plugin-s3/security/code-scanning
+
+<!-- flowscripter-security:io-plugin-s3/codeql-polynomial-redos -->
+<!-- flowscripter-agent:v1 -->
