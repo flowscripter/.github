@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout source
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
     - name: Install Bun
       uses: oven-sh/setup-bun@v2
       with:
@@ -44,7 +44,7 @@ runs:
       shell: bash
       if: hashFiles('tests/**') != ''
     - name: Publish coverage report
-      uses: codecov/codecov-action@v6
+      uses: codecov/codecov-action@v7
       with:
         files: coverage.lcov
       env:

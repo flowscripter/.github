@@ -45,7 +45,7 @@ jobs:
       tag: ${{ steps.release.outputs.tag }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: Install Bun
@@ -144,7 +144,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -158,7 +158,7 @@ jobs:
           mv target/release/*.so target/release/*.x64.so
         shell: bash
       - name: Release Linux
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: target/release/*.x64.so
@@ -171,7 +171,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -185,7 +185,7 @@ jobs:
           mv target/release/*.so target/release/*.arm64.so
         shell: bash
       - name: Release Linux
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: target/release/*.arm64.so
@@ -198,7 +198,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -219,7 +219,7 @@ jobs:
       #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
       #     folder: target/release
       - name: Release Windows
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: target/release/*.x64.dll
@@ -232,7 +232,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -253,7 +253,7 @@ jobs:
       #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
       #     folder: target/release
       - name: Release Windows
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: target/release/*.arm64.dll
@@ -266,7 +266,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
@@ -303,7 +303,7 @@ jobs:
       #     app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
       #     app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
       - name: Release MacOS
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: target/release/*.dylib
