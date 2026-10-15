@@ -13,4 +13,4 @@ jobs:
       - name: Open monthly deep scan issue
         run: python3 scripts/security-audit.py rescan
         env:
-          GH_TOKEN: ${{ secrets.CREATE_TICKET_TOKEN }}
+          GH_TOKEN: ${{ secrets.CLAUDE_CREATE_TICKET_TOKEN }}

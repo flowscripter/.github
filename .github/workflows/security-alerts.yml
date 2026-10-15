@@ -13,4 +13,4 @@ jobs:
       - name: Check security alerts and settings
         run: python3 scripts/security-audit.py alerts
         env:
-          GH_TOKEN: ${{ secrets.SECURITY_AUDIT_TOKEN }}
+          GH_TOKEN: ${{ secrets.AUDIT_REPO_TOKEN }}
