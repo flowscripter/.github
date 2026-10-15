@@ -1,0 +1,311 @@
+{
+  "repos": {
+    ".github": {
+      "effort": "medium",
+      "status": "unscanned"
+    },
+    "cli": {
+      "effort": "medium",
+      "reason": "rewrite pending",
+      "status": "deferred"
+    },
+    "docs": {
+      "effort": "medium",
+      "reason": "rewrite pending",
+      "status": "deferred"
+    },
+    "dynamic-cli-framework": {
+      "branch": "main",
+      "commit": "3e014c57408238151ccf2dbf04ac6d927fc995d4",
+      "dirty": true,
+      "effort": "high",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 1
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "high",
+      "status": "scanned"
+    },
+    "dynamic-cli-framework-api": {
+      "branch": "feat/service-lifecycle-redesign",
+      "commit": "160395f674b0a93ea0b96819d66b0f940c4a779b",
+      "dirty": true,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "dynamic-plugin-framework": {
+      "branch": "main",
+      "commit": "3715671685affd289233fb7c6b3a27baff787cfd",
+      "dirty": true,
+      "effort": "high",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 1
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "high",
+      "status": "scanned"
+    },
+    "example-cli": {
+      "effort": "medium",
+      "status": "unscanned"
+    },
+    "example-cli-plugin": {
+      "branch": "main",
+      "commit": "a25850c5182898fce16716bcc327a411224ab972",
+      "dirty": true,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "example-host-application": {
+      "effort": "medium",
+      "status": "unscanned"
+    },
+    "example-plugin": {
+      "branch": "main",
+      "commit": "caecd539717f67107539b2eaf73662cef5b9da16",
+      "dirty": true,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "example-plugin-api": {
+      "branch": "main",
+      "commit": "e6e6b269d5e69a174481e57420bd758be5992801",
+      "dirty": true,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "flowscripter-io-cli": {
+      "branch": "main",
+      "commit": "abee647d1231c165d1616a557e0d5f868d10034b",
+      "dirty": true,
+      "effort": "high",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 1
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "high",
+      "status": "scanned"
+    },
+    "flowscripter-io-cli-hash-native": {
+      "branch": "main",
+      "commit": "a8f9c66aeafe1f9a550349d2f9e6c3702700ffb1",
+      "dirty": false,
+      "effort": "high",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 1
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "high",
+      "status": "scanned"
+    },
+    "homebrew-tap": {
+      "branch": "main",
+      "commit": "5f27262f08688b1e2825e6bdaf7324d8f343a86d",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "io-gateway-http": {
+      "effort": "high",
+      "status": "unscanned"
+    },
+    "io-plugin-filesystem": {
+      "branch": "main",
+      "commit": "a02dd5c0717feb9538bc6c52e4464b04a8308cf6",
+      "dirty": false,
+      "effort": "high",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 1,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "high",
+      "status": "scanned"
+    },
+    "io-plugin-filesystem-native": {
+      "effort": "high",
+      "status": "unscanned"
+    },
+    "io-plugin-http": {
+      "effort": "high",
+      "status": "unscanned"
+    },
+    "io-plugin-s3": {
+      "effort": "high",
+      "status": "unscanned"
+    },
+    "pluggable-io-framework": {
+      "branch": "main",
+      "commit": "68cea324591d483f420a6fbd63db05370e93282c",
+      "dirty": false,
+      "effort": "high",
+      "findings": {
+        "critical": 0,
+        "high": 1,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "high",
+      "status": "scanned"
+    },
+    "pluggable-io-framework-api": {
+      "branch": "main",
+      "commit": "5b4b79fe102c3cb8e4886aa4533834828959e2bc",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "plugin-api": {
+      "effort": "medium",
+      "reason": "rewrite pending",
+      "status": "deferred"
+    },
+    "runtime": {
+      "effort": "medium",
+      "reason": "rewrite pending",
+      "status": "deferred"
+    },
+    "template-bun-executable": {
+      "branch": "main",
+      "commit": "3ba9c104f2019a4b87bf1f037e0e94044e2408c9",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "template-bun-library": {
+      "branch": "main",
+      "commit": "325f3c5f9dc1069f588a603eea552db9306e3ba2",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "template-bun-rust-library": {
+      "branch": "main",
+      "commit": "c6f920ca33578eb305489aa20aadc0c649ff2db1",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "template-bun-wasm-rust-library": {
+      "branch": "main",
+      "commit": "fdcfd9c6aefb422a1855b04f2a9aa749f809304f",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    },
+    "template-bun-webapp": {
+      "effort": "medium",
+      "status": "unscanned"
+    },
+    "template-rust-library": {
+      "branch": "main",
+      "commit": "3fff45a510b15852f885b68b4f1f8af7eb1a6838",
+      "dirty": false,
+      "effort": "medium",
+      "findings": {
+        "critical": 0,
+        "high": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "scanned": "2026-10-15",
+      "scannedEffort": "medium",
+      "status": "scanned"
+    }
+  }
+}
