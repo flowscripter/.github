@@ -8,3 +8,7 @@ updates:
       interval: monthly
     commit-message:
       prefix: chore
+    groups:
+      actions:
+        patterns: ["*"]
+        group-by: dependency-name
