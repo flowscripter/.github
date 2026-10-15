@@ -154,7 +154,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Linux_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x64.sha256
         shell: bash
       - name: Release Linux
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -185,7 +185,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Linux_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_arm64.sha256
         shell: bash
       - name: Release Linux
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -226,7 +226,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Windows_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Windows_x64.sha256
         shell: bash
       - name: Release Windows
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -267,7 +267,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Windows_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Windows_arm64.sha256
         shell: bash
       - name: Release Windows
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -325,7 +325,7 @@ jobs:
           echo "sha256=$(cat ${{ inputs.executable-name }}_MacOS_aarch64.sha256)" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: Release MacOS
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
