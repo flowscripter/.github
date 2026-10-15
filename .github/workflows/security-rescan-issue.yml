@@ -1,0 +1,16 @@
+name: security-rescan-issue
+on:
+  schedule:
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Open monthly deep scan issue
+        run: python3 scripts/security-audit.py rescan
+        env:
+          GH_TOKEN: ${{ secrets.CREATE_TICKET_TOKEN }}
