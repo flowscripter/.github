@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 
 ORG = "flowscripter"
 EXCLUDE = {"winget-pkgs"}
+MACHINE_ACCOUNT = "vectronic-claude"
 LEDGER = os.path.join(os.path.dirname(__file__), "..", "security", "scan-ledger.json")
 WANT = {
     "secret_scanning": "enabled",
@@ -106,7 +107,7 @@ def cmd_rescan():
     now = datetime.now(timezone.utc)
     month = now.strftime("%Y-%m")
     marker = f"<!-- flowscripter-security-rescan:{month} -->"
-    existing = gh("issue", "list", "-R", f"{ORG}/.github", "--state", "all", "--search",
+    existing = gh("issue", "list", "-R", f"{ORG}/.github", "--state", "all", "--author", MACHINE_ACCOUNT, "--search",
                   f'"flowscripter-security-rescan:{month}" in:body', "--json", "number").stdout
     if json.loads(existing):
         print(f"issue for {month} already exists")
@@ -138,8 +139,14 @@ def cmd_rescan():
         f"Monthly deep security scan is due for {month}.\n\n"
         "Repos grouped by scan state (security/scan-ledger.json):\n\n"
         f"{listing}"
-        "On approval the main session runs the claude-security scan one repo at a time, "
-        "diffs finding ids against the accepted list, and opens proposal issues for new findings only.\n\n"
+        "## What To Do\n\n"
+        "Comment on this issue to approve it, then for each repo under **Needs baseline** or **Changed since last scan**, one repo at a time:\n\n"
+        "1. In a terminal: `cd ~/projects/flowscripter/<repo> && git checkout main && git pull`. The tree must be clean, or the scan is tagged dirty.\n"
+        "2. Start Claude Code in that directory. Dynamic workflows must be on in `/config`.\n"
+        "3. Run `/claude-security scan the whole repo at <effort>`, using the effort shown next to the repo (`medium` or `high`). Decline any offer to propose patches.\n"
+        "4. Check `/usage` before starting the next repo.\n"
+        "5. Tell Claude `scan done on <repo>`. It reads `CLAUDE-SECURITY-RESULTS.md`, records the scan in `security/scan-ledger.json` with `python3 scripts/security-audit.py ledger-add <repo> <REVISION json>` in a PR, and proposes issues for new findings. Serious findings go to a private security advisory, not a public issue.\n\n"
+        "Do not commit the `CLAUDE-SECURITY-*` directory. Repos under **Deferred** are skipped. Findings already accepted are listed in the memory file `reference_security_findings.md`.\n\n"
         f"{marker}\n<!-- flowscripter-agent:v1 -->\n"
     )
     gh("issue", "create", "-R", f"{ORG}/.github", "--title",
