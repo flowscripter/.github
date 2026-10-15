@@ -181,8 +181,12 @@ def audit_repo(name):
         f.append(("warn", "unknown type: no validate-*-pr workflow calling a known reusable workflow; required checks not audited"))
     try:
         repo = api("repos/%s/%s" % (ORG, name))
+        hidden = [k for k in option_diffs(repo) if k not in repo]
+        if hidden:
+            f.append(("warn", "repo merge options not visible to this token (the API returns them only with push access); not audited: " + ", ".join(hidden)))
         for k, want in option_diffs(repo).items():
-            f.append(("drift", "%s is %s, expected %s" % (k, repo.get(k), want)))
+            if k in repo:
+                f.append(("drift", "%s is %s, expected %s" % (k, repo.get(k), want)))
     except GhError as e:
         f.append(("warn", "unable to read repo settings: %s" % e))
 
