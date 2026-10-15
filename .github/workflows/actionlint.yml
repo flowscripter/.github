@@ -1,0 +1,14 @@
+name: actionlint
+on:
+  pull_request:
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install actionlint
+        run: bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash) 1.7.12
+        shell: bash
+      - name: Run actionlint
+        run: ./actionlint -color
+        shell: bash
