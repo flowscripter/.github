@@ -1,0 +1,16 @@
+name: update-v1
+on:
+  push:
+    branches: [main]
+concurrency: update-v1
+permissions:
+  contents: write
+jobs:
+  move-v1:
+    runs-on: ubuntu-latest
+    steps:
+      # A PAT is required: GITHUB_TOKEN cannot update refs whose commits change .github/workflows.
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
+      - run: git push origin HEAD:refs/heads/v1

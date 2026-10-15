@@ -322,7 +322,7 @@ jobs:
         run: |
           zip -j ${{ inputs.executable-name }}_MacOS_aarch64.zip ${{ inputs.executable-name }}
           shasum -a 256 ${{ inputs.executable-name }}_MacOS_aarch64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_MacOS_aarch64.sha256
-          echo "sha256=$(cat ${{ inputs.executable-name }}_MacOS_aarch64.sha256)" >> $GITHUB_OUTPUT
+          echo "sha256=$(cat ${{ inputs.executable-name }}_MacOS_aarch64.sha256)" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: Release MacOS
         uses: softprops/action-gh-release@v2

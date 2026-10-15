@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - "/"
+      - "/actions/*"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: chore
