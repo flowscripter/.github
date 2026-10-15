@@ -1,6 +1,13 @@
 name: lint-pr-message
 on:
-  workflow_call
+  workflow_call:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+permissions:
+  contents: read
 jobs:
   lint:
     runs-on: ubuntu-latest
