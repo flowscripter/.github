@@ -157,11 +157,19 @@ jobs:
           cargo build --release
           mv target/release/*.so target/release/*.x64.so
         shell: bash
+      - name: Generate checksum
+        run: |
+          cd target/release
+          sha() { if command -v sha256sum >/dev/null; then sha256sum "$1"; else shasum -a 256 "$1"; fi; }
+          for f in *.x64.so; do sha "$f" > "$f.shasum"; done
+        shell: bash
       - name: Release Linux
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: target/release/*.x64.so
+          files: |
+            target/release/*.x64.so
+            target/release/*.x64.so.shasum
   release-linux-arm64:
     runs-on: ubuntu-24.04-arm
     needs:
@@ -184,11 +192,19 @@ jobs:
           cargo build --release
           mv target/release/*.so target/release/*.arm64.so
         shell: bash
+      - name: Generate checksum
+        run: |
+          cd target/release
+          sha() { if command -v sha256sum >/dev/null; then sha256sum "$1"; else shasum -a 256 "$1"; fi; }
+          for f in *.arm64.so; do sha "$f" > "$f.shasum"; done
+        shell: bash
       - name: Release Linux
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: target/release/*.arm64.so
+          files: |
+            target/release/*.arm64.so
+            target/release/*.arm64.so.shasum
   release-windows-x64:
     runs-on: windows-latest
     needs:
@@ -218,11 +234,19 @@ jobs:
       #     password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
       #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
       #     folder: target/release
+      - name: Generate checksum
+        run: |
+          cd target/release
+          sha() { if command -v sha256sum >/dev/null; then sha256sum "$1"; else shasum -a 256 "$1"; fi; }
+          for f in *.x64.dll; do sha "$f" > "$f.shasum"; done
+        shell: bash
       - name: Release Windows
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: target/release/*.x64.dll
+          files: |
+            target/release/*.x64.dll
+            target/release/*.x64.dll.shasum
   release-windows-arm64:
     runs-on: windows-11-arm
     needs:
@@ -252,11 +276,19 @@ jobs:
       #     password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
       #     certificatesha1: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_SHA1 }}'
       #     folder: target/release
+      - name: Generate checksum
+        run: |
+          cd target/release
+          sha() { if command -v sha256sum >/dev/null; then sha256sum "$1"; else shasum -a 256 "$1"; fi; }
+          for f in *.arm64.dll; do sha "$f" > "$f.shasum"; done
+        shell: bash
       - name: Release Windows
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: target/release/*.arm64.dll
+          files: |
+            target/release/*.arm64.dll
+            target/release/*.arm64.dll.shasum
   release-macos:
     runs-on: macos-latest
     needs:
@@ -302,9 +334,17 @@ jobs:
       #     p12_password: ${{ secrets.APPLE_CODESIGN_CERTIFICATE_PASSWORD }}
       #     app_store_connect_api_issuer: ${{ secrets.APPLE_APP_STORE_CONNECT_API_ISSUER_UUID }}
       #     app_store_connect_api_key: ${{ secrets.APPLE_APP_STORE_CONNECT_API_KEY_ID }}
+      - name: Generate checksum
+        run: |
+          cd target/release
+          sha() { if command -v sha256sum >/dev/null; then sha256sum "$1"; else shasum -a 256 "$1"; fi; }
+          for f in *.dylib; do sha "$f" > "$f.shasum"; done
+        shell: bash
       - name: Release MacOS
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
-          files: target/release/*.dylib
+          files: |
+            target/release/*.dylib
+            target/release/*.dylib.shasum
   
