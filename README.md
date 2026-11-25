@@ -12,6 +12,19 @@ The agent implements each sub-issue as a PR and, once it is released, checks the
 - [Design](docs/agentic-sdlc.md)
 - [Rollout plan](docs/agentic-sdlc-rollout.md) (temporary, removed once the rollout is done)
 
+### Sweep CLI
+
+`scripts/sweep.py` handles the mechanical parts of the sweep and prints JSON:
+
+```bash
+python3 scripts/sweep.py scope | board | transitions | metrics
+python3 scripts/sweep.py thread REPO NUMBER
+python3 scripts/sweep.py release REPO
+python3 -I scripts/test_sweep.py
+```
+
+`thread` reduces comments from anyone other than `vectronic` and `vectronic-claude` to author, link and length, so their text never reaches the model. `transitions` proposes only the deterministic moves from `docs/stages.md`. Moves based on "last word" include the link to the comment, which the model reads before applying the move.
+
 ## Repository Settings
 
 Every non-archived repository in the org follows the same settings:
