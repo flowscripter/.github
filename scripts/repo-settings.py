@@ -146,9 +146,12 @@ def ruleset_findings(rs, checks, codecov_allowed):
     f = []
     if rs.get("enforcement") != "active":
         f.append(("drift", "ruleset enforcement is %s, expected active" % rs.get("enforcement")))
-    bypass = [(a.get("actor_type"), a.get("bypass_mode")) for a in rs.get("bypass_actors") or []]
-    if bypass != [(a["actor_type"], a["bypass_mode"]) for a in BYPASS_ACTORS]:
-        f.append(("drift", "bypass actors are %s, expected org admins for pull requests only" % (bypass or "none")))
+    if rs.get("bypass_actors") is None:
+        f.append(("warn", "ruleset bypass actors not visible to this token (the API returns null without admin rights), so not audited"))
+    else:
+        bypass = [(a.get("actor_type"), a.get("bypass_mode")) for a in rs["bypass_actors"]]
+        if bypass != [(a["actor_type"], a["bypass_mode"]) for a in BYPASS_ACTORS]:
+            f.append(("drift", "bypass actors are %s, expected org admins for pull requests only" % (bypass or "none")))
     rules = {r["type"]: r.get("parameters") or {} for r in rs.get("rules", [])}
     for t in SIMPLE_RULES + ["pull_request", "required_status_checks"]:
         if t not in rules:
