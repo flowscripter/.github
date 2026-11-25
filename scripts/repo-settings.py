@@ -46,7 +46,7 @@ PR_DEFAULTS = {
     "required_approving_review_count": 1,
     "required_review_thread_resolution": False,
 }
-BYPASS_ACTORS = [{"actor_id": 1, "actor_type": "OrganizationAdmin", "bypass_mode": "pull_request"}]
+BYPASS_ACTORS = [{"actor_id": 1, "actor_type": "OrganizationAdmin", "bypass_mode": "always"}]
 RESTRICT_RULES = {
     "branch": [{"type": "update", "parameters": {"update_allows_fetch_and_merge": False}},
                {"type": "deletion"}, {"type": "non_fast_forward"}],
@@ -160,7 +160,7 @@ def ruleset_findings(rs, checks, codecov_allowed):
     else:
         bypass = [(a.get("actor_type"), a.get("bypass_mode")) for a in rs["bypass_actors"]]
         if bypass != [(a["actor_type"], a["bypass_mode"]) for a in BYPASS_ACTORS]:
-            f.append(("drift", "bypass actors are %s, expected org admins for pull requests only" % (bypass or "none")))
+            f.append(("drift", "bypass actors are %s, expected org admins (always)" % (bypass or "none")))
     rules = {r["type"]: r.get("parameters") or {} for r in rs.get("rules", [])}
     for t in SIMPLE_RULES + ["pull_request", "required_status_checks"]:
         if t not in rules:
