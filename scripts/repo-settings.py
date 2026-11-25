@@ -27,6 +27,7 @@ CODECOV_ID = CFG["codecov"]["integration_id"]
 CODECOV_CHECKS = CFG["codecov"]["checks"]
 TYPES = CFG["types"]
 SPECIAL = CFG["special"]
+RESTRICTED = CFG["restricted_refs"]
 
 REPO_OPTIONS = {
     "default_branch": "main",
@@ -46,6 +47,13 @@ PR_DEFAULTS = {
     "required_review_thread_resolution": False,
 }
 BYPASS_ACTORS = [{"actor_id": 1, "actor_type": "OrganizationAdmin", "bypass_mode": "pull_request"}]
+RESTRICT_RULES = {
+    "branch": [{"type": "update", "parameters": {"update_allows_fetch_and_merge": False}},
+               {"type": "deletion"}, {"type": "non_fast_forward"}],
+    "tag": [{"type": "creation"}, {"type": "update", "parameters": {"update_allows_fetch_and_merge": False}},
+            {"type": "deletion"}],
+}
+RESTRICT_BYPASS = [{"actor_id": 1, "actor_type": "OrganizationAdmin", "bypass_mode": "always"}]
 DEFAULT_CONDITIONS = {"ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}}
 
 
@@ -130,8 +138,9 @@ def required_checks(repo, rtype):
 
 
 def find_ruleset(repo):
+    restricted = {spec["name"] for spec in RESTRICTED.get(repo, [])}
     for s in api("repos/%s/%s/rulesets" % (ORG, repo)):
-        if s.get("target") != "branch":
+        if s.get("target") != "branch" or s.get("name") in restricted:
             continue
         det = api("repos/%s/%s/rulesets/%s" % (ORG, repo, s["id"]))
         if "~DEFAULT_BRANCH" in det.get("conditions", {}).get("ref_name", {}).get("include", []):
@@ -183,6 +192,69 @@ def option_diffs(repo_json):
     return {k: v for k, v in REPO_OPTIONS.items() if repo_json.get(k) != v}
 
 
+def find_named_ruleset(repo, name, target):
+    for s in api("repos/%s/%s/rulesets" % (ORG, repo)):
+        if s.get("name") == name and s.get("target") == target:
+            return api("repos/%s/%s/rulesets/%s" % (ORG, repo, s["id"]))
+    return None
+
+
+def restricted_body(spec):
+    return {
+        "name": spec["name"],
+        "target": spec["target"],
+        "enforcement": "active",
+        "bypass_actors": RESTRICT_BYPASS,
+        "conditions": {"ref_name": {"include": spec["include"], "exclude": []}},
+        "rules": RESTRICT_RULES[spec["target"]],
+    }
+
+
+def restricted_spec_findings(spec, rs):
+    """Compares one restricted-ref ruleset with its spec."""
+    label = "%s ruleset %s" % (spec["target"], spec["name"])
+    if rs is None:
+        return [("drift", "no %s (restricts %s to org admins)" % (label, ", ".join(spec["include"])))]
+    f = []
+    if rs.get("enforcement") != "active":
+        f.append(("drift", "%s enforcement is %s, expected active" % (label, rs.get("enforcement"))))
+    if rs.get("conditions", {}).get("ref_name", {}).get("include") != spec["include"]:
+        f.append(("drift", "%s targets %s, expected %s" % (label, rs.get("conditions", {}).get("ref_name", {}).get("include"), spec["include"])))
+    have = sorted(r["type"] for r in rs.get("rules", []))
+    want = sorted(r["type"] for r in RESTRICT_RULES[spec["target"]])
+    if have != want:
+        f.append(("drift", "%s rules are %s, expected %s" % (label, have, want)))
+    if rs.get("bypass_actors") is None:
+        f.append(("warn", "%s bypass actors not visible to this token, so not audited" % label))
+    elif [(a.get("actor_type"), a.get("bypass_mode")) for a in rs["bypass_actors"]] != [
+            (a["actor_type"], a["bypass_mode"]) for a in RESTRICT_BYPASS]:
+        f.append(("drift", "%s bypass actors are not org admins (always)" % label))
+    return f
+
+
+def restricted_findings(repo):
+    f = []
+    for spec in RESTRICTED.get(repo, []):
+        try:
+            f += restricted_spec_findings(spec, find_named_ruleset(repo, spec["name"], spec["target"]))
+        except GhError as e:
+            f.append(("warn", "unable to read rulesets: %s" % e))
+    return f
+
+
+def apply_restricted(repo, dry_run):
+    base = "repos/%s/%s" % (ORG, repo)
+    for spec in RESTRICTED.get(repo, []):
+        existing = find_named_ruleset(repo, spec["name"], spec["target"])
+        body = restricted_body(spec)
+        if existing is None:
+            run_call("POST", base + "/rulesets", body, dry_run)
+        elif [m for lvl, m in restricted_spec_findings(spec, existing) if lvl == "drift"]:
+            run_call("PUT", "%s/rulesets/%s" % (base, existing["id"]), body, dry_run)
+        else:
+            print("%s ruleset %s already matches" % (spec["target"], spec["name"]))
+
+
 def audit_repo(name):
     f = []
     rtype = infer_type(name)
@@ -226,21 +298,27 @@ def audit_repo(name):
             f += ruleset_findings(rs, checks, codecov)
     except GhError as e:
         f.append(("warn", "unable to read rulesets: %s" % e))
+    f += restricted_findings(name)
     return {"repo": name, "type": rtype, "findings": f}
+
+
+def audit_restricted_only(name):
+    return {"repo": name, "type": "restricted refs only", "findings": restricted_findings(name)}
 
 
 def cmd_audit(args):
     names, skipped = audited_repos()
     if args.repo:
-        if args.repo in skipped:
+        if args.repo in skipped and args.repo not in RESTRICTED:
             print("%s: %s" % (args.repo, skipped[args.repo]))
             return 0
-        if args.repo not in names:
+        if args.repo not in names and args.repo not in skipped:
             print("error: %s is not a non-archived repo in %s" % (args.repo, ORG), file=sys.stderr)
             return 2
-        names = [args.repo]
+        names = [args.repo] if args.repo in names else []
+    restricted_only = [n for n in skipped if n in RESTRICTED and (not args.repo or n == args.repo)]
     with ThreadPoolExecutor(max_workers=6) as ex:
-        results = list(ex.map(audit_repo, names))
+        results = list(ex.map(audit_repo, names)) + list(ex.map(audit_restricted_only, restricted_only))
     counts = {"drift": 0, "warn": 0}
     drifted = 0
     for r in results:
@@ -341,13 +419,22 @@ def apply_repo(name, rtype, no_codecov, dry_run, fresh=False):
         run_call("PUT", "%s/rulesets/%s" % (base, existing["id"]), body, dry_run)
     else:
         print("ruleset already matches")
+    apply_restricted(name, dry_run)
 
 
 def cmd_apply(args):
     names, skipped = audited_repos()
     if args.all:
         targets = [(n, infer_type(n)) for n in names]
+        for n in sorted(skipped):
+            if n in RESTRICTED:
+                print("== %s [restricted refs only]" % n)
+                apply_restricted(n, args.dry_run)
     else:
+        if args.repo in skipped and args.repo in RESTRICTED:
+            print("== %s [restricted refs only]" % args.repo)
+            apply_restricted(args.repo, args.dry_run)
+            return 0
         if args.repo in skipped:
             print("error: %s is %s" % (args.repo, skipped[args.repo]), file=sys.stderr)
             return 2

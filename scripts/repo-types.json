@@ -114,5 +114,32 @@
         "call-validate-bun-wasm-rust-library-pr / test (windows-11-arm)"
       ]
     }
+  },
+  "restricted_refs": {
+    ".github": [
+      {
+        "name": "v1",
+        "target": "branch",
+        "include": [
+          "refs/heads/v1"
+        ]
+      },
+      {
+        "name": "tags",
+        "target": "tag",
+        "include": [
+          "~ALL"
+        ]
+      }
+    ],
+    "homebrew-tap": [
+      {
+        "name": "restrict-main",
+        "target": "branch",
+        "include": [
+          "~DEFAULT_BRANCH"
+        ]
+      }
+    ]
   }
 }

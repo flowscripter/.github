@@ -61,6 +61,16 @@ It needs an org secret `AUDIT_REPO_TOKEN`: a fine-grained personal access token 
 
 `homebrew-tap` is skipped on purpose: the `release-bun-executable` workflow checks it out with `PUSH_TO_MAIN_TOKEN` and pushes the formula update straight to its default branch, with no pull request. A ruleset requiring pull requests or status checks would block that push, and it has no CI of its own to require.
 
+#### Restricted Refs
+
+Some refs are pushed only by automation running with `PUSH_TO_MAIN_TOKEN`, which belongs to an org owner. `restricted_refs` in `scripts/repo-types.json` gives each one a ruleset that blocks updates, deletion and force pushes for everyone except org owners:
+
+* `.github` branch `v1`, which every repo's workflows load from and `update-v1` moves forward
+* `.github` tags (there are none, and a tag named `v1` would be confused with the branch)
+* `homebrew-tap` default branch, which `release-bun-executable` updates
+
+`apply` creates these rulesets, including for `homebrew-tap`, which is otherwise skipped, and `audit` checks them. An org owner can still roll `v1` back with `git push origin <good-sha>:v1 --force`.
+
 `winget-pkgs` is a fork and is ignored.
 
 There exceptions and the `.github` repo's own specific checks are in `scripts/repo-types.json`.
