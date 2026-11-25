@@ -43,11 +43,11 @@ jobs:
       tag: ${{ steps.release.outputs.tag }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Install packages
@@ -113,13 +113,13 @@ jobs:
         shell: bash
       - name: Setup Pages
         if: steps.release.outputs.tag != ''
-        uses: actions/configure-pages@v6
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
       - name: Upload artifact
         if: steps.release.outputs.tag != ''
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: 'dist/'
       - name: Deploy to GitHub Pages
         if: steps.release.outputs.tag != ''
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

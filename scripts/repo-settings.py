@@ -41,10 +41,11 @@ PR_DEFAULTS = {
     "allowed_merge_methods": ["squash"],
     "dismiss_stale_reviews_on_push": False,
     "require_code_owner_review": False,
-    "require_last_push_approval": False,
-    "required_approving_review_count": 0,
+    "require_last_push_approval": True,
+    "required_approving_review_count": 1,
     "required_review_thread_resolution": False,
 }
+BYPASS_ACTORS = [{"actor_id": 1, "actor_type": "OrganizationAdmin", "bypass_mode": "pull_request"}]
 DEFAULT_CONDITIONS = {"ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}}
 
 
@@ -145,14 +146,19 @@ def ruleset_findings(rs, checks, codecov_allowed):
     f = []
     if rs.get("enforcement") != "active":
         f.append(("drift", "ruleset enforcement is %s, expected active" % rs.get("enforcement")))
+    bypass = [(a.get("actor_type"), a.get("bypass_mode")) for a in rs.get("bypass_actors") or []]
+    if bypass != [(a["actor_type"], a["bypass_mode"]) for a in BYPASS_ACTORS]:
+        f.append(("drift", "bypass actors are %s, expected org admins for pull requests only" % (bypass or "none")))
     rules = {r["type"]: r.get("parameters") or {} for r in rs.get("rules", [])}
     for t in SIMPLE_RULES + ["pull_request", "required_status_checks"]:
         if t not in rules:
             f.append(("drift", "ruleset is missing rule: " + t))
     pr = rules.get("pull_request")
     if pr is not None:
-        if pr.get("required_approving_review_count") != 0:
-            f.append(("drift", "pull_request approvals is %s, expected 0" % pr.get("required_approving_review_count")))
+        if pr.get("required_approving_review_count") != 1:
+            f.append(("drift", "pull_request approvals is %s, expected 1" % pr.get("required_approving_review_count")))
+        if pr.get("require_last_push_approval") is not True:
+            f.append(("drift", "pull_request does not require approval of the most recent push"))
         if pr.get("allowed_merge_methods") != ["squash"]:
             f.append(("drift", "pull_request allowed_merge_methods is %s, expected ['squash']" % pr.get("allowed_merge_methods")))
     sc = rules.get("required_status_checks")
@@ -276,7 +282,8 @@ def build_ruleset(existing, checks, include_codecov):
                              "integration_id": CODECOV_ID if c in CODECOV_CHECKS else ACTIONS_ID})
     old = {r["type"]: r.get("parameters") or {} for r in (existing["rules"] if existing else [])}
     pr = {k: old.get("pull_request", {}).get(k, v) for k, v in PR_DEFAULTS.items()}
-    pr["required_approving_review_count"] = 0
+    pr["required_approving_review_count"] = PR_DEFAULTS["required_approving_review_count"]
+    pr["require_last_push_approval"] = PR_DEFAULTS["require_last_push_approval"]
     pr["allowed_merge_methods"] = ["squash"]
     sc = {"strict_required_status_checks_policy": True,
           "do_not_enforce_on_create": old.get("required_status_checks", {}).get("do_not_enforce_on_create", False),
@@ -290,6 +297,7 @@ def build_ruleset(existing, checks, include_codecov):
         "name": existing["name"] if existing else "main",
         "target": "branch",
         "enforcement": "active",
+        "bypass_actors": BYPASS_ACTORS,
         "conditions": existing["conditions"] if existing else DEFAULT_CONDITIONS,
         "rules": rules,
     }

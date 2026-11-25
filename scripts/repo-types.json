@@ -18,7 +18,8 @@
     ".github": {
       "checks": [
         "actionlint",
-        "lint"
+        "lint",
+        "agent-config"
       ],
       "codecov": false
     }
@@ -29,6 +30,7 @@
       "workflow": "validate-bun-library-pr",
       "checks": [
         "call-lint-pr-message / lint",
+        "call-lint-pr-message / agent-config",
         "call-validate-bun-library-pr / check",
         "call-validate-bun-library-pr / test (macOS-latest)",
         "call-validate-bun-library-pr / test (ubuntu-latest)",
@@ -42,6 +44,7 @@
       "workflow": "validate-bun-executable-pr",
       "checks": [
         "call-lint-pr-message / lint",
+        "call-lint-pr-message / agent-config",
         "call-validate-bun-executable-pr / check",
         "call-validate-bun-executable-pr / test (macOS-latest)",
         "call-validate-bun-executable-pr / test (ubuntu-latest)",
@@ -60,6 +63,7 @@
       "workflow": "validate-bun-webapp-pr",
       "checks": [
         "call-lint-pr-message / lint",
+        "call-lint-pr-message / agent-config",
         "call-validate-bun-webapp-pr / check",
         "call-validate-bun-webapp-pr / test (macOS-latest)",
         "call-validate-bun-webapp-pr / test (ubuntu-latest)",
@@ -73,6 +77,7 @@
       "workflow": "validate-rust-library-pr",
       "checks": [
         "call-lint-pr-message / lint",
+        "call-lint-pr-message / agent-config",
         "call-validate-rust-library-pr / check",
         "call-validate-rust-library-pr / test (macOS-latest)",
         "call-validate-rust-library-pr / test (ubuntu-latest)",
@@ -86,6 +91,7 @@
       "workflow": "validate-bun-rust-library-pr",
       "checks": [
         "call-lint-pr-message / lint",
+        "call-lint-pr-message / agent-config",
         "call-validate-bun-rust-library-pr / check",
         "call-validate-bun-rust-library-pr / test (macOS-latest)",
         "call-validate-bun-rust-library-pr / test (ubuntu-latest)",
@@ -99,6 +105,7 @@
       "workflow": "validate-bun-wasm-rust-library-pr",
       "checks": [
         "call-lint-pr-message / lint",
+        "call-lint-pr-message / agent-config",
         "call-validate-bun-wasm-rust-library-pr / check",
         "call-validate-bun-wasm-rust-library-pr / test (macOS-latest)",
         "call-validate-bun-wasm-rust-library-pr / test (ubuntu-latest)",

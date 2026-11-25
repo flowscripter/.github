@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Update dependencies
@@ -29,7 +29,7 @@ jobs:
       - name: Create PR
         id: create-pr
         if: steps.install.outcome == 'success'
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
           commit-message: 'chore: update dependencies'
@@ -39,7 +39,7 @@ jobs:
           branch: update-dependencies
       - name: Enable Pull Request Automerge
         if: steps.install.outcome == 'success' && steps.create-pr.outputs.pull-request-operation == 'created'
-        run: gh pr merge --squash --auto "$PR" || gh pr merge --squash "$PR"
+        run: gh pr merge --squash --auto "$PR"
         env:
           PR: ${{ steps.create-pr.outputs.pull-request-number }}
           GH_TOKEN: ${{ secrets.CREATE_PR_TOKEN }}
