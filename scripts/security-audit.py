@@ -168,11 +168,12 @@ def cmd_ledger_add(repo, revision_file):
         "branch": j["revision"]["branch"],
         "dirty": j["revision"]["dirty"],
         "scannedEffort": j["effort"],
-        "findings": {k: findings[k] for k in ("critical", "high", "medium", "low")},
     }
     with open(LEDGER, "w") as f:
         json.dump(data, f, indent=2, sort_keys=True)
         f.write("\n")
+    print("finding counts (record them locally, never in the public ledger): "
+          + ", ".join("%s %s" % (k, findings[k]) for k in ("critical", "high", "medium", "low")))
 
 
 if __name__ == "__main__":
