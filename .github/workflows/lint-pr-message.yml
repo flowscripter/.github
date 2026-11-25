@@ -12,6 +12,47 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: amannn/action-semantic-pull-request@v6
+      - uses: amannn/action-semantic-pull-request@66e72920af32222769c386d81f89656ebcb6d6d5 # v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  agent-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check agent configuration paths
+        shell: bash
+        env:
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git init -q pr
+          cd pr
+          auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)
+          git -c http.extraheader="AUTHORIZATION: basic $auth" fetch -q --no-tags --filter=blob:none \
+            "https://github.com/$REPO" "$BASE_SHA" "+refs/pull/$PR/head:refs/pr"
+          python3 - <<'PY'
+          import os, re, subprocess, sys
+          author = os.environ["AUTHOR"]
+          out = subprocess.run(
+              ["git", "diff", "--name-only", "--no-renames", "-z", os.environ["BASE_SHA"] + "...refs/pr"],
+              check=True, capture_output=True, text=True).stdout
+          trusted = author in ("vectronic", "vectronic-claude")
+          never, owner_only = [], []
+          for f in filter(None, out.split("\0")):
+              agent_dir = re.search(r"(^|/)\.claude(/|$)", f, re.I)
+              allowed = re.search(r"(^|/)\.claude/(CLAUDE\.md$|skills/)", f, re.I)
+              if re.search(r"(^|/)(\.mcp\.json|CLAUDE\.local\.md)$", f, re.I) or (agent_dir and not allowed):
+                  never.append(f)
+              elif (agent_dir or re.search(r"(^|/)CLAUDE\.md$", f, re.I)) and not trusted:
+                  owner_only.append(f)
+          for f in never:
+              print("never committed (only CLAUDE.md and .claude/skills/ are allowed):", repr(f))
+          for f in owner_only:
+              print("agent instructions may only be changed by vectronic or vectronic-claude:", repr(f))
+          if never or owner_only:
+              print("::error::This PR changes agent configuration paths that it is not allowed to change.")
+              sys.exit(1)
+          PY

@@ -74,11 +74,11 @@ jobs:
       tag: ${{ steps.release.outputs.tag }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Install packages
@@ -138,12 +138,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Compile Linux
@@ -154,7 +154,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Linux_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_x64.sha256
         shell: bash
       - name: Release Linux
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -169,12 +169,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Compile Linux
@@ -185,7 +185,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Linux_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Linux_arm64.sha256
         shell: bash
       - name: Release Linux
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -200,12 +200,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Compile Windows
@@ -214,7 +214,7 @@ jobs:
           bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Sign Windows
-      #   uses: skymatic/code-sign-action@v1
+      #   uses: skymatic/code-sign-action@cfcc1c15b32938bab6dea25192045b6d2989e4d0 # v1
       #   with:
       #     certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
       #     password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
@@ -226,7 +226,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Windows_x64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Windows_x64.sha256
         shell: bash
       - name: Release Windows
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -241,12 +241,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Compile Windows
@@ -255,7 +255,7 @@ jobs:
           bun build index.ts --compile ${{ inputs.minify && '--minify-whitespace --minify-syntax' || '' }} ${{ inputs.sourcemap && '--sourcemap' || '' }} ${{ inputs.bytecode && '--bytecode --format=esm' || '' }} --outfile ${{ inputs.executable-name }}
         shell: bash
       # - name: Sign Windows
-      #   uses: skymatic/code-sign-action@v1
+      #   uses: skymatic/code-sign-action@cfcc1c15b32938bab6dea25192045b6d2989e4d0 # v1
       #   with:
       #     certificate: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_P12_BASE64 }}'
       #     password: '${{ secrets.WINDOWS_CODESIGN_CERTIFICATE_PASSWORD }}'
@@ -267,7 +267,7 @@ jobs:
           sha256sum ${{ inputs.executable-name }}_Windows_arm64.zip | awk '{ print $1 }' > ${{ inputs.executable-name }}_Windows_arm64.sha256
         shell: bash
       - name: Release Windows
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -284,12 +284,12 @@ jobs:
       sha256: ${{ steps.zip_macos.outputs.sha256 }}
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           ref: ${{ needs.release.outputs.tag }}
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: "latest"
       - name: Compile MacOS
@@ -308,7 +308,7 @@ jobs:
       #     base64 -d -i codesign_cert.p12.base64 -o codesign_cert.p12
       #   shell: bash
       # - name: Sign and Notarize
-      #   uses: indygreg/apple-code-sign-action@v1
+      #   uses: indygreg/apple-code-sign-action@44d0985b7f4363198e80b6fea63ac3e9dd3e9957 # v1
       #   with:
       #     input_path: ${{ inputs.executable-name }}
       #     notarize: true
@@ -325,7 +325,7 @@ jobs:
           echo "sha256=$(cat ${{ inputs.executable-name }}_MacOS_aarch64.sha256)" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: Release MacOS
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           tag_name: ${{ needs.release.outputs.tag }}
           files: |
@@ -341,7 +341,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Homebrew Tap
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: flowscripter/homebrew-tap
           token: ${{ secrets.PUSH_TO_MAIN_TOKEN }}
@@ -373,7 +373,7 @@ jobs:
       contents: write
     steps:
       - name: Update Winget Package
-        uses: vedantmgoyal9/winget-releaser@v2
+        uses: vedantmgoyal9/winget-releaser@b7370d4d152efdce803a26cc6ca9eee58cb2ad54 # v2
         with:
           identifier: Flowscripter.${{ inputs.executable-name }}
           max-versions-to-keep: 0

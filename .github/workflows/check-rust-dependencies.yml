@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Setup cargo and update dependencies
         run: |
           cargo install cargo-edit cargo-audit
@@ -20,7 +20,7 @@ jobs:
         shell: bash
       - name: Create PR
         id: create-pr
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
           commit-message: 'chore: update dependencies'
@@ -30,7 +30,7 @@ jobs:
           branch: update-dependencies
       - name: Enable Pull Request Automerge
         if: steps.create-pr.outputs.pull-request-operation == 'created'
-        run: gh pr merge --squash --auto "$PR" || gh pr merge --squash "$PR"
+        run: gh pr merge --squash --auto "$PR"
         env:
           PR: ${{ steps.create-pr.outputs.pull-request-number }}
           GH_TOKEN: ${{ secrets.CREATE_PR_TOKEN }}
