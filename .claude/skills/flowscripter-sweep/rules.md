@@ -19,7 +19,8 @@ Shared by the sweep and every skill that works an issue. Board stages, routing a
 - Never add AI or Claude attribution to commits, PR bodies or comments.
 - End every comment and every issue body you post with `<!-- flowscripter-agent:v1 -->`, included in the first post.
 - A fix that needs a workflow-file change can't be pushed with the machine token. Commit it on a local branch, then tell Nick the branch, the change and why, so he can push it.
-- Run the full test suite, typecheck, lint and format check before pushing. Verify the PR title check result yourself.
+- Run the full test suite, typecheck, lint and format check before pushing.
+- Write repo names and paths out in full in `gh -R`, `git -C` and `cd`, never as shell variables. The guard hook can't expand variables, so it blocks those commands. Verify the PR title check result yourself.
 - Code comments explain current behaviour, never the history of a fix. History goes in the PR and the commit.
 
 ## Resolution and Cascade
