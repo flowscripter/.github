@@ -78,7 +78,24 @@ def remote_owners(cwd):
     return {owner_of(run_git(cwd, "remote", "get-url", "--push", n)) for n in names}
 
 
+REDIRECT = re.compile(r"^\d*(>>?|<|>\|)$")
+REDIRECT_JOINED = re.compile(r"^\d*(>>?|<)\S")
+
+
+def drop_redirections(argv):
+    out, skip = [], False
+    for a in argv:
+        if skip:
+            skip = False
+        elif REDIRECT.match(a):
+            skip = True
+        elif not REDIRECT_JOINED.match(a):
+            out.append(a)
+    return out
+
+
 def split_commands(command):
+    command = re.sub(r"\d*>&\d*-?|&>>?", " > ", command)
     lex = shlex.shlex(command, posix=True, punctuation_chars=";&|()\n")
     lex.whitespace = " \t\r"
     lex.whitespace_split = True
@@ -269,7 +286,7 @@ def check(command, cwd, depth=0):
             raise Blocked("command could not be parsed; simplify the quoting")
         return
     for argv in cmds:
-        argv = strip_prefixes(argv)
+        argv = strip_prefixes(drop_redirections(argv))
         if not argv:
             continue
         name = os.path.basename(argv[0])

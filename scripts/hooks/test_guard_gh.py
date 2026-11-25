@@ -83,6 +83,11 @@ def main():
         (fs, "cat <<EOF > f\n$(gh pr merge 3)\nEOF", True),
         (fs, "cat <<'EOF' > f\ntext\nEOF\ngh pr merge 3", True),
         (fs, "echo \"`gh pr merge 3`\"", True),
+        (fs, "git push -q 2>&1 | grep -v remote", False),
+        (fs, "git push origin feat-x > /tmp/log 2>&1", False),
+        (fs, "git push origin main 2>&1 | tail -1", True),
+        (fs, "gh pr merge 3 >out.txt", True),
+        (fs, "gh pr create -R flowscripter/example-cli --title t --body-file b.md &> /dev/null", False),
     ]
     failures = 0
     for cwd, cmd, expect in cases:
