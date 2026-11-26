@@ -65,7 +65,7 @@ The `.github` repo itself has no release workflow, so a docs-only merge there on
 1. Write `docs/product.md` (users, principles, out of scope) with Nick, as an interview.
 2. Add `docs/adr/0000-template.md`, and record the first org ADRs: this workflow, the docs-only rule, and the `@v1` branch policy.
 3. Add `repos.yaml`. Generate the dependency edges from each repo's `package.json`/`Cargo.toml` with a small script, then hand-curate the release order and any edges the script can't see (for example templates).
-4. Add `docs/adr/` to a repo only when it gets its first local decision.
+4. Give every repo `design/adr/` and `design/changes/` with a short README each, and link them from the repo's `README.md`.
 
 ## Phase 6: Board
 

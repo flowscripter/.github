@@ -19,7 +19,8 @@
       "checks": [
         "actionlint",
         "lint",
-        "agent-config"
+        "agent-config",
+        "test-scripts"
       ],
       "codecov": false
     }

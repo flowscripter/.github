@@ -36,17 +36,27 @@ sweep (sonnet) --report--> main session --[spec]------------> flowscripter-spec
 
 A full-route change goes through these steps:
 
-1. **Intent.** Nick opens an issue with the org intent form (What, Why, Constraints / non-goals, Acceptance criteria, Repos likely affected). The sweep adds it to the board in Backlog and reports `[pickup]`.
+1. **Intent.** Nick opens an issue with the Change form (What, Why, Constraints / non-goals, Acceptance criteria, Repos likely affected). See [Issue Forms](#issue-forms). The sweep adds it to the board in Backlog and reports `[pickup]`.
 2. **Route.** The main session picks the full or the short route (rules in `stages.md`) and says which in a one-line pickup comment. On the short route it goes straight to step 6.
-3. **Spec.** The card moves to Spec. `flowscripter-spec` opens a `docs(spec):` PR adding `docs/changes/NNNN-slug/spec.md` to the home repo, and creates the pinned `<!-- flowscripter-spec:v1 -->` comment on the issue. Nick reviews inline. A `/revise` or free-form comment sends the sweep back to `[spec]`. **Merge = spec approved.** No build or release runs (see [Docs-Only Changes](#docs-only-changes)).
+3. **Spec.** The card moves to Spec. `flowscripter-spec` opens a `docs(spec):` PR adding `design/changes/NNNN-slug/spec.md` to the home repo, and creates the pinned `<!-- flowscripter-spec:v1 -->` comment on the issue. Nick reviews inline. A `/revise` or free-form comment sends the sweep back to `[spec]`. **Merge = spec approved.** No build or release runs (see [Docs-Only Changes](#docs-only-changes)).
 4. **Plan.** The sweep moves the card to Plan and reports `[plan]`. `flowscripter-plan` opens a `docs(plan):` PR with `plan.md`: work packages per repo in release order, the cross-repo test approach, the expected cascade, and the durable files each package updates. **Merge = plan approved.**
 5. **Split.** The sweep reports `[split]`. The plan skill creates one sub-issue per work package in its target repo, marked `<!-- flowscripter-subissue:<home>#<n>/<pkg> -->`, links each to the parent, and adds blocked-by links. The parent moves to In Progress and the sub-issues to Backlog.
-6. **Implement.** A sub-issue is `[pickup]` once everything blocking it is closed and released. `flowscripter-implement` works it in a worktree on branch `change/NNNN-slug`. That name is shared by every repo in the change. It tests against unreleased upstream work using the plan's method, runs the full suite, typecheck, lint and format check, updates the repo's `CLAUDE.md`, `docs/architecture.md` or ADRs in the same PR, and opens it with `Refs #N`. Green CI moves the card to Review and assigns Nick.
+6. **Implement.** A sub-issue is `[pickup]` once everything blocking it is closed and released. `flowscripter-implement` works it in a worktree on branch `change/NNNN-slug`. That name is shared by every repo in the change. It tests against unreleased upstream work using the plan's method, runs the full suite, typecheck, lint and format check, updates the repo's `README.md`, its `README/` docs, `.claude/CLAUDE.md` or ADRs in the same PR, and opens it with `Refs #N`. Green CI moves the card to Review and assigns Nick.
 7. **Review and release.** Nick reviews and merges. semantic-release cuts the version and the cascade bump PRs follow. The sweep tracks release and cascade state, and unblocks the next sub-issues as their blockers are released.
 8. **Verify.** Once every sub-issue is closed and released and the cascade is complete, the sweep reports `[verify]`. `flowscripter-verify` installs the released build, checks each acceptance criterion, and posts the results plus the steps for Nick. The card moves to Verification if everything passes, or back to In Progress with `[fix]` if anything fails.
 9. **Done.** Nick tests the items marked `NICK` and closes the issue.
 
-The short route is steps 1, 2, 6, 7, 8 and 9 in a single repo, with the issue's acceptance criteria standing in for a spec. CI failures (`[ci-fix]`), security rescan issues and other system issues always take the short route (see `stages.md`).
+The short route is steps 1, 2, 6, 7, 8 and 9 in a single repo, with the issue form's acceptance criteria standing in for a spec. CI failures (`[ci-fix]`), security rescan issues and other system issues always take the short route (see `stages.md`).
+
+## Issue Forms
+
+Every repo uses the org issue forms in `flowscripter/.github`. None has templates of its own.
+
+- **Change:** for new features, behaviour changes, and anything that may touch several repos. The acceptance criteria are written as observable checks. They become the spec's criteria, the tests, and the items of the verification comment. "Repos likely affected" is a guess: the spec works out the full list from `repos.yaml`.
+- **Bug:** for something that behaves differently from what it should. "Expected behaviour" is the acceptance criterion. The fix adds a test that fails without it, and verification runs the steps to reproduce against the released build.
+- **Task:** for small, well-understood work in one repo, such as a dependency, config or docs change. "Done when" holds the acceptance criteria.
+
+Pick Change when in doubt: the main session can still take the short route for it. Bug and Task always take the short route. `stages.md` has the routing rules.
 
 ## Nick's Controls
 
@@ -66,13 +76,21 @@ The short route is steps 1, 2, 6, 7, 8 and 9 in a single repo, with the issue's 
 | Product doc (users, principles, out of scope) | `flowscripter/.github/docs/product.md` | yes |
 | Org ADRs | `flowscripter/.github/docs/adr/` | yes |
 | Repo graph (repos, dependency edges, release order) | `flowscripter/.github/repos.yaml` | yes |
-| Per-change spec and plan | `<home repo>/docs/changes/NNNN-slug/` (cross-cutting changes: in `.github`) | yes |
-| Repo ADRs, architecture | `<repo>/docs/adr/`, `<repo>/docs/architecture.md` | yes |
+| Per-change spec and plan | `<home repo>/design/changes/NNNN-slug/` (cross-cutting changes: `.github/docs/changes/`) | yes |
+| Repo ADRs | `<repo>/design/adr/` | yes |
+| User and developer docs | `<repo>/README.md` and `<repo>/README/` | yes |
+| Generated API docs | `<repo>/docs/` (typedoc output, gitignored) | no |
 | Agent context per repo | `<repo>/.claude/CLAUDE.md` | yes |
 | Volatile loop state (winget PR numbers, recent gaps) | `~/.claude/projects/.../memory/` | no |
 | Transition metrics | `~/.local/state/flowscripter/transitions.jsonl` | no |
 
-`docs/changes/` is history. Agents read it only for the change they are working on. Durable truth goes into `CLAUDE.md`, `docs/architecture.md` and ADRs as the last step of each change.
+`repos.yaml` is generated by `scripts/repos-graph.py` from each repo's `package.json` and `Cargo.toml`. Nobody edits it by hand. It is kept current in two ways:
+
+- **Daily check:** once a day the sweep runs `repos-graph.py --check`. If the file is out of date, it opens a `docs: update repos.yaml` PR with auto-merge on, and Nick's approval merges it. A new repo, an archived repo, or a changed dependency between flowscripter packages all show up within a day.
+- **New repos:** `repo-settings.py new` checks the graph after creating a repo and says when it is stale. The `new-flowscripter-repo` skill then opens the update PR straight away, rather than waiting for the daily check.
+- **Fresh reads:** the spec and plan skills read the graph with `repos-graph.py --print`, which builds it from the repos as they are now. So a change is never planned from a stale file, even before the update PR merges.
+
+Per-repo specs, plans and ADRs live in `design/`, because `docs/` is the gitignored typedoc output in every repo (see [repo-layout.md](repo-layout.md)). `.github` has no generated docs, so it keeps them in `docs/`. `design/changes/` is history: agents read it only for the change they are working on. Durable truth goes into `README.md`, `README/`, `.claude/CLAUDE.md` and ADRs as the last step of each change.
 
 ## Committing `.claude`
 
@@ -105,7 +123,7 @@ It fails closed. Nick's `!` commands bypass it. It can't see commands hidden in 
 
 ## Docs-Only Changes
 
-A change is docs-only when every changed file matches `docs/changes/**`, `docs/adr/**`, `.claude/**` or `CLAUDE.md`. Spec and plan PRs are docs-only and are titled `docs(spec): <slug>` and `docs(plan): <slug>`.
+A change is docs-only when every changed file matches `design/**`, `.claude/**` or `CLAUDE.md`. Spec and plan PRs are docs-only and are titled `docs(spec): <slug>` and `docs(plan): <slug>`.
 
 - **On a PR**, the shared validation workflows skip the build and test work but still report every required check, so the PR can merge.
 - **On a merge to `main`**, the shared release workflows skip everything: nothing is built, tagged or published, and no cascade starts. The commit appears in the notes of the next real release, and as a `docs` commit it never raises that release above patch.

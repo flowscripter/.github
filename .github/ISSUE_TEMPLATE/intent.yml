@@ -1,0 +1,37 @@
+name: Change
+description: A feature or change, possibly across several repos. Small fixes can use Bug report or Task.
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: The change you want, in a few sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: The problem it solves or what it makes possible.
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints / non-goals
+      description: Limits the solution must respect, and things that are explicitly out of scope.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable checks that show the change is done, one per line. They feed the spec, the tests and the verification comment.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: repos
+    attributes:
+      label: Repos likely affected
+      description: Your best guess. The spec works out the full list from repos.yaml.

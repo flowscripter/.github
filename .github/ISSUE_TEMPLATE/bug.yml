@@ -1,0 +1,30 @@
+name: Bug
+description: Something behaves differently from what it should. Fixed on the short route, without a spec or plan.
+labels: [bug]
+body:
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened
+      description: The command, call or page, and what it did. Paste error output as text.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What should happen instead. This is the acceptance criterion the fix and its verification check.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+  - type: input
+    id: version
+    attributes:
+      label: Version and platform
+      placeholder: e.g. example-cli 3.3.1 on macOS arm64

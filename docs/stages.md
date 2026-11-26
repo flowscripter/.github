@@ -16,15 +16,25 @@ Shared by the sweep and the stage skills. The full design is in [agentic-sdlc.md
 
 Waiting on Nick inside Spec and Plan doesn't move the card to Review: the open docs PR assigned to him is the signal. The report lists those under WAITING ON NICK.
 
+## Issue Forms
+
+Issues are opened with one of three org issue forms. Each has a required field that serves as the acceptance criteria for the work and for the verification check.
+
+| Form | Use it for | Route | Acceptance criteria |
+|---|---|---|---|
+| Change (`intent.yml`) | features, behaviour changes, anything that may span several repos | full, unless the routing rules below make it short | Acceptance criteria |
+| Bug (`bug.yml`) | something that behaves differently from what it should | short | Expected behaviour |
+| Task (`task.yml`) | small, well-understood work in one repo: config, dependencies, docs | short | Done when |
+
 ## Routing at pickup
 
 The main session picks the route when it takes a Backlog card:
 
-- **Full** (Backlog -> Spec -> Plan -> In Progress): the issue form lists more than one repo, or `repos.yaml` shows the affected repo has dependents that need a code change (not just a bump), or the change is a `feat`.
-- **Short** (Backlog -> In Progress): one repo, `fix`/`chore`/`docs`/`ci`, no API change. Also every `ci-fix` card and every sub-issue (its spec and plan are the parent's).
+- **Full** (Backlog -> Spec -> Plan -> In Progress): a Change issue that lists more than one repo, or `repos.yaml` shows the affected repo has dependents that need a code change (not just a bump), or the change is a `feat`.
+- **Short** (Backlog -> In Progress): every Bug and Task issue, and a Change issue in one repo with no API change. Also every `ci-fix` card and every sub-issue (its spec and plan are the parent's).
 - **System issues** never take the full route: CI failures (`flowscripter-ci-failure` marker, start In Progress), the monthly `flowscripter-security-rescan` issue and other bot proposals (start in Review, as today).
 
-Spec and plan PRs are titled `docs(spec): <slug>` and `docs(plan): <slug>`. They only touch docs-only paths, so merging them runs no build and cuts no release (see [Docs-Only Merges](agentic-sdlc.md#docs-only-merges)).
+Spec and plan PRs are titled `docs(spec): <slug>` and `docs(plan): <slug>`. They only touch docs-only paths, so merging them runs no build and cuts no release (see [Docs-Only Changes](agentic-sdlc.md#docs-only-changes)).
 
 The pickup comment says which route and why in one line. Nick overrides with `/go` (take the short route, or skip the remaining gates) or `/revise spec` (send it back to Spec).
 

@@ -28,6 +28,8 @@ jobs:
           body: |
             chore: update dependencies
           branch: update-dependencies
+          assignees: vectronic
+          reviewers: vectronic
       - name: Enable Pull Request Automerge
         if: steps.create-pr.outputs.pull-request-operation == 'created'
         run: gh pr merge --squash --auto "$PR"
