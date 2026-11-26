@@ -36,7 +36,7 @@ sweep (sonnet) --report--> main session --[spec]------------> flowscripter-spec
 
 A full-route change goes through these steps:
 
-1. **Intent.** Nick opens an issue with the org intent form (What, Why, Constraints / non-goals, Acceptance criteria, Repos likely affected). The sweep adds it to the board in Backlog and reports `[pickup]`.
+1. **Intent.** Nick opens an issue with the Change form (What, Why, Constraints / non-goals, Acceptance criteria, Repos likely affected). See [Issue Forms](#issue-forms). The sweep adds it to the board in Backlog and reports `[pickup]`.
 2. **Route.** The main session picks the full or the short route (rules in `stages.md`) and says which in a one-line pickup comment. On the short route it goes straight to step 6.
 3. **Spec.** The card moves to Spec. `flowscripter-spec` opens a `docs(spec):` PR adding `docs/changes/NNNN-slug/spec.md` to the home repo, and creates the pinned `<!-- flowscripter-spec:v1 -->` comment on the issue. Nick reviews inline. A `/revise` or free-form comment sends the sweep back to `[spec]`. **Merge = spec approved.** No build or release runs (see [Docs-Only Changes](#docs-only-changes)).
 4. **Plan.** The sweep moves the card to Plan and reports `[plan]`. `flowscripter-plan` opens a `docs(plan):` PR with `plan.md`: work packages per repo in release order, the cross-repo test approach, the expected cascade, and the durable files each package updates. **Merge = plan approved.**
@@ -46,7 +46,17 @@ A full-route change goes through these steps:
 8. **Verify.** Once every sub-issue is closed and released and the cascade is complete, the sweep reports `[verify]`. `flowscripter-verify` installs the released build, checks each acceptance criterion, and posts the results plus the steps for Nick. The card moves to Verification if everything passes, or back to In Progress with `[fix]` if anything fails.
 9. **Done.** Nick tests the items marked `NICK` and closes the issue.
 
-The short route is steps 1, 2, 6, 7, 8 and 9 in a single repo, with the issue's acceptance criteria standing in for a spec. CI failures (`[ci-fix]`), security rescan issues and other system issues always take the short route (see `stages.md`).
+The short route is steps 1, 2, 6, 7, 8 and 9 in a single repo, with the issue form's acceptance criteria standing in for a spec. CI failures (`[ci-fix]`), security rescan issues and other system issues always take the short route (see `stages.md`).
+
+## Issue Forms
+
+Every repo uses the org issue forms in `flowscripter/.github`. None has templates of its own.
+
+- **Change:** for new features, behaviour changes, and anything that may touch several repos. The acceptance criteria are written as observable checks. They become the spec's criteria, the tests, and the items of the verification comment. "Repos likely affected" is a guess: the spec works out the full list from `repos.yaml`.
+- **Bug:** for something that behaves differently from what it should. "Expected behaviour" is the acceptance criterion. The fix adds a test that fails without it, and verification runs the steps to reproduce against the released build.
+- **Task:** for small, well-understood work in one repo, such as a dependency, config or docs change. "Done when" holds the acceptance criteria.
+
+Pick Change when in doubt: the main session can still take the short route for it. Bug and Task always take the short route. `stages.md` has the routing rules.
 
 ## Nick's Controls
 
