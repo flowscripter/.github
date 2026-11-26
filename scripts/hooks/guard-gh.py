@@ -99,6 +99,9 @@ def split_commands(command):
     lex = shlex.shlex(command, posix=True, punctuation_chars=";&|()\n")
     lex.whitespace = " \t\r"
     lex.whitespace_split = True
+    # Bash only starts a comment with # at the start of a word, so ${x##*/} or #123 must stay text.
+    # A real comment is then just extra words after the command, which the checks ignore.
+    lex.commenters = ""
     cmds, cur = [], []
     for tok in lex:
         if tok in SEPARATORS or set(tok) <= set(";&|()\n"):
