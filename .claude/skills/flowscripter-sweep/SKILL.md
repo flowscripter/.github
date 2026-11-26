@@ -59,6 +59,15 @@ The steps below are still the rules. The CLI covers the mechanical rows, and the
 6. Check the release state of anything waiting on a cascade (merged PR, then release tag, then npm `dist-tags.latest`, then downstream bump).
 7. Check for failed GitHub Actions runs (see "Failed actions" below).
 
+## Nick's reviews
+
+Nick reviews PRs with GitHub's review feature, and approving is how he merges: every bot PR has auto-merge on. For each open referencing PR, read its submitted reviews (`gh api repos/flowscripter/<repo>/pulls/<n>/reviews`) and its inline comments. For a `vectronic` review newer than our last push or reply, act by its state:
+
+- `APPROVED`: nothing to do; GitHub merges the PR. If the review body asks for something, report it as a follow-up `[reply]` or `[fix]`, but don't push to the PR unless the ask is about this PR.
+- `CHANGES_REQUESTED` or `COMMENTED`: ACTIONABLE `[fix]`. List the review body and every inline comment from that review, as `path:line: text`. Move the card to `In Progress` if it is in `Review`.
+
+The fix itself (main session or `flowscripter-implement`): push to the same branch, reply on each inline thread saying what changed, post one PR comment summarizing the round, then request Nick's review again (`gh api -X POST repos/flowscripter/<repo>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`) and move the card back to `Review`. His fresh approval then merges it.
+
 ## Failed actions
 
 For each in-scope repo, list recent runs on the default branch: `gh run list -R flowscripter/<repo> --branch <default branch> --limit 30 --json databaseId,workflowName,event,status,conclusion,createdAt,url`. Take the newest completed run of each workflow. It has failed if its conclusion is `failure`, `timed_out` or `startup_failure`. Skip a workflow whose newest run passed, even if older runs failed. Failures on PR branches are covered by step 3, not here.

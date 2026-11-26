@@ -24,12 +24,12 @@ Read the issue and every comment, every referencing PR (any state) and its revie
 
 ## Work
 
-1. Worktree under `<repo>/.worktrees/`, branch `change/NNNN-slug` when part of a planned change (same name in every repo), otherwise `<type>/<n>-<slug>`. For a `fix` ask, check out the existing PR branch.
+1. Worktree under `~/projects/flowscripter/worktrees/<repo>/<branch>`, branch `change/NNNN-slug` when part of a planned change (same name in every repo), otherwise `<type>/<n>-<slug>`. For a `fix` ask, check out the existing PR branch.
 2. If upstream work packages are merged but not released, test against them as the plan's `Cross-repo testing` section says (`@next` or a local override). Never commit a local override.
 3. Implement. Add tests for each acceptance criterion this package covers.
 4. Run the repo's full suite, typecheck, lint and format check (commands in `.github` CLAUDE.md for the project type). All must pass before pushing.
 5. Distillation: update this repo's `CLAUDE.md` / `docs/architecture.md` with what is now true, and add an ADR under `docs/adr/` if you made a decision the plan didn't. In the same PR.
-6. Push, open or update the PR (`Refs`, conventional title, short summary of what and how tested, marker). For a `fix` ask, reply on each of Nick's inline threads saying what changed.
+6. Push, open or update the PR (`Refs`, conventional title, short summary of what and how tested, marker). For a `fix` ask, reply on each of Nick's inline threads saying what changed, then request his review again (`gh api -X POST repos/flowscripter/<repo>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`). For a new PR that isn't a draft, enable auto-merge (`gh pr merge <n> --auto --squash -R flowscripter/<repo>`).
 7. Wait for CI. Fix real failures. Report known-benign ones (codecov on example-cli) as such.
 
 If you hit a judgement call the issue, spec and plan don't answer, post ONE short question on the issue (with your recommended answer) and stop; report `ASKED NICK` so the main session moves the card to Review.
