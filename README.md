@@ -12,6 +12,27 @@ The agent implements each sub-issue as a PR and, once it is released, checks the
 - [Design](docs/agentic-sdlc.md)
 - [Rollout plan](docs/agentic-sdlc-rollout.md) (temporary, removed once the rollout is done)
 
+### Guard Hook
+
+`scripts/hooks/guard-gh.py` is a Claude Code `PreToolUse` hook for sessions that act as `vectronic-claude`. It blocks PR merges, pushes to `main`, `master` or `v1`, pushes over SSH, and GitHub writes outside the flowscripter org. Install a copy, register it in `~/.claude/settings.json` with `"onFailure": "block"`, and run its tests:
+
+```bash
+cp scripts/hooks/guard-gh.py ~/.claude/hooks/guard-gh.py
+python3 -I scripts/hooks/test_guard_gh.py
+```
+
+Claude sessions must push with the machine account's token, never with Nick's SSH key. GitHub records who pushed. A push made with Nick's key gets his org-owner bypass, and counts as his own last push, so his approval no longer satisfies the ruleset. The `env` block in `~/.claude/settings.json` therefore rewrites GitHub SSH URLs to HTTPS and disables git over SSH:
+
+```json
+"GIT_CONFIG_COUNT": "2",
+"GIT_CONFIG_KEY_0": "url.https://github.com/.insteadOf", "GIT_CONFIG_VALUE_0": "git@github.com:",
+"GIT_CONFIG_KEY_1": "url.https://github.com/.insteadOf", "GIT_CONFIG_VALUE_1": "ssh://git@github.com/",
+"GIT_SSH_COMMAND": "false",
+"SSH_AUTH_SOCK": ""
+```
+
+The hook catches mistakes. It is not a security boundary, because commands inside scripts or subprocesses pass it. The rulesets and token permissions are the boundary.
+
 ## Repository Settings
 
 Every non-archived repository in the org follows the same settings:
