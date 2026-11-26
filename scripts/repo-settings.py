@@ -471,7 +471,19 @@ def cmd_new(args):
             print("error: " + err.strip(), file=sys.stderr)
             return 2
     apply_repo(args.name, args.type, args.no_codecov, args.dry_run, fresh=True)
+    if not args.dry_run:
+        check_repo_graph()
     return 0
+
+
+def check_repo_graph():
+    """A new repo changes repos.yaml. Report it; don't write the file, since this runs from the main checkout."""
+    graph = os.path.join(HERE, "repos-graph.py")
+    if not os.path.exists(graph):
+        return
+    p = subprocess.run([sys.executable, "-I", graph, "--check"], capture_output=True, text=True)
+    if p.returncode != 0:
+        print("repos.yaml is now out of date. Ask Claude to open the update PR now, or the sweep opens it within a day.")
 
 
 def main():
