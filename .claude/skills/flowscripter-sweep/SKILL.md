@@ -148,7 +148,7 @@ A re-run of a workflow run executes the commit it originally ran, not the curren
 
 - Re-run failed or cancelled CI jobs when the failure is clearly a flake or a fail-fast cancellation, not a code problem.
 - Update a stacked or out-of-date PR branch (`gh api -X PUT repos/<o>/<r>/pulls/<n>/update-branch`) when it's only behind main and has no conflicts.
-- Assign Nick to every open `vectronic-claude` PR that is ready for review: not a draft, every check passed (the known-benign codecov failures on example-cli don't count), no merge conflicts, and its card is in `Review`. Use REST, because `gh pr edit` fails on this org: `gh api -X POST repos/<o>/<r>/issues/<n>/assignees -f 'assignees[]=vectronic'`. Skip PRs he is already assigned to. Report each assignment under DONE THIS SWEEP.
+- For every open PR by `vectronic-claude`: assign Nick if he isn't assigned, drafts included. If it isn't a draft and has neither a pending review request for him nor any review from him, request his review (`gh api -X POST repos/<o>/<r>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`). This is a backstop: PRs should get both when they are opened. Report each one under DONE THIS SWEEP.
 
 Every comment and issue you post MUST end with `<!-- flowscripter-agent:v1 -->` in the text of the first post. Don't do anything else that writes: no code changes, no new PRs, no new issues except the CI-failure issues above, no sub-issues (the plan skill creates them), no picking up Backlog cards, no moving cards to Review except by the "blocked on Nick" row above, no closing or merging, no comments on external repos. Never add AI or Claude attribution.
 

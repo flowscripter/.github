@@ -14,6 +14,12 @@ Shared by the sweep and every skill that works an issue. Board stages, routing a
 ## Pull Requests and Commits
 
 - Once a PR is ready for review (not a draft), enable auto-merge on it: `gh pr merge <n> --auto --squash -R flowscripter/<repo>`. GitHub merges it only after Nick approves. A push that changes the PR's diff dismisses his approval, so he approves again. Updating the branch from `main` keeps it. Never merge any other way.
+- When you open a PR, assign Nick and request his review in the same step. His GitHub dashboard lists PRs awaiting his review, not PRs assigned to him:
+  - assign: `gh api -X POST repos/flowscripter/<repo>/issues/<n>/assignees -f 'assignees[]=vectronic'`
+  - request review: `gh api -X POST repos/flowscripter/<repo>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`
+
+  `.github/CODEOWNERS` (`* @vectronic`) also requests his review automatically, but don't rely on it alone: a draft gets the request only when it's marked ready. (`gh pr edit --add-assignee` fails on this org.)
+- Per-repo specs and plans go in `design/changes/NNNN-slug/` and ADRs in `design/adr/`. Never put them in `docs/`, which is the gitignored typedoc output. `docs/repo-layout.md` in `.github` describes each repo type's folders.
 - PR bodies reference issues with a non-closing `Refs #N` (or `Refs flowscripter/<repo>#N`), never `Fixes`, `Closes` or `Resolves`. Nick reviews, approves and merges.
 - PR titles and commits use conventional-commit format. Every repo checks the PR title, and squash merges use it as the commit message.
 - Choose the type deliberately. `feat`, `fix` and `perf` cut a release, and in this org `docs` and `chore` cut a patch release too. `build`, `ci`, `refactor`, `style` and `test` don't release.

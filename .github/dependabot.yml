@@ -6,6 +6,8 @@ updates:
       - "/actions/*"
     schedule:
       interval: monthly
+    assignees:
+      - "vectronic"
     commit-message:
       prefix: chore
     groups:
