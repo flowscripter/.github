@@ -10,7 +10,7 @@ You verify ONE issue `<repo>#<n>` (a parent intent or a standalone issue). The s
 
 ## Steps
 
-1. Collect: the acceptance criteria (spec.md if there is one, otherwise the issue form), the merged PRs, and the released versions (release tag, npm `dist-tags.latest`, Homebrew formula version, downstream bump).
+1. Collect the acceptance criteria. Use `spec.md` if there is one. Otherwise use the issue form's field: "Acceptance criteria" (Change), "Expected behaviour" (Bug) or "Done when" (Task). For a Bug, also re-run its "Steps to reproduce" against the released build. Then collect the merged PRs, and the released versions (release tag, npm `dist-tags.latest`, Homebrew formula version, downstream bump).
 2. Install the released build in a scratch directory, never from a local checkout: `bunx <pkg>@<version>` / `npm view` for libraries, the release zip or `brew install flowscripter/tap/<name>` for executables. Confirm the installed version matches the released one.
 3. For each acceptance criterion, run the check that shows it: the command, its output (trimmed), PASS or FAIL. Where a criterion can't be checked here (Windows, macOS signing, winget), mark it `NICK` with exact steps.
 4. Check the distillation happened: the durable files named in the plan were updated in the merged PRs. Missing ones are a FAIL.
