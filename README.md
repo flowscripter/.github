@@ -31,6 +31,8 @@ Claude sessions must push with the machine account's token, never with Nick's SS
 "SSH_AUTH_SOCK": ""
 ```
 
+`scripts/hooks/worktree.py` is registered as the `WorktreeCreate` and `WorktreeRemove` hooks (`worktree.py create` and `worktree.py remove`). It puts worktrees for flowscripter repos under `~/projects/flowscripter/worktrees/<repo>/<name>`, on a branch `claude/<name>` from `origin/<default branch>`, so they can be opened from a remote VS Code. It never force-removes a worktree with uncommitted work, and it does nothing for other repos.
+
 The hook catches mistakes. It is not a security boundary, because commands inside scripts or subprocesses pass it. The rulesets and token permissions are the boundary.
 
 ## Repository Settings
