@@ -1,0 +1,19 @@
+name: Task
+description: A small, well-understood piece of work in one repo, such as a config, dependency or docs change. Done on the short route.
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: The work to do.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: How to tell it's finished, one check per line. These are the acceptance criteria the work and its verification check.
+      placeholder: |
+        1. ...
+    validations:
+      required: true
