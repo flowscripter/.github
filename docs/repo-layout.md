@@ -16,6 +16,7 @@ What the top-level files and folders are for in each type of flowscripter repo. 
 | `.claude/skills/` | repo-specific agent skills, if any | yes |
 | `.claude/` (anything else) | local agent settings and plans | no |
 | `.github/workflows/` | thin callers of the shared workflows in `flowscripter/.github` (`validate-*-pr`, `release-*`, `check-*-dependencies`, `lint-pr-message`) | yes |
+| `.github/CODEOWNERS` | `* @vectronic`, so GitHub requests Nick's review on every PR | yes |
 | `LICENSE` | licence | yes |
 
 Specs, plans and ADRs live in `design/`, never in `docs/`. `docs/` is generated, gitignored output, and typedoc empties it on every run.
