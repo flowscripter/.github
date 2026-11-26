@@ -14,7 +14,7 @@ The agent implements each sub-issue as a PR and, once it is released, checks the
 
 ### Guard Hook
 
-`scripts/hooks/guard-gh.py` is a Claude Code `PreToolUse` hook for sessions that act as `vectronic-claude`. It blocks PR merges, pushes to `main`, `master` or `v1`, pushes over SSH, and GitHub writes outside the flowscripter org. Install a copy, register it in `~/.claude/settings.json` with `"onFailure": "block"`, and run its tests:
+`scripts/hooks/guard-gh.py` is a Claude Code `PreToolUse` hook for sessions that act as `vectronic-claude`. It blocks PR merges (except enabling auto-merge, which GitHub completes only after Nick approves), pushes to `main`, `master` or `v1`, pushes over SSH, and GitHub writes outside the flowscripter org. Install a copy, register it in `~/.claude/settings.json` with `"onFailure": "block"`, and run its tests:
 
 ```bash
 cp scripts/hooks/guard-gh.py ~/.claude/hooks/guard-gh.py

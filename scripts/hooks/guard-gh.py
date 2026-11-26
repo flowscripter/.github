@@ -223,7 +223,9 @@ def check_gh(argv, cwd):
         return check_gh_api(args[1:], cwd)
     sub = args[1] if len(args) > 1 else ""
     if group == "pr" and sub == "merge":
-        raise Blocked("gh pr merge is not allowed (including --auto); Nick merges")
+        flags = set(args[2:])
+        if "--admin" in flags or not flags & {"--auto", "--disable-auto"}:
+            raise Blocked("only gh pr merge --auto (or --disable-auto) is allowed: GitHub then merges after Nick approves")
     if group not in GH_WRITES:
         return
     if GH_WRITES[group] and sub not in GH_WRITES[group]:

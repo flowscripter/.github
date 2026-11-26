@@ -44,11 +44,16 @@ def main():
     cases = [
         # (cwd, command, expect_blocked)
         (fs, "gh pr merge 12 --squash", True),
+        (fs, "gh pr merge 12 --auto --squash -R flowscripter/example-cli", False),
+        (fs, "gh pr merge 12 --disable-auto -R flowscripter/example-cli", False),
+        (fs, "gh pr merge 12 --auto --admin --squash -R flowscripter/example-cli", True),
+        (fs, "gh pr merge 12 --auto --squash -R microsoft/winget-pkgs", True),
+        (fork, "gh pr merge 12 --auto --squash", True),
         (fs_ssh, "git push -u origin feat-x", True),
         (fs_ssh, "git push -u origin feat-x", False, True),
         (fs_ssh, "git push origin main", True, True),
         (fs_ssh, "git push https://github.com/flowscripter/example-cli.git HEAD:refs/heads/feat-x", False),
-        (fs, "rtk gh pr merge 12 --auto", True),
+        (fs, "rtk gh pr merge 12", True),
         (fs, "cd /tmp && gh pr merge 3", True),
         (fs, "gh api -X PUT repos/flowscripter/example-cli/pulls/4/merge", True),
         (fs, "gh api graphql -f query='mutation { mergePullRequest(input: {pullRequestId: \"x\"}) { clientMutationId } }'", True),
