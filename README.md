@@ -8,6 +8,8 @@ Most work on the flowscripter repos is done by a local Claude Code agent acting 
 
 The agent implements each sub-issue as a PR and, once it is released, checks the result itself. Nick approves at each gate by merging, and steers with `/approve`, `/go`, `/park` and `/revise` in comments. The agent never merges and never pushes to a default branch, and a local hook enforces both. Merging a docs-only PR runs no build and cuts no release.
 
+Work starts from an issue opened with one of the org issue forms: **Change** for features and cross-repo work, **Bug** for wrong behaviour, and **Task** for small single-repo chores. Each form has a required field that becomes the acceptance criteria. See [Issue Forms](docs/agentic-sdlc.md#issue-forms).
+
 - [Board stages, routing and commands](docs/stages.md)
 - [Design](docs/agentic-sdlc.md)
 - [Rollout plan](docs/agentic-sdlc-rollout.md) (temporary, removed once the rollout is done)
