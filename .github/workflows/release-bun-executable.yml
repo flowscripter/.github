@@ -28,7 +28,29 @@ on:
       WINGET_TOKEN:
         required: true
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs-only: ${{ steps.diff.outputs.docs-only }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: diff
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          docs_only=false
+          if [ -n "$BEFORE" ] && ! [[ "$BEFORE" =~ ^0+$ ]] && files=$(git diff --name-only "$BEFORE" "$AFTER" 2>/dev/null) && [ -n "$files" ]; then
+            grep -qvE '^(design/|\.claude/)|(^|/)CLAUDE\.md$' <<<"$files" || docs_only=true
+          fi
+          echo "docs-only=$docs_only" >> "$GITHUB_OUTPUT"
   check:
+    needs: changes
+    if: needs.changes.outputs.docs-only != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check Bun Source
@@ -36,6 +58,8 @@ jobs:
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
   test:
+    needs: changes
+    if: needs.changes.outputs.docs-only != 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -44,6 +68,8 @@ jobs:
       - name: Run Bun Tests
         uses: flowscripter/.github/actions/run-bun-tests@v1
   test-executable:
+    needs: changes
+    if: needs.changes.outputs.docs-only != 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

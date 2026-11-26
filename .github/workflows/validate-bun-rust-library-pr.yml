@@ -5,18 +5,39 @@ on:
       CODECOV_TOKEN:
         required: false # if not provided codecov will not be run
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs-only: ${{ steps.diff.outputs.docs-only }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - id: diff
+        shell: bash
+        run: |
+          docs_only=false
+          if files=$(git diff --name-only HEAD^1 HEAD 2>/dev/null) && [ -n "$files" ]; then
+            grep -qvE '^(design/|\.claude/)|(^|/)CLAUDE\.md$' <<<"$files" || docs_only=true
+          fi
+          echo "docs-only=$docs_only" >> "$GITHUB_OUTPUT"
   check:
+    needs: changes
     runs-on: ubuntu-latest
     steps:
       - name: Check Bun and Rust Source
+        if: needs.changes.outputs.docs-only != 'true'
         uses: flowscripter/.github/actions/check-bun-rust-source@v1
         with:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
   test:
+    needs: changes
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest, windows-11-arm, ubuntu-24.04-arm]
     steps:
       - name: Run Bun and Rust Tests
+        if: needs.changes.outputs.docs-only != 'true'
         uses: flowscripter/.github/actions/run-bun-rust-tests@v1
