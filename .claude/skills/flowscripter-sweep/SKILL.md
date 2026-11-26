@@ -68,6 +68,16 @@ Nick reviews PRs with GitHub's review feature, and approving is how he merges: e
 
 The fix itself (main session or `flowscripter-implement`): push to the same branch, reply on each inline thread saying what changed, post one PR comment summarizing the round, then request Nick's review again (`gh api -X POST repos/flowscripter/<repo>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`) and move the card back to `Review`. His fresh approval then merges it.
 
+## Repo graph (once a day)
+
+Keep `repos.yaml` in `flowscripter/.github` current. Do this at most once a UTC day: skip it if `~/.local/state/flowscripter/repos-graph-checked` already holds today's date (`YYYY-MM-DD`), and write today's date there after the check.
+
+1. Run `python3 -I /home/nick/projects/flowscripter/.github/scripts/repos-graph.py --check`. Exit 0 means it is up to date, and you're done.
+2. If it is out of date, and no PR with head branch `docs/update-repos-yaml` is open in `flowscripter/.github`, create a worktree for that branch at `/home/nick/projects/flowscripter/worktrees/.github/docs-update-repos-yaml` from `origin/main`. Run that worktree's copy of `scripts/repos-graph.py`, which writes the worktree's `repos.yaml`. Commit it as `docs: update repos.yaml`, push, open the PR with a two-line summary of the changed repos and edges, assign Nick, and enable auto-merge. Report it under DONE THIS SWEEP.
+3. If such a PR is already open and behind `main`, update its branch the same way, rather than opening another.
+
+`.github` has no release workflow, so these PRs cut nothing.
+
 ## Failed actions
 
 For each in-scope repo, list recent runs on the default branch: `gh run list -R flowscripter/<repo> --branch <default branch> --limit 30 --json databaseId,workflowName,event,status,conclusion,createdAt,url`. Take the newest completed run of each workflow. It has failed if its conclusion is `failure`, `timed_out` or `startup_failure`. Skip a workflow whose newest run passed, even if older runs failed. Failures on PR branches are covered by step 3, not here.

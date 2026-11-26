@@ -16,7 +16,7 @@ Read `../flowscripter-sweep/rules.md` (relative to this skill) and `docs/stages.
 
 1. The issue body (Nick's intent, from the org issue form: What, Why, Constraints / non-goals, Acceptance criteria, Repos likely affected). Never edit the issue body.
 2. All issue comments and every PR that references the issue, any state, with their threads. If a referencing PR already implements the change, stop and report `[decision]`: never spec work that exists.
-3. The home repo's `CLAUDE.md`, `docs/architecture.md`, `docs/adr/`, and the org ADRs and `repos.yaml` in `flowscripter/.github`. Don't reopen a decision an ADR records; cite it.
+3. The home repo's `CLAUDE.md`, `docs/architecture.md`, `docs/adr/`, and the org ADRs in `flowscripter/.github`, and the current repo graph from `python3 -I /home/nick/projects/flowscripter/.github/scripts/repos-graph.py --print`. Don't reopen a decision an ADR records; cite it.
 
 ## Home repo
 
@@ -30,7 +30,7 @@ The repo the issue lives in, unless the issue lists several repos, in which case
 - `## Problem` (from What and Why, in your words, short)
 - `## Acceptance criteria` (numbered, each one observable and testable; take Nick's, sharpen wording, never drop one; add missing ones marked `(proposed)`)
 - `## Non-goals`
-- `## Affected repos` (from `repos.yaml` edges, not just the issue's guess; say why each is affected)
+- `## Affected repos` (from the edges in the current repo graph, `python3 -I /home/nick/projects/flowscripter/.github/scripts/repos-graph.py --print`, which can be newer than the committed `repos.yaml`; not just the issue's guess; say why each is affected)
 - `## Open questions` (only real ones; each with a recommended answer)
 
 No implementation detail beyond what an acceptance criterion needs; that is the plan's job.

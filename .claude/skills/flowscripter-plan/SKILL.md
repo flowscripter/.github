@@ -10,7 +10,7 @@ You handle the Plan stage for ONE parent issue `<repo>#<n>`, in one of two modes
 
 ## Mode: write
 
-Read the merged `spec.md`, the pinned spec comment, the issue and PR threads, and `repos.yaml` (dependency edges, release order) from `flowscripter/.github`. Then read the code in each affected repo far enough to place every change; never plan from file names alone.
+Read the merged `spec.md`, the pinned spec comment, the issue and PR threads, and the current repo graph from `python3 -I /home/nick/projects/flowscripter/.github/scripts/repos-graph.py --print`, not the committed `repos.yaml`, which can lag (dependency edges, release order) from `flowscripter/.github`. Then read the code in each affected repo far enough to place every change; never plan from file names alone.
 
 Write `docs/changes/NNNN-slug/plan.md` on a new branch `change/NNNN-slug-plan` in the home repo:
 
