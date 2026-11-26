@@ -162,6 +162,9 @@ def check_git(argv, cwd):
     url = run_git(cwd, "remote", "get-url", "--push", remote) if not re.search(r"[:/]", remote) else remote
     if owner_of(url or "") != OWNER:
         raise Blocked(f"git push to remote '{remote}' ({url or 'unknown url'}): owner is not {OWNER}")
+    if re.match(r"^(git@|ssh://)", url):
+        raise Blocked(f"git push over SSH ({url}) would authenticate with Nick's SSH key, not the machine account token; "
+                      "push to the https:// URL instead")
     refspecs = pos[1:]
     if not refspecs:
         dest = run_git(cwd, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{push}")

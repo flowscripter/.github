@@ -20,9 +20,16 @@ def make_repo(root, name, remotes, branch):
     return path
 
 
-def run(cmd, cwd):
+REWRITE = {"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "url.https://github.com/.insteadOf",
+           "GIT_CONFIG_VALUE_0": "git@github.com:"}
+
+
+def run(cmd, cwd, rewrite=False):
     payload = json.dumps({"tool_name": "Bash", "tool_input": {"command": cmd}, "cwd": cwd})
-    p = subprocess.run([sys.executable, "-I", HOOK], input=payload, capture_output=True, text=True)
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_CONFIG_")}
+    if rewrite:
+        env.update(REWRITE)
+    p = subprocess.run([sys.executable, "-I", HOOK], input=payload, capture_output=True, text=True, env=env)
     return p.returncode, p.stderr.strip()
 
 
@@ -30,12 +37,17 @@ def main():
     root = tempfile.mkdtemp()
     fs = make_repo(root, "fs", {"origin": "https://github.com/flowscripter/example-cli.git"}, "feat-x")
     fs_main = make_repo(root, "fsmain", {"origin": "git@github.com:flowscripter/example-cli.git"}, "main")
+    fs_ssh = make_repo(root, "fsssh", {"origin": "git@github.com:flowscripter/example-cli.git"}, "feat-x")
     fork = make_repo(root, "fork", {"origin": "https://github.com/flowscripter/winget-pkgs.git",
                                     "upstream": "https://github.com/microsoft/winget-pkgs.git"}, "feat-x")
 
     cases = [
         # (cwd, command, expect_blocked)
         (fs, "gh pr merge 12 --squash", True),
+        (fs_ssh, "git push -u origin feat-x", True),
+        (fs_ssh, "git push -u origin feat-x", False, True),
+        (fs_ssh, "git push origin main", True, True),
+        (fs_ssh, "git push https://github.com/flowscripter/example-cli.git HEAD:refs/heads/feat-x", False),
         (fs, "rtk gh pr merge 12 --auto", True),
         (fs, "cd /tmp && gh pr merge 3", True),
         (fs, "gh api -X PUT repos/flowscripter/example-cli/pulls/4/merge", True),
@@ -90,8 +102,8 @@ def main():
         (fs, "gh pr create -R flowscripter/example-cli --title t --body-file b.md &> /dev/null", False),
     ]
     failures = 0
-    for cwd, cmd, expect in cases:
-        code, err = run(cmd, cwd)
+    for cwd, cmd, expect, *opt in cases:
+        code, err = run(cmd, cwd, rewrite=bool(opt and opt[0]))
         blocked = code == 2
         ok = blocked == expect
         failures += not ok
