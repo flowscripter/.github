@@ -20,6 +20,9 @@ Shared by the sweep and every skill that works an issue. Board stages, routing a
 - Never add AI or Claude attribution to commits, PR bodies or comments.
 - End every comment and every issue body you post with `<!-- flowscripter-agent:v1 -->`, included in the first post.
 - A fix that needs a workflow-file change can't be pushed with the machine token. Commit it on a local branch, then tell Nick the branch, the change and why, so he can push it.
+- Put worktrees under `~/projects/flowscripter/worktrees/<repo>/<branch>` (`git worktree add ~/projects/flowscripter/worktrees/<repo>/<branch> ...`), never inside a clone, so Nick can open them in a remote VS Code. The WorktreeCreate hook does the same for agent-isolation worktrees.
+- Push only over HTTPS with the machine token. The settings env forces this, and the guard hook blocks SSH pushes. A push with Nick's key makes him the last pusher, and his approval then can't merge the PR.
+- A `Comment` or `Request changes` review from Nick is a fix round. Push to the same branch, reply on each inline thread, request his review again, and move the card back to Review.
 - Run the full test suite, typecheck, lint and format check before pushing.
 - Write repo names and paths out in full in `gh -R`, `git -C` and `cd`, never as shell variables. The guard hook can't expand variables, so it blocks those commands. Verify the PR title check result yourself.
 - Code comments explain current behaviour, never the history of a fix. History goes in the PR and the commit.
