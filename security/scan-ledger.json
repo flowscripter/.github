@@ -5,12 +5,6 @@
       "commit": "df210bb8c6d5430c6135c10f189921a86f1ed855",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 1,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -30,12 +24,6 @@
       "commit": "3e014c57408238151ccf2dbf04ac6d927fc995d4",
       "dirty": true,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 1
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -45,12 +33,6 @@
       "commit": "160395f674b0a93ea0b96819d66b0f940c4a779b",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -60,12 +42,6 @@
       "commit": "3715671685affd289233fb7c6b3a27baff787cfd",
       "dirty": true,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 1
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -75,12 +51,6 @@
       "commit": "20eb83b6f28018f669c1a1f067bea5e5920ed2e3",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -90,12 +60,6 @@
       "commit": "a25850c5182898fce16716bcc327a411224ab972",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -105,12 +69,6 @@
       "commit": "7554a81c4ede4c335e9b8ae3c627eb562837865e",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -120,12 +78,6 @@
       "commit": "caecd539717f67107539b2eaf73662cef5b9da16",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -135,12 +87,6 @@
       "commit": "e6e6b269d5e69a174481e57420bd758be5992801",
       "dirty": true,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -150,12 +96,6 @@
       "commit": "abee647d1231c165d1616a557e0d5f868d10034b",
       "dirty": true,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 1
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -165,12 +105,6 @@
       "commit": "a8f9c66aeafe1f9a550349d2f9e6c3702700ffb1",
       "dirty": false,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 1
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -180,12 +114,6 @@
       "commit": "5f27262f08688b1e2825e6bdaf7324d8f343a86d",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -195,12 +123,6 @@
       "commit": "fd1c938da8a982b548d86e4027093eaa8dd409a4",
       "dirty": false,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -210,12 +132,6 @@
       "commit": "a02dd5c0717feb9538bc6c52e4464b04a8308cf6",
       "dirty": false,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 1,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -225,12 +141,6 @@
       "commit": "55e99bc04efffa765190950e45082c8bcc233399",
       "dirty": true,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 2,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -240,12 +150,6 @@
       "commit": "f10b74eefd1dfee0b52e761d081299c8c205aa99",
       "dirty": true,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -255,12 +159,6 @@
       "commit": "e0d5c8136261551b2fe7a0e3eb8abea0754a45d8",
       "dirty": true,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 1,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -270,12 +168,6 @@
       "commit": "68cea324591d483f420a6fbd63db05370e93282c",
       "dirty": false,
       "effort": "high",
-      "findings": {
-        "critical": 0,
-        "high": 1,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "high",
       "status": "scanned"
@@ -285,12 +177,6 @@
       "commit": "5b4b79fe102c3cb8e4886aa4533834828959e2bc",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -310,12 +196,6 @@
       "commit": "3ba9c104f2019a4b87bf1f037e0e94044e2408c9",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -325,12 +205,6 @@
       "commit": "325f3c5f9dc1069f588a603eea552db9306e3ba2",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -340,12 +214,6 @@
       "commit": "c6f920ca33578eb305489aa20aadc0c649ff2db1",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -355,12 +223,6 @@
       "commit": "fdcfd9c6aefb422a1855b04f2a9aa749f809304f",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -370,12 +232,6 @@
       "commit": "a64c3bb624f85d5d4be6a0db6f51558c4ba22438",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"
@@ -385,12 +241,6 @@
       "commit": "3fff45a510b15852f885b68b4f1f8af7eb1a6838",
       "dirty": false,
       "effort": "medium",
-      "findings": {
-        "critical": 0,
-        "high": 0,
-        "low": 0,
-        "medium": 0
-      },
       "scanned": "2026-10-15",
       "scannedEffort": "medium",
       "status": "scanned"

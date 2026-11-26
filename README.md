@@ -112,7 +112,7 @@ The following workflows run on the 1st of each month and can also be started by 
 
 #### Scan Ledger
 
-`security/scan-ledger.json` records, for each repo, the scan effort, the commit and date of the last `claude-security` scan, and finding counts by severity. It holds no finding details. Repos missing from the ledger are listed as needing a baseline scan. A repo with status `deferred` is skipped.
+`security/scan-ledger.json` records, for each repo, the scan effort, and the commit and date of the last `claude-security` scan. It holds no findings and no finding counts: the repos are public, and even a count would show where an unfixed problem is. `ledger-add` prints the counts so they can be kept locally with the scan report. Repos missing from the ledger are listed as needing a baseline scan. A repo with status `deferred` is skipped.
 
 `security-audit.py` is used to manage the ledger:
 
