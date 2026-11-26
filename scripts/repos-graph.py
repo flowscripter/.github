@@ -4,6 +4,7 @@ dependency edges on each other, and a release order (upstream first).
 
   repos-graph.py            write repos.yaml
   repos-graph.py --check    exit 1 if repos.yaml is out of date
+  repos-graph.py --print    print the current graph without writing repos.yaml
 
 Reads package.json and Cargo.toml from each repo's default branch with the gh CLI.
 """
@@ -97,6 +98,9 @@ def main():
     edges = {r: {owner[d] for d in deps if d in owner and owner[d] != r}
              for r, (_, deps) in manifests.items()}
     text = render(info, edges)
+    if sys.argv[1:] == ["--print"]:
+        sys.stdout.write(text)
+        return 0
     if sys.argv[1:] == ["--check"]:
         current = open(OUT).read() if os.path.exists(OUT) else ""
         if current != text:
