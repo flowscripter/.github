@@ -9,7 +9,7 @@ Every repo's release workflow runs the full check and test matrix on each push t
 
 ## Decision
 
-A change is docs-only when every changed file matches `docs/changes/**`, `docs/adr/**`, `.claude/**` or `CLAUDE.md`. For a docs-only change, the shared validation workflows skip their build and test steps but still report every required check, and the shared release workflows skip all their jobs.
+A change is docs-only when every changed file matches `design/**`, `.claude/**` or `CLAUDE.md`. Per-repo specs, plans and ADRs live in `design/`, because `docs/` is the gitignored typedoc output. For a docs-only change, the shared validation workflows skip their build and test steps but still report every required check, and the shared release workflows skip all their jobs.
 
 ## Consequences
 
