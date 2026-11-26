@@ -12,16 +12,18 @@ The agent implements each sub-issue as a PR and, once it is released, checks the
 - [Design](docs/agentic-sdlc.md)
 - [Rollout plan](docs/agentic-sdlc-rollout.md) (temporary, removed once the rollout is done)
 
-### Guard Hook
+#### Guard Hook
 
-`scripts/hooks/guard-gh.py` is a Claude Code `PreToolUse` hook for sessions that act as `vectronic-claude`. It blocks PR merges (except enabling auto-merge, which GitHub completes only after Nick approves), pushes to `main`, `master` or `v1`, pushes over SSH, and GitHub writes outside the flowscripter org. Install a copy, register it in `~/.claude/settings.json` with `"onFailure": "block"`, and run its tests:
+`scripts/hooks/guard-gh.py` is a Claude Code `PreToolUse` hook for sessions that act as `vectronic-claude`. It blocks PR merges (except enabling auto-merge), pushes to `main`, `master` or `v1`, pushes over SSH, and GitHub writes outside the flowscripter org. Install a copy, register it in `~/.claude/settings.json` with `"onFailure": "block"`, and run its tests:
 
 ```bash
 cp scripts/hooks/guard-gh.py ~/.claude/hooks/guard-gh.py
 python3 -I scripts/hooks/test_guard_gh.py
 ```
 
-Claude sessions must push with the machine account's token, never with Nick's SSH key. GitHub records who pushed. A push made with Nick's key gets his org-owner bypass, and counts as his own last push, so his approval no longer satisfies the ruleset. The `env` block in `~/.claude/settings.json` therefore rewrites GitHub SSH URLs to HTTPS and disables git over SSH:
+The hook catches mistakes. It is not a security boundary, because commands inside scripts or subprocesses pass it. The rulesets and token permissions are the boundary.
+
+Claude sessions must push with the machine account's token, never with a local user SSH key. GitHub records who pushed. A push made with the SSH key gets the org-owner bypass, and counts as last push, so an approval no longer satisfies the ruleset for auto-merge. The `env` block in `~/.claude/settings.json` therefore rewrites GitHub SSH URLs to HTTPS and disables git over SSH:
 
 ```json
 "GIT_CONFIG_COUNT": "2",
@@ -31,9 +33,9 @@ Claude sessions must push with the machine account's token, never with Nick's SS
 "SSH_AUTH_SOCK": ""
 ```
 
-`scripts/hooks/worktree.py` is registered as the `WorktreeCreate` and `WorktreeRemove` hooks (`worktree.py create` and `worktree.py remove`). It puts worktrees for flowscripter repos under `~/projects/flowscripter/worktrees/<repo>/<name>`, on a branch `claude/<name>` from `origin/<default branch>`, so they can be opened from a remote VS Code. It never force-removes a worktree with uncommitted work, and it does nothing for other repos.
+#### Worktree Hook
 
-The hook catches mistakes. It is not a security boundary, because commands inside scripts or subprocesses pass it. The rulesets and token permissions are the boundary.
+`scripts/hooks/worktree.py` is registered as the `WorktreeCreate` and `WorktreeRemove` hooks (`worktree.py create` and `worktree.py remove`). It puts worktrees for flowscripter repos under `~/projects/flowscripter/worktrees/<repo>/<name>`, on a branch `claude/<name>` from `origin/<default branch>`, so they can be opened with a local IDE. It never force-removes a worktree with uncommitted work, and it does nothing for other repos.
 
 ## Repository Settings
 
