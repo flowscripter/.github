@@ -51,6 +51,18 @@ class Summarize(unittest.TestCase):
         self.assertEqual([x["command"] for x in f["commands"]], ["go"])
         self.assertEqual(f["commands"][0]["detail"], "now please")
 
+    def test_approval_is_not_last_word(self):
+        f = sweep.summarize([c("vectronic-claude", "2026-11-01T00:00:00Z"),
+                             dict(c("vectronic", "2026-11-02T00:00:00Z"), kind="review", state="APPROVED")])
+        self.assertFalse(f["nick_last_word"])
+        self.assertEqual(f["nick_review"]["state"], "APPROVED")
+
+    def test_changes_requested_is_last_word(self):
+        f = sweep.summarize([c("vectronic-claude", "2026-11-01T00:00:00Z"),
+                             dict(c("vectronic", "2026-11-02T00:00:00Z", "rename this"), kind="review", state="CHANGES_REQUESTED")])
+        self.assertTrue(f["nick_last_word"])
+        self.assertEqual(f["nick_review"]["state"], "CHANGES_REQUESTED")
+
     def test_command_must_start_a_line(self):
         f = sweep.summarize([c("vectronic", "2026-11-03T00:00:00Z", "please don't /park this")])
         self.assertEqual(f["commands"], [])

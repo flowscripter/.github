@@ -59,7 +59,15 @@ def is_ours(c):
 
 
 def is_nicks(c):
-    return c["author"] == NICK and not is_ours(c)
+    """Nick's comments and non-approving reviews. An approval is his merge, not an ask."""
+    return c["author"] == NICK and not is_ours(c) and not (c.get("kind") == "review" and c.get("state") == "APPROVED")
+
+
+def nick_review(comments):
+    """Nick's newest submitted review: {state, at, url}, or None."""
+    reviews = [c for c in comments if c["author"] == NICK and c.get("kind") == "review"]
+    r = max(reviews, key=lambda c: c["at"], default=None)
+    return {"state": r.get("state"), "at": r["at"], "url": r.get("url")} if r else None
 
 
 def redact(c):
@@ -95,6 +103,7 @@ def summarize(comments):
         "commands": commands,
         "latest_command": commands[-1]["command"] if commands else None,
         "decided_in_session": decided,
+        "nick_review": nick_review(comments),
         "untrusted_authors": sorted({c["author"] for c in comments if c["author"] not in TRUSTED}),
     }
 
