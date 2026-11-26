@@ -13,7 +13,7 @@ Shared by the sweep and every skill that works an issue. Board stages, routing a
 
 ## Pull Requests and Commits
 
-- Once a PR is ready for review (not a draft), enable auto-merge on it: `gh pr merge <n> --auto --squash -R flowscripter/<repo>`. GitHub merges it only after Nick approves, with a fresh approval after any later push. Never merge any other way.
+- Once a PR is ready for review (not a draft), enable auto-merge on it: `gh pr merge <n> --auto --squash -R flowscripter/<repo>`. GitHub merges it only after Nick approves. A push that changes the PR's diff dismisses his approval, so he approves again. Updating the branch from `main` keeps it. Never merge any other way.
 - PR bodies reference issues with a non-closing `Refs #N` (or `Refs flowscripter/<repo>#N`), never `Fixes`, `Closes` or `Resolves`. Nick reviews, approves and merges.
 - PR titles and commits use conventional-commit format. Every repo checks the PR title, and squash merges use it as the commit message.
 - Choose the type deliberately. `feat`, `fix` and `perf` cut a release, and in this org `docs` and `chore` cut a patch release too. `build`, `ci`, `refactor`, `style` and `test` don't release.
@@ -21,7 +21,7 @@ Shared by the sweep and every skill that works an issue. Board stages, routing a
 - End every comment and every issue body you post with `<!-- flowscripter-agent:v1 -->`, included in the first post.
 - A fix that needs a workflow-file change can't be pushed with the machine token. Commit it on a local branch, then tell Nick the branch, the change and why, so he can push it.
 - Put worktrees under `~/projects/flowscripter/worktrees/<repo>/<branch>` (`git worktree add ~/projects/flowscripter/worktrees/<repo>/<branch> ...`), never inside a clone, so Nick can open them in a remote VS Code. The WorktreeCreate hook does the same for agent-isolation worktrees.
-- Push only over HTTPS with the machine token. The settings env forces this, and the guard hook blocks SSH pushes. A push with Nick's key makes him the last pusher, and his approval then can't merge the PR.
+- Push only over HTTPS with the machine token. The settings env forces this, and the guard hook blocks SSH pushes. A push with Nick's key is recorded as his own push, and gets his org-owner bypass.
 - A `Comment` or `Request changes` review from Nick is a fix round. Push to the same branch, reply on each inline thread, request his review again, and move the card back to Review.
 - Run the full test suite, typecheck, lint and format check before pushing.
 - Write repo names and paths out in full in `gh -R`, `git -C` and `cd`, never as shell variables. The guard hook can't expand variables, so it blocks those commands. Verify the PR title check result yourself.
@@ -50,7 +50,7 @@ Planning happens in the main session, with Nick, one ticket at a time. Subagents
 
 ## Loop Behaviour
 
-- The main session dispatches work for ACTIONABLE items without waiting for Nick to prompt it.
+- The main session dispatches work for ACTIONABLE items without waiting for Nick to prompt it, using the skill each tag maps to in the "Report tags" table of `docs/stages.md`. It moves cards from the stage skills' reports, since the stage skills never move cards themselves.
 - After three or more genuinely idle sweeps, say so briefly and space out the checks.
 - If Nick dismisses a judgement-call question without answering, stop and wait for an explicit instruction.
 
