@@ -1,6 +1,6 @@
 ---
 name: flowscripter-spec
-description: Spec stage of the flowscripter loop. For one intent issue, writes or revises docs/changes/NNNN-slug/spec.md in the home repo as a docs-only PR and keeps the pinned spec comment on the issue current. Invoked by the main session for a [spec] item from the sweep report.
+description: Spec stage of the flowscripter loop. For one intent issue, writes or revises design/changes/NNNN-slug/spec.md in the home repo as a docs-only PR and keeps the pinned spec comment on the issue current. Invoked by the main session for a [spec] item from the sweep report.
 model: opus
 context: fork
 agent: general-purpose
@@ -16,15 +16,15 @@ Read `../flowscripter-sweep/rules.md` (relative to this skill) and `docs/stages.
 
 1. The issue body (Nick's intent, from the org issue form: What, Why, Constraints / non-goals, Acceptance criteria, Repos likely affected). Never edit the issue body.
 2. All issue comments and every PR that references the issue, any state, with their threads. If a referencing PR already implements the change, stop and report `[decision]`: never spec work that exists.
-3. The home repo's `CLAUDE.md`, `docs/architecture.md`, `docs/adr/`, and the org ADRs in `flowscripter/.github`, and the current repo graph from `python3 -I /home/nick/projects/flowscripter/.github/scripts/repos-graph.py --print`. Don't reopen a decision an ADR records; cite it.
+3. The home repo's `README.md`, `README/` (where it exists), `.claude/CLAUDE.md`, `design/adr/`, and the org ADRs in `flowscripter/.github`, and the current repo graph from `python3 -I /home/nick/projects/flowscripter/.github/scripts/repos-graph.py --print`. Don't reopen a decision an ADR records; cite it.
 
 ## Home repo
 
-The repo the issue lives in, unless the issue lists several repos, in which case the spec still goes in the issue's repo (the parent). `NNNN` is the next free 4-digit number in that repo's `docs/changes/`; `slug` is 2-4 kebab-case words from the title. Branch: `change/NNNN-slug` (the same branch name is reused in every repo for this change).
+The repo the issue lives in, unless the issue lists several repos, in which case the spec still goes in the issue's repo (the parent). The spec goes in `design/changes/` in the home repo, or `docs/changes/` when the home repo is `flowscripter/.github`. Never in `docs/` elsewhere, which is the gitignored typedoc output (see `docs/repo-layout.md` in `.github`). `NNNN` is the next free 4-digit number in that folder; `slug` is 2-4 kebab-case words from the title. Branch: `change/NNNN-slug` (the same branch name is reused in every repo for this change).
 
 ## Write the spec
 
-`docs/changes/NNNN-slug/spec.md`, sections in this order:
+`design/changes/NNNN-slug/spec.md`, sections in this order:
 
 - `# <title>` and a `Refs <repo>#<n>` line
 - `## Problem` (from What and Why, in your words, short)
@@ -37,7 +37,7 @@ No implementation detail beyond what an acceptance criterion needs; that is the 
 
 ## Publish
 
-- Open a docs-only PR in the home repo: title `docs(spec): <slug>`, body `Refs #<n>` plus a 3-line summary and the marker. Assign `vectronic`. Merging it is the spec approval gate.
+- Open a docs-only PR in the home repo: title `docs(spec): <slug>`, body `Refs #<n>` plus a 3-line summary and the marker. Assign `vectronic` as you open it, then enable auto-merge (`gh pr merge <n> --auto --squash -R flowscripter/<repo>`). Nick's approval merges it, and merging it is the spec approval gate.
 - Create or edit in place the ONE pinned comment on the issue that starts with `<!-- flowscripter-spec:v1 -->`: stage (Spec, PR open), summary, the acceptance criteria, links to the spec file on the PR branch and the PR, full spec text in `<details>`. End with `<!-- flowscripter-agent:v1 -->`. Find it by the marker; never post a second one.
 
 ## Revising (`/revise` or free-form feedback from Nick)
