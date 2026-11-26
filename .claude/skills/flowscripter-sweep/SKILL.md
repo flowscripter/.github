@@ -66,7 +66,7 @@ Nick reviews PRs with GitHub's review feature, and approving is how he merges: e
 - `APPROVED`: nothing to do; GitHub merges the PR. If the review body asks for something, report it as a follow-up `[reply]` or `[fix]`, but don't push to the PR unless the ask is about this PR.
 - `CHANGES_REQUESTED` or `COMMENTED`: ACTIONABLE `[fix]`. List the review body and every inline comment from that review, as `path:line: text`. Move the card to `In Progress` if it is in `Review`.
 
-The fix itself (main session or `flowscripter-implement`): push to the same branch, reply on each inline thread saying what changed, post one PR comment summarizing the round, then request Nick's review again (`gh api -X POST repos/flowscripter/<repo>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`) and move the card back to `Review`. His fresh approval then merges it.
+The fix itself (main session or `flowscripter-implement`): push to the same branch, reply on each inline thread saying what changed, post one PR comment summarizing the round, then request Nick's review again (`gh api -X POST repos/flowscripter/<repo>/pulls/<n>/requested_reviewers -f 'reviewers[]=vectronic'`) and move the card back to `Review`. The fix changes the diff, so his earlier approval is dismissed, and his new approval merges it.
 
 ## Repo graph (once a day)
 

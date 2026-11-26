@@ -40,9 +40,9 @@ REPO_OPTIONS = {
 SIMPLE_RULES = ["deletion", "non_fast_forward", "required_linear_history"]
 PR_DEFAULTS = {
     "allowed_merge_methods": ["squash"],
-    "dismiss_stale_reviews_on_push": False,
+    "dismiss_stale_reviews_on_push": True,
     "require_code_owner_review": False,
-    "require_last_push_approval": True,
+    "require_last_push_approval": False,
     "required_approving_review_count": 1,
     "required_review_thread_resolution": False,
 }
@@ -169,8 +169,10 @@ def ruleset_findings(rs, checks, codecov_allowed):
     if pr is not None:
         if pr.get("required_approving_review_count") != 1:
             f.append(("drift", "pull_request approvals is %s, expected 1" % pr.get("required_approving_review_count")))
-        if pr.get("require_last_push_approval") is not True:
-            f.append(("drift", "pull_request does not require approval of the most recent push"))
+        if pr.get("dismiss_stale_reviews_on_push") is not True:
+            f.append(("drift", "pull_request does not dismiss stale approvals when the diff changes"))
+        if pr.get("require_last_push_approval") is not False:
+            f.append(("drift", "pull_request requires approval of the most recent push, which a branch update from main resets"))
         if pr.get("allowed_merge_methods") != ["squash"]:
             f.append(("drift", "pull_request allowed_merge_methods is %s, expected ['squash']" % pr.get("allowed_merge_methods")))
     sc = rules.get("required_status_checks")
@@ -365,6 +367,7 @@ def build_ruleset(existing, checks, include_codecov):
     pr = {k: old.get("pull_request", {}).get(k, v) for k, v in PR_DEFAULTS.items()}
     pr["required_approving_review_count"] = PR_DEFAULTS["required_approving_review_count"]
     pr["require_last_push_approval"] = PR_DEFAULTS["require_last_push_approval"]
+    pr["dismiss_stale_reviews_on_push"] = PR_DEFAULTS["dismiss_stale_reviews_on_push"]
     pr["allowed_merge_methods"] = ["squash"]
     sc = {"strict_required_status_checks_policy": True,
           "do_not_enforce_on_create": old.get("required_status_checks", {}).get("do_not_enforce_on_create", False),

@@ -28,7 +28,7 @@ python3 -I scripts/hooks/test_guard_gh.py
 
 The hook catches mistakes. It is not a security boundary, because commands inside scripts or subprocesses pass it. The rulesets and token permissions are the boundary.
 
-Claude sessions must push with the machine account's token, never with a local user SSH key. GitHub records who pushed. A push made with the SSH key gets the org-owner bypass, and counts as last push, so an approval no longer satisfies the ruleset for auto-merge. The `env` block in `~/.claude/settings.json` therefore rewrites GitHub SSH URLs to HTTPS and disables git over SSH:
+Claude sessions must push with the machine account's token, never with a local user SSH key. GitHub records who pushed. A push made with the SSH key gets the org-owner bypass, and is recorded as Nick's own push. The `env` block in `~/.claude/settings.json` therefore rewrites GitHub SSH URLs to HTTPS and disables git over SSH:
 
 ```json
 "GIT_CONFIG_COUNT": "2",
@@ -63,7 +63,7 @@ Every non-archived repository in the org follows the same settings:
 * auto-merge on
 * branches deleted on merge
 * Dependabot alerts on
-* a `main` ruleset that requires a pull request with one approval (re-approval after any later push), linear history, no deletion or force-push, and strict status checks for the project type. Org owners can always bypass it. Release workflows rely on that: they push the version commit to `main` with `PUSH_TO_MAIN_TOKEN`, which belongs to an org owner. It also lets Nick merge his own PRs. `vectronic-claude` has the write role, not owner, so its PRs need Nick's approval.
+* a `main` ruleset that requires a pull request with one approval (dismissed when later commits change the PR's diff, but kept when the branch is updated from `main`), linear history, no deletion or force-push, and strict status checks for the project type. Org owners can always bypass it. Release workflows rely on that: they push the version commit to `main` with `PUSH_TO_MAIN_TOKEN`, which belongs to an org owner. It also lets Nick merge his own PRs. `vectronic-claude` has the write role, not owner, so its PRs need Nick's approval.
 * the `agent-config` check (part of `lint-pr-message`), which fails a PR that adds agent configuration other than `CLAUDE.md` and `.claude/skills/`, or that changes agent instructions when it was not opened by `vectronic` or `vectronic-claude`.
 
 Third-party actions in the shared workflows and actions are pinned to commit SHAs, and Dependabot keeps the pins current. Dependency-update PRs are opened by `vectronic-claude` with auto-merge on, so they merge once Nick approves them.
