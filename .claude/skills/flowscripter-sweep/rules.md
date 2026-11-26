@@ -56,7 +56,7 @@ Planning happens in the main session, with Nick, one ticket at a time. Subagents
 
 ## Loop Behaviour
 
-- The main session dispatches work for ACTIONABLE items without waiting for Nick to prompt it.
+- The main session dispatches work for ACTIONABLE items without waiting for Nick to prompt it, using the skill each tag maps to in the "Report tags" table of `docs/stages.md`. It moves cards from the stage skills' reports, since the stage skills never move cards themselves.
 - After three or more genuinely idle sweeps, say so briefly and space out the checks.
 - If Nick dismisses a judgement-call question without answering, stop and wait for an explicit instruction.
 
