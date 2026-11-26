@@ -44,6 +44,10 @@ def main():
     cases = [
         # (cwd, command, expect_blocked)
         (fs, "gh pr merge 12 --squash", True),
+        (fs, "n=${url##*/}; gh pr close 67 -R flowscripter/example-cli --comment \"Replaced by #$n\"", False),
+        (fs, "n=${url##*/}; gh pr merge $n --squash -R flowscripter/example-cli", True),
+        (fs, "echo hi # gh pr merge 3", False),
+        (fs, "gh pr merge 3 # merge it", True),
         (fs, "gh pr merge 12 --auto --squash -R flowscripter/example-cli", False),
         (fs, "gh pr merge 12 --disable-auto -R flowscripter/example-cli", False),
         (fs, "gh pr merge 12 --auto --admin --squash -R flowscripter/example-cli", True),
