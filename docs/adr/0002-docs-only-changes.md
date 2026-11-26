@@ -1,6 +1,6 @@
 # 0002: Docs-Only Changes Skip Builds and Releases
 
-- **Status:** Proposed (accepted once the docs-only gate is merged)
+- **Status:** Accepted (the gate merged in #76)
 - **Date:** 2026-11-25
 
 ## Context
