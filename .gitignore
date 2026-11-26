@@ -1,2 +1,5 @@
-.claude
+.claude/*
+!.claude/CLAUDE.md
+!.claude/skills/
 __pycache__/
+.worktrees/
