@@ -22,7 +22,7 @@ Write `plan.md` next to the spec (`design/changes/NNNN-slug/`, or `docs/changes/
 
 Every spec acceptance criterion must map to at least one work package; list any that don't as a blocking open question.
 
-Open the PR: title `docs(plan): <slug>`, body `Refs #<n>`, summary, marker. Assign `vectronic` as you open it, and enable auto-merge. Update the pinned `<!-- flowscripter-spec:v1 -->` comment (stage, plan link, work package list). Revisions follow the same rules as in `flowscripter-spec`.
+Open the PR: title `docs(plan): <slug>`, body `Refs #<n>`, summary, marker. Assign `vectronic` and request his review as you open it (see `rules.md`), and enable auto-merge. Update the pinned `<!-- flowscripter-spec:v1 -->` comment (stage, plan link, work package list). Revisions follow the same rules as in `flowscripter-spec`.
 
 ## Mode: split
 

@@ -37,7 +37,7 @@ No implementation detail beyond what an acceptance criterion needs; that is the 
 
 ## Publish
 
-- Open a docs-only PR in the home repo: title `docs(spec): <slug>`, body `Refs #<n>` plus a 3-line summary and the marker. Assign `vectronic` as you open it, then enable auto-merge (`gh pr merge <n> --auto --squash -R flowscripter/<repo>`). Nick's approval merges it, and merging it is the spec approval gate.
+- Open a docs-only PR in the home repo: title `docs(spec): <slug>`, body `Refs #<n>` plus a 3-line summary and the marker. Assign `vectronic` and request his review as you open it (see `rules.md`), then enable auto-merge (`gh pr merge <n> --auto --squash -R flowscripter/<repo>`). Nick's approval merges it, and merging it is the spec approval gate.
 - Create or edit in place the ONE pinned comment on the issue that starts with `<!-- flowscripter-spec:v1 -->`: stage (Spec, PR open), summary, the acceptance criteria, links to the spec file on the PR branch and the PR, full spec text in `<details>`. End with `<!-- flowscripter-agent:v1 -->`. Find it by the marker; never post a second one.
 
 ## Revising (`/revise` or free-form feedback from Nick)
