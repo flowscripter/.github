@@ -1,0 +1,17 @@
+name: test-scripts
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Guard hook tests
+        run: python3 -I scripts/hooks/test_guard_gh.py
+      - name: Sweep CLI tests
+        run: python3 -I scripts/test_sweep.py
