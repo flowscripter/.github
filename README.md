@@ -42,6 +42,19 @@ Claude sessions must push with the machine account's token, never with a local u
 
 `scripts/hooks/worktree.py` is registered as the `WorktreeCreate` and `WorktreeRemove` hooks (`worktree.py create` and `worktree.py remove`). It puts worktrees for flowscripter repos under `~/projects/flowscripter/worktrees/<repo>/<name>`, on a branch `claude/<name>` from `origin/<default branch>`, so they can be opened with a local IDE. It never force-removes a worktree with uncommitted work, and it does nothing for other repos.
 
+#### Sweep CLI
+
+`scripts/sweep.py` handles the mechanical parts of the sweep and prints JSON:
+
+```bash
+python3 scripts/sweep.py scope | board | transitions | metrics
+python3 scripts/sweep.py thread REPO NUMBER
+python3 scripts/sweep.py release REPO
+python3 -I scripts/test_sweep.py
+```
+
+`thread` reduces comments from anyone other than `vectronic` and `vectronic-claude` to author, link and length, so their text never reaches the model. `transitions` proposes only the deterministic moves from `docs/stages.md`. Moves based on "last word" include the link to the comment, which the model reads before applying the move.
+
 ## Repository Settings
 
 Every non-archived repository in the org follows the same settings:
