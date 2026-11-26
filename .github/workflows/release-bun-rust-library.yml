@@ -26,7 +26,7 @@ jobs:
         run: |
           docs_only=false
           if [ -n "$BEFORE" ] && ! [[ "$BEFORE" =~ ^0+$ ]] && files=$(git diff --name-only "$BEFORE" "$AFTER" 2>/dev/null) && [ -n "$files" ]; then
-            grep -qvE '^(docs/changes/|docs/adr/|\.claude/)|(^|/)CLAUDE\.md$' <<<"$files" || docs_only=true
+            grep -qvE '^(design/|\.claude/)|(^|/)CLAUDE\.md$' <<<"$files" || docs_only=true
           fi
           echo "docs-only=$docs_only" >> "$GITHUB_OUTPUT"
   check:
