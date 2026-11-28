@@ -56,6 +56,8 @@ python3 -I scripts/test_sweep.py
 
 `thread` reduces comments from anyone other than `vectronic` and `vectronic-claude` to author, link and length, so their text never reaches the model. `transitions` proposes only the deterministic moves from `docs/stages.md`. Moves based on "last word" include the link to the comment, which the model reads before applying the move.
 
+`transitions` stays off the search API, which allows 30 requests a minute: it lists every PR in the in-scope and board repos once (about 25 seconds) and finds each card's referencing PRs in that list, so a run takes about two minutes. `thread` on its own still searches. Every `gh` call times out after 120 seconds and fails with an error.
+
 ## Repository Settings
 
 Every non-archived repository in the org follows the same settings:
