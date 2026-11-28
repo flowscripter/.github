@@ -32,10 +32,16 @@ SUBISSUE = re.compile(r"<!-- flowscripter-subissue:([^ ]+) -->")
 BOT_ERA = "2026-10-01T00:00:00Z"
 COMMAND = re.compile(r"(?m)^\s*/(approve|go|park|revise)\b(.*)$")
 METRICS = os.path.expanduser("~/.local/state/flowscripter/transitions.jsonl")
+GH_TIMEOUT = 120
+REFS = re.compile(r"(?i)\brefs\s+(?:%s/([\w.-]+))?#(\d+)\b" % ORG)
+PR_FIELDS = "number,state,title,url,body,isDraft"
 
 
 def gh(*args):
-    p = subprocess.run(["gh", *args], capture_output=True, text=True)
+    try:
+        p = subprocess.run(["gh", *args], capture_output=True, text=True, timeout=GH_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        raise RuntimeError("gh %s timed out after %ss" % (" ".join(args[:3]), GH_TIMEOUT)) from None
     if p.returncode != 0:
         raise RuntimeError((p.stderr.strip().splitlines() or ["gh failed"])[0])
     return p.stdout
@@ -152,6 +158,21 @@ def transition(card, issue, facts):
     return None
 
 
+def pr_refs(pr_repo, body):
+    """Issues a PR body references with Refs #N (its own repo) or Refs flowscripter/<repo>#N, as {(repo, n)}."""
+    return {(m.group(1) or pr_repo, int(m.group(2))) for m in REFS.finditer(body or "")}
+
+
+def index_refs(prs):
+    """prs: [{repo, number, state, title, url, isDraft, body}]. Returns {(repo, n): [pr summary]} by referenced issue."""
+    out = defaultdict(list)
+    for p in prs:
+        for ref in sorted(pr_refs(p["repo"], p.get("body"))):
+            out[ref].append({"repo": p["repo"], "number": p["number"], "state": p["state"].upper(),
+                             "title": p["title"], "url": p["url"], "draft": p.get("isDraft", False)})
+    return out
+
+
 def stage_metrics(lines):
     """lines: transitions.jsonl records. Returns seconds per stage and fix round trips per issue."""
     by_issue = defaultdict(list)
@@ -229,34 +250,39 @@ def pr_activity(repo, number):
 
 
 def referencing_prs(repo, number):
-    """PRs in any flowscripter repo whose body has Refs #N (same repo) or Refs flowscripter/<repo>#N."""
-    same = re.compile(r"(?i)\brefs\s+#%s\b" % number)
-    cross = re.compile(r"(?i)\brefs\s+%s/%s#%s\b" % (ORG, re.escape(repo), number))
-    found = gh_json("search", "prs", "--owner", ORG, "%s#%s" % (repo, number), "--json",
-                    "number,repository,state,title,url,body,isDraft", "--limit", "100") or []
-    found += gh_json("pr", "list", "-R", "%s/%s" % (ORG, repo), "--state", "all", "--search", "#%s" % number,
-                     "--json", "number,state,title,url,body,isDraft,headRefName,mergedAt", "--limit", "100") or []
+    """PRs in any flowscripter repo whose body has Refs #N (same repo) or Refs flowscripter/<repo>#N.
+
+    Uses two search calls, so callers that look up many issues use repo_prs and index_refs instead.
+    """
+    found = [dict(p, repo=p["repository"]["name"]) for p in
+             gh_json("search", "prs", "--owner", ORG, "%s#%s" % (repo, number), "--json",
+                     "repository," + PR_FIELDS, "--limit", "100") or []]
+    found += [dict(p, repo=repo) for p in
+              gh_json("pr", "list", "-R", "%s/%s" % (ORG, repo), "--state", "all", "--search", "#%s" % number,
+                      "--json", PR_FIELDS, "--limit", "100") or []]
     out, seen = [], set()
-    for p in found:
-        prepo = (p.get("repository") or {}).get("name", repo)
-        body = p.get("body") or ""
-        if not ((prepo == repo and same.search(body)) or cross.search(body)):
-            continue
-        key = (prepo, p["number"])
-        if key not in seen:
-            seen.add(key)
-            out.append({"repo": prepo, "number": p["number"], "state": p["state"].upper(), "title": p["title"],
-                        "url": p["url"], "draft": p.get("isDraft", False)})
+    for p in index_refs(found).get((repo, int(number)), []):
+        if (p["repo"], p["number"]) not in seen:
+            seen.add((p["repo"], p["number"]))
+            out.append(p)
     return out
 
 
-def cmd_thread(repo, number):
+def repo_prs(repo):
+    """Every PR in a repo, any state, listed without the search API."""
+    return [dict(p, repo=repo) for p in
+            gh_json("pr", "list", "-R", "%s/%s" % (ORG, repo), "--state", "all", "--limit", "1000",
+                    "--json", PR_FIELDS) or []]
+
+
+def cmd_thread(repo, number, refs=None):
+    """refs: an index_refs() index to look up referencing PRs in, or None to search for them."""
     i = gh_json("api", "repos/%s/%s/issues/%s" % (ORG, repo, number))
     issue = {"repo": repo, "number": int(number), "title": i["title"], "author": i["user"]["login"],
              "state": i["state"].upper(), "url": i["html_url"], "body": i["body"] or ""}
     on_issue = issue_comments(repo, number)
     everything = list(on_issue)
-    prs = referencing_prs(repo, number)
+    prs = referencing_prs(repo, number) if refs is None else [dict(p) for p in refs.get((repo, int(number)), [])]
     for p in prs:
         activity = pr_activity(p["repo"], p["number"])
         everything += activity
@@ -272,7 +298,8 @@ def cmd_transitions():
     cards = {(c["repo"], c["number"]): c for c in board["cards"]}
     moves = []
     seen = set()
-    for repo in [r["name"] for r in cmd_scope()]:
+    scope = [r["name"] for r in cmd_scope()]
+    for repo in scope:
         for author in (NICK, BOT):
             for i in gh_json("issue", "list", "-R", "%s/%s" % (ORG, repo), "--state", "open", "--author", author,
                              "--limit", "200", "--json", "number") or []:
@@ -280,8 +307,12 @@ def cmd_transitions():
     for c in board["cards"]:
         if c["status"] != "Done":
             seen.add((c["repo"], c["number"]))
+    prs = []
+    for repo in sorted(set(scope) | {r for r, _ in seen}):
+        prs += repo_prs(repo)
+    refs = index_refs(prs)
     for repo, number in sorted(seen):
-        t = cmd_thread(repo, number)
+        t = cmd_thread(repo, number, refs)
         card = cards.get((repo, number))
         m = transition(card, t["issue"], t["facts"])
         if m:
