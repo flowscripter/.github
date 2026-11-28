@@ -145,6 +145,39 @@ class Transition(unittest.TestCase):
         self.assertIsNone(sweep.transition({"status": "In Progress"}, issue(), self.facts(c("vectronic-claude", "2026-11-01T00:00:00Z"))))
 
 
+def pr(repo, number, body, state="open"):
+    return {"repo": repo, "number": number, "state": state, "title": "t", "url": "u", "isDraft": False, "body": body}
+
+
+class Refs(unittest.TestCase):
+    def test_same_and_cross_repo(self):
+        self.assertEqual(sweep.pr_refs("cli", "Refs #3\nrefs flowscripter/.github#86"), {("cli", 3), (".github", 86)})
+
+    def test_closing_words_and_prefixes_ignored(self):
+        self.assertEqual(sweep.pr_refs("cli", "Fixes #3, prefers #4, Refs #50x, Refs other/cli#5"), set())
+
+    def test_index_by_issue(self):
+        idx = sweep.index_refs([pr("cli", 10, "Refs #3"), pr("plugin-api", 7, "Refs flowscripter/cli#3", "MERGED"),
+                                pr("cli", 11, "Refs #30")])
+        self.assertEqual([(p["repo"], p["number"], p["state"]) for p in idx[("cli", 3)]],
+                         [("cli", 10, "OPEN"), ("plugin-api", 7, "MERGED")])
+        self.assertNotIn(("cli", 4), idx)
+
+
+class Gh(unittest.TestCase):
+    def test_timeout_raises(self):
+        real = sweep.subprocess.run
+
+        def slow(*a, **k):
+            raise sweep.subprocess.TimeoutExpired(a[0], k.get("timeout"))
+        sweep.subprocess.run = slow
+        try:
+            with self.assertRaisesRegex(RuntimeError, "timed out"):
+                sweep.gh("api", "x")
+        finally:
+            sweep.subprocess.run = real
+
+
 class Metrics(unittest.TestCase):
     def test_stage_time_and_round_trips(self):
         rows = [
